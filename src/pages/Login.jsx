@@ -11,17 +11,30 @@ function Login() {
     const [password, setPassword] = useState('');
 
     function loginRequest() {
-      fetch("http://10.252.50.2:8080/auth/login", {
+        fetch("http://localhost:1234/login", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ 
-          email: 'ftambler@correo.um.edu.uy', 
-          password: 'pinga' 
+          username: email, 
+          password: password 
         })
       })
+      .then(response => response.json())
+      .then(data => {
+        if (data.result === 1) {
+          alert(data.error);
+        } else {
+          // TODO: Guardar Token para despues
+          boat("/menu")
+        }
+      })
+      .catch(error => {
+        console.error("Login request failed:", error);
+      });
     }
+    
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
 
