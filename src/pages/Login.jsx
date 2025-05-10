@@ -26,7 +26,7 @@ function Login() {
         if (data.result === 1) {
           alert(data.error);
         } else {
-          // TODO: Guardar Token para despues
+          sessionStorage.setItem('token', data.token);
           boat("/menu")
         }
       })
