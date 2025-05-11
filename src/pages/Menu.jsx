@@ -7,6 +7,9 @@ function Menu() {
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedDoor, setSelectedDoor] = useState(null);
+  const [failedData, setFailedData] = useState(null);
+  const [sucData, setSucData] = useState(null);
+
   async function getDoors() {
     try {
       const token = sessionStorage.getItem('token');
@@ -31,9 +34,52 @@ function Menu() {
     }
   }
   
+  async function fetchDoorData(door) {
+    setLoading(true);
+    try {
+      const token = sessionStorage.getItem("token");
+      const response = await fetch("http://localhost:1234/home", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify({ door }),
+      });
+
+      const data = await response.json();
+
+      const successful = data.successful.map((entry) => ({
+        hour: entry.hour,
+        cameraCount: entry.camera,
+        rfidCount: entry.RFID,
+      }));
+
+      const failed = data.failed.map((entry) => ({
+        hour: entry.hour,
+        cameraCount: entry.camera,
+        rfidCount: entry.RFID,
+      }));
+
+      setSucData(successful);
+      setFailedData(failed);
+    } catch (error) {
+      console.error("Error fetching door data:", error);
+      alert("Error fetching door data.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
 useEffect(() => {
   getDoors();
 }, []);
+
+useEffect(() => {
+  if (selectedDoor) {
+    fetchDoorData(selectedDoor);
+  }
+}, [selectedDoor]);
 
 if (loading) {
   return (
@@ -58,8 +104,8 @@ if (loading) {
                 />
                 <h1 className="font-semibold text-lg">door today</h1>
             </div>
-            <LineGraph entryType="Succesful Entries" />
-            <LineGraph entryType="Failed Entries"/>
+            <LineGraph entryType="Succesful Entries" data={sucData}/>
+            <LineGraph entryType="Failed Entries" data={failedData}/>
         </div>
     </div>
   );
