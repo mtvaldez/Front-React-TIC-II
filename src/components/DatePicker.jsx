@@ -1,22 +1,29 @@
-"use client"
+import * as React from "react";
+import { format } from "date-fns";
 
-import * as React from "react"
-import { format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
-
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 
-export function DatePicker() {
+export function DatePicker({ onChange }) {
+  const [date, setDate] = React.useState(null); // Start with no date selected
 
-  const [dateFrom, setDateFrom] = React.useState(new Date());
-  const [dateTo, setDateTo] = React.useState(new Date());
+  const handleDateSelect = (selectedDate) => {
+    if (selectedDate && selectedDate.getTime() === date?.getTime()) {
+      // If the same date is selected again, deselect it
+      setDate(null);
+      onChange(null); // Notify parent with null
+    } else {
+      // Otherwise, select the new date
+      setDate(selectedDate || new Date()); // Ensure a valid date is always set
+      onChange(selectedDate || new Date()); // Pass the selected date
+    }
+  };
 
   return (
     <Popover>
@@ -25,18 +32,18 @@ export function DatePicker() {
           variant={"outline"}
           className={cn(
             "w-[150px] justify-start text-left font-normal",
-            !dateFrom && "text-muted-foreground"
+            !date && "text-muted-foreground"
           )}
         >
-          {dateFrom ? format(dateFrom, "PPP") : <span>Pick a date</span>}
+          {date ? format(date, "PPP") : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
-      
+
       <PopoverContent className="w-auto p-0">
         <Calendar
           mode="single"
-          selected={dateFrom}
-          onSelect={setDateFrom}
+          selected={date}
+          onSelect={handleDateSelect}
           initialFocus
         />
       </PopoverContent>

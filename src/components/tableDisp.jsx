@@ -30,3 +30,21 @@ export function TableDisp(props) {
     </div>
   );
 }
+
+// const values = [
+  //   "Alice | Smith | Door 1 | 2025-05-01 | 08:15 AM | camera",
+  //   "Bob | Johnson | Door 2 | 2025-05-02 | 09:20 AM | RFID",
+  //   "Charlie | Brown | Door 3 | 2025-05-03 | 10:05 AM | camera",
+  //   "Dana | White | Door 1 | 2025-05-04 | 11:45 AM | RFID",
+  //   "Eli | Black | Door 2 | 2025-05-05 | 12:30 PM | camera",
+  //   // Additional lines...
+  // ];
+
+  // const values2 = [
+  //   "Door 1 | 2025-05-01 | 08:15 AM | camera",
+  //   "Door 2 | 2025-05-02 | 09:20 AM | RFID",
+  //   "Door 3 | 2025-05-03 | 10:05 AM | camera",
+  //   "Door 1 | 2025-05-04 | 11:45 AM | RFID",
+  //   "Door 2 | 2025-05-05 | 12:30 PM | camera",
+  //   // Additional lines...
+  // ];

@@ -5,28 +5,68 @@ import { TableDisp } from "../components/tableDisp";
 import { HistoricComboBox } from "../components/HistoricComboBox";
 
 function HistoricData() {
-  const [selectedHour, setSelectedHour] = useState(""); // Set default value to empty
-  const [amOrPm, setAmOrPm] = useState(""); // Set default value to empty
+  const [selectedHour, setSelectedHour] = useState("");
+  const [amOrPm, setAmOrPm] = useState("");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
+  const [values, setValues] = useState([]);
+  const [values2, setValues2] = useState([]);
+  const [error, setError] = useState('');
 
-  function search() {}
 
-  const values = [
-    "Alice | Smith | Door 1 | 2025-05-01 | 08:15 AM | camera",
-    "Bob | Johnson | Door 2 | 2025-05-02 | 09:20 AM | RFID",
-    "Charlie | Brown | Door 3 | 2025-05-03 | 10:05 AM | camera",
-    "Dana | White | Door 1 | 2025-05-04 | 11:45 AM | RFID",
-    "Eli | Black | Door 2 | 2025-05-05 | 12:30 PM | camera",
-    // Additional lines...
-  ];
+  function getData() {
+    
+    if (dateFrom == "" || dateTo == "") {
+      setError('Both dates are required');
+      return;
+    }
+      
+    if (new Date(dateFrom) > new Date(dateTo)) {
+        setError('The start date cannot be after the end date');
+        return;
+    }
+    setError("");
 
-  const values2 = [
-    "Door 1 | 2025-05-01 | 08:15 AM | camera",
-    "Door 2 | 2025-05-02 | 09:20 AM | RFID",
-    "Door 3 | 2025-05-03 | 10:05 AM | camera",
-    "Door 1 | 2025-05-04 | 11:45 AM | RFID",
-    "Door 2 | 2025-05-05 | 12:30 PM | camera",
-    // Additional lines...
-  ];
+    function parseTime(timeToParse, half){
+      if (half == "PM"){
+        return (parseInt(timeToParse)+12).toString();
+      }else{
+        return (timeToParse).toString();
+      }
+    }
+    const time = (selectedHour && amOrPm) ? parseTime(selectedHour, amOrPm) : "n";
+
+    fetch("http://localhost:1234/history", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 
+        date_from: dateFrom, 
+        date_to: dateTo, 
+        time: time
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.result === 1) {
+        alert(data.error);
+      } else {
+      const successfulRows = data.successful.map(item => 
+        `${item.name} | ${item.l_name} | ${item.door} | ${item.date} | ${item.time} | ${item.type}`
+      );
+      const failedRows = data.failed.map(item => 
+        `${item.door} | ${item.date} | ${item.time} | ${item.type}`
+      );
+      setValues(successfulRows);
+      setValues2(failedRows);
+      }
+    })
+    .catch(error => {
+      console.error("getting history failed:", error);
+    });
+  }
+  
 
   return (
     <div className="flex min-h-screen">
@@ -44,26 +84,27 @@ function HistoricData() {
                 <label htmlFor="fromDate" className="font-semibold mb-2">
                   From:
                 </label>
-                <DatePicker id="fromDate" />
+                <DatePicker id="fromDate" onChange={setDateFrom} value={dateFrom} />
               </div>
               <div className="flex flex-col items-start w-full">
                 <label htmlFor="toDate" className="font-semibold mb-2">
                   To:
                 </label>
-                <DatePicker id="toDate" />
+                <DatePicker id="toDate" onChange={setDateTo} value={dateTo}/>
               </div>
             </div>
 
             {/* Search Button */}
             <div>
             <button
-            onClick={search}
-              className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 mt-35" // Increase margin to mt-6 for more space
+            onClick={getData}
+            className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 mt-35"
             >
               Search
-          </button>
-
+            </button>
+            {error && <p className="text-sm text-red-600 font-medium">{error}</p>}
             </div>
+
           </div>
 
           {/* Hour & AM/PM Selection (Time Selector) */}
@@ -75,23 +116,20 @@ function HistoricData() {
               <label className="mb-2 font-medium">Hour</label>
               <HistoricComboBox
                 options={[
-                  { value: "none", label: "" },
+                  { value: "", label: "None" },
                   ...Array.from({ length: 12 }, (_, i) => ({ value: i + 1, label: (i + 1).toString() }))  // 12-hour options
                 ]}
                 selected={selectedHour}
                 onChange={setSelectedHour}
             />
-
-
             </div>
             <div className="flex flex-col items-center">
               <label className="mb-2 font-medium">AM/PM</label>
               <HistoricComboBox
-                options={[{ value: "none", label: " " }, { value: "AM", label: "AM" }, { value: "PM", label: "PM" }]}
+                options={[{ value: "", label: "None" }, { value: "AM", label: "AM" }, { value: "PM", label: "PM" }]}
                 selected={amOrPm}
                 onChange={setAmOrPm}
             />
-
             </div>
           </div>
         </div>
