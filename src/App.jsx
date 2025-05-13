@@ -8,6 +8,7 @@ import Stats from './pages/Stats'
 import HistoricData from './pages/HistoricData'
 
   function App() {
+    localStorage.setItem("url", "http://localhost:1234");
     return (
       <BrowserRouter>
       <Routes>

@@ -4,6 +4,7 @@ import { MyCardRFID } from "./settingsCards/MyCardRFID";
 import { MyCardPic } from "./settingsCards/MyCardPic";
 import { MyCardAL } from "./settingsCards/MyCardAL";
 import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
+import { MyCardAdmin } from "./settingsCards/MyCardAdmin";
 
 
 export function SettingsLinkPswd(props){
@@ -99,4 +100,25 @@ export function SettingsLinkAL(props){
             </Popover>
         </div>
     );
+  
+}
+
+export function SettingsLinkAdmin(props){
+  return(
+      <div>
+        <Popover>
+          <PopoverTrigger asChild>
+            <li
+              className="cursor-pointer hover:text-blue-600 hover:underline transition"
+            >
+              {props.text}
+            </li>
+          </PopoverTrigger>
+          <PopoverContent>
+            <MyCardAdmin/>
+          </PopoverContent>
+          </Popover>
+      </div>
+  );
+
 }

@@ -11,7 +11,7 @@ function Login() {
     const [password, setPassword] = useState('');
 
     function loginRequest() {
-        fetch("http://localhost:1234/login", {
+        fetch(`${localStorage.getItem("url")}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -27,6 +27,7 @@ function Login() {
           alert(data.error);
         } else {
           sessionStorage.setItem('token', data.token);
+          sessionStorage.setItem('ses-mail', email);
           boat("/menu")
         }
       })

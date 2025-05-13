@@ -36,7 +36,7 @@ function HistoricData() {
     }
     const time = (selectedHour && amOrPm) ? parseTime(selectedHour, amOrPm) : "n";
 
-    fetch("http://localhost:1234/history", {
+    fetch(`${localStorage.getItem("url")}/history`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

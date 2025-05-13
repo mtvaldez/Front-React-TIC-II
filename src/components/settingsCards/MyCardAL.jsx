@@ -9,20 +9,40 @@ import {
 import TextInputBox from '../TextInputBox';
 
 export function MyCardAL() {
-  const [email, setEmail] = useState('');
-  const [selectedDoor, setSelectedDoor] = useState('');
-  const [accessType, setAccessType] = useState('add'); // 'add' or 'remove'
+  const [cid, setCid] = useState('');
+  const [level, setLevel] = useState('');
   const [error, setError] = useState('');
+  const [congrat, setCongrat] = useState('');
 
   const handleAccessChange = () => {
-    if (!email || !selectedDoor || !accessType) {
+    setCongrat('');
+    setError('');
+    if (!cid || !level) {
       setError('All fields are required.');
       return;
     }
 
-    setError('');
-    console.log({ email, door: selectedDoor, action: accessType });
-    // Add your API/backend call here
+    fetch(`${localStorage.getItem("url")}/change-level`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        cid: cid,
+        level: level
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.result == 1) {
+          alert(data.error);
+        } else if (data.result == 0) {
+          setCongrat('Access level changed successfully');
+        }
+      })
+      .catch(error => {
+        console.error("Failed to change access level:", error);
+      });    
   };
 
   return (
@@ -34,59 +54,26 @@ export function MyCardAL() {
       </CardHeader>
 
       <CardContent className="flex flex-col gap-4">
-        {/* Email input */}
+        {/* cid input */}
         <TextInputBox
-          inputType="email"
-          id="email"
-          myPlaceholder="User Email"
-          myValue={email}
-          onChange={(e) => setEmail(e.target.value)}
+          inputType="text"
+          id="cid"
+          myPlaceholder="ID doc"
+          myValue={cid}
+          onChange={(e) => setCid(e.target.value)}
         />
 
-        {/* Door dropdown */}
-        <div className="flex flex-col gap-1">
-          <label htmlFor="door" className="text-sm font-medium text-gray-700">
-            Select Door
-          </label>
-          <select
-            id="door"
-            value={selectedDoor}
-            onChange={(e) => setSelectedDoor(e.target.value)}
-            className="border rounded px-3 py-2 text-gray-800 focus:outline-none focus:ring focus:border-blue-300"
-          >
-            <option value="">-- Choose a door --</option>
-            <option value="Entrance">Entrance</option>
-            <option value="Server Room">Server Room</option>
-            <option value="Office">Office</option>
-          </select>
-        </div>
-
-        {/* Access type: Add or Remove */}
-        <div className="flex gap-4">
-          <label className="flex items-center gap-2">
-            <input
-              type="radio"
-              name="accessType"
-              value="add"
-              checked={accessType === 'add'}
-              onChange={() => setAccessType('add')}
-              className="accent-blue-600"
-            />
-            <span>Add Access</span>
-          </label>
-          <label className="flex items-center gap-2">
-            <input
-              type="radio"
-              name="accessType"
-              value="remove"
-              checked={accessType === 'remove'}
-              onChange={() => setAccessType('remove')}
-              className="accent-red-600"
-            />
-            <span>Remove Access</span>
-          </label>
-        </div>
-
+        {/* level input */}
+        <TextInputBox
+          inputType="text"
+          id="level"
+          myPlaceholder="New Access Level"
+          myValue={level}
+          onChange={(e) => setLevel(e.target.value)}
+        />
+        {congrat && (
+          <p className="text-sm text-green-600 font-medium">{congrat}</p>
+        )}
         {error && (
           <p className="text-sm text-red-600 font-medium">{error}</p>
         )}

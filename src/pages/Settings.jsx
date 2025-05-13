@@ -1,5 +1,5 @@
 import SideBar from "../components/SideBar";
-import { SettingsLinkAL, SettingsLinkPic, SettingsLinkPswd, SettingsLinkRFID, SettingsLinkUser } from "../components/SettingsLink";
+import { SettingsLinkAdmin, SettingsLinkAL, SettingsLinkPic, SettingsLinkPswd, SettingsLinkRFID, SettingsLinkUser } from "../components/SettingsLink";
 
 function addUser() {
   fetch("http://10.252.50.2:8080/auth/login", {
@@ -31,11 +31,12 @@ function Settings() {
           Settings
         </h1>
         <ul className="space-y-4 text-lg text-gray-700 text-left">
+          <SettingsLinkAdmin text="➤ Add Admin"/>
           <SettingsLinkUser text="➤ Add User"/>
-          <SettingsLinkPswd text="➤ Change Password"/>
           <SettingsLinkRFID text="➤ Associate New RFID"/>
           <SettingsLinkPic text="➤ Associate New Picture"/>
           <SettingsLinkAL text="➤ Change User Access Level"/>
+          <SettingsLinkPswd text="➤ Change Password"/>
         </ul>
       </div>
     </div>

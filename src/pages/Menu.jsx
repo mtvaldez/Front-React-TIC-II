@@ -13,7 +13,7 @@ function Menu() {
   async function getDoors() {
     try {
       const token = sessionStorage.getItem('token');
-      const response = await fetch("http://localhost:1234/doors", {
+      const response = await fetch(`${localStorage.getItem("url")}/doors`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

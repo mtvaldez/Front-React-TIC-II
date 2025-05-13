@@ -9,9 +9,11 @@ import {
 import TextInputBox from '../TextInputBox'; 
 
 export function MyCardPic() {
-  const [email, setEmail] = useState('');
+  const [cid, setCid] = useState('');
   const [picture, setPicture] = useState(null);
   const [error, setError] = useState('');
+  const [congrat, setCongrat] = useState('');
+
 
   const handlePictureChange = (e) => {
     const file = e.target.files[0];
@@ -21,26 +23,50 @@ export function MyCardPic() {
   };
 
   const handleLinkPicture = () => {
-    if (!email) {
-      setError('Email is required.');
+    setError('');
+    setCongrat('');
+  
+    if (!cid) {
+      setError('ID is required.');
       return;
     }
-
+  
     if (!picture) {
       setError('Picture is required.');
       return;
     }
-
-    setError('');
-    // You can use FormData here if uploading to a backend
-    console.log({ email, picture });
-
-    // Example: display preview or prepare for API call
-    // const formData = new FormData();
-    // formData.append('email', email);
-    // formData.append('picture', picture);
-    // fetch('/api/upload', { method: 'POST', body: formData });
+  
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64String = reader.result;
+  
+      fetch(`${localStorage.getItem("url")}/link-pic`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          cid: cid,
+          pic: base64String
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.result == 1) {
+            alert(data.error);
+          } else if (data.result == 0) {
+            console.log(data.picst);
+            setCongrat('Picture linked successfully');
+          }
+        })
+        .catch(error => {
+          console.error("Failed to link picture:", error);
+        });
+    };
+  
+    reader.readAsDataURL(picture);
   };
+  
 
   return (
     <Card className="w-full max-w-md mx-auto mt-10 shadow-lg border border-gray-200">
@@ -52,11 +78,11 @@ export function MyCardPic() {
 
       <CardContent className="flex flex-col gap-4">
         <TextInputBox
-          inputType="email"
-          id="email"
-          myPlaceholder="User Email"
-          myValue={email}
-          onChange={(e) => setEmail(e.target.value)}
+          inputType="cid"
+          id="cid"
+          myPlaceholder="ID doc"
+          myValue={cid}
+          onChange={(e) => setCid(e.target.value)}
         />
 
         {/* File Input for Picture */}
@@ -75,7 +101,9 @@ export function MyCardPic() {
             <p className="text-xs text-gray-500">Selected: {picture.name}</p>
           )}
         </div>
-
+        {congrat && (
+          <p className="text-sm text-green-600 font-medium">{congrat}</p>
+        )}
         {error && (
           <p className="text-sm text-red-600 font-medium text-center">{error}</p>
         )}

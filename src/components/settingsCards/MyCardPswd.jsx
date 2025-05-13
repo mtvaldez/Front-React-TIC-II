@@ -13,15 +13,39 @@ export function MyCardPswd() {
   const [newPswd, setNewPswd] = useState('');
   const [newPswdR, setNewPswdR] = useState('');
   const [error, setError] = useState('');
+  const [congrat, setCongrat] = useState('');
+
 
   const handleConfirm = () => {
+    setCongrat('');
+    setError('');
     if (newPswd !== newPswdR) {
       setError('New passwords do not match.');
       return;
     }
-
-    setError('');
-    console.log({ oldPswd, newPswd });
+    let mail =  sessionStorage.getItem("ses-mail");
+    fetch(`${localStorage.getItem("url")}/change-pswd`, { 
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 
+        email: mail,
+        oldpswd: oldPswd,
+        newpswd: newPswd
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.result == 1) {
+        alert(data.error);
+      } else if (data.result == 0) {
+        setCongrat('Password changed successfully')
+      }
+    })
+    .catch(error => {
+      console.error("Failed to change password:", error);
+    });
   };
 
   return (
@@ -54,7 +78,9 @@ export function MyCardPswd() {
           value={newPswdR}
           onChange={(e) => setNewPswdR(e.target.value)}
         />
-
+        {congrat && (
+          <p className="text-sm text-green-600 font-medium">{congrat}</p>
+        )}
         {error && (
           <p className="text-sm text-red-600 font-medium">{error}</p>
         )}

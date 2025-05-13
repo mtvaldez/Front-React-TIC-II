@@ -10,18 +10,40 @@ import TextInputBox from '../TextInputBox';
 
 export function MyCardUser() {
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [door, setDoor] = useState('');
+  const [cid, setEmail] = useState('');
+  const [level, setLevel] = useState('');
   const [error, setError] = useState('');
+  const [congrat, setCongrat] = useState('');
 
   const handleAddUser = () => {
-    if (!name || !email || !door) {
+    setCongrat('');
+    if (!name || !cid || !level) {
       setError('All fields are required.');
       return;
     }
-
+    fetch(`${localStorage.getItem("url")}/add-user`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 
+        full_name: name, 
+        cid: cid, 
+        access_level: level
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.result === 1) {
+        alert(data.error);
+      } else if (data.result == 0) {
+        setCongrat('User added successfully')
+      }
+    })
+    .catch(error => {
+      console.error("Failed to add user:", error);
+    });
     setError('');
-    console.log({ username: name, email, door });
   };
 
   return (
@@ -43,25 +65,27 @@ export function MyCardUser() {
 
         <TextInputBox
           inputType="email"
-          id="email"
-          myPlaceholder="Email"
-          myValue={email}
+          id="cid"
+          myPlaceholder="ID doc"
+          myValue={cid}
           onChange={(e) => setEmail(e.target.value)}
         />
 
         <div className="flex flex-col gap-1">
           <TextInputBox
             inputType="text"
-            id="door"
-            myPlaceholder="Doors (use ',' to list)"
-            myValue={door}
-            onChange={(e) => setDoor(e.target.value)}
+            id="level"
+            myPlaceholder="Access Level"
+            myValue={level}
+            onChange={(e) => setLevel(e.target.value)}
           />
-          <p className="text-xs text-gray-500 pl-1">
-            e.g. Entrance, Server Room
-          </p>
+          {/* <p className="text-xs text-gray-500 pl-1">
+            suggestion 
+          </p> */}
         </div>
-
+        {congrat && (
+          <p className="text-sm text-green-600 font-medium">{congrat}</p>
+        )}
         {error && (
           <p className="text-sm text-red-600 font-medium">{error}</p>
         )}
@@ -72,7 +96,7 @@ export function MyCardUser() {
           onClick={handleAddUser}
           className="w-full py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition"
         >
-          Add User
+          Add
         </button>
       </CardFooter>
     </Card>
