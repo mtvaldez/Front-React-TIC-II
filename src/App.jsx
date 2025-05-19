@@ -6,6 +6,7 @@ import { SidebarProvider } from './components/ui/sidebar'
 import Settings from './pages/Settings'
 import Stats from './pages/Stats'
 import HistoricData from './pages/HistoricData'
+import UsersList from './pages/UsersList'
 
   function App() {
     localStorage.setItem("url", "http://localhost:1234");
@@ -42,6 +43,14 @@ import HistoricData from './pages/HistoricData'
           element={
             <SidebarProvider>
               <Settings />
+            </SidebarProvider>
+          }
+        />
+        <Route
+          path='/users'
+          element={
+            <SidebarProvider>
+              <UsersList />
             </SidebarProvider>
           }
         />
