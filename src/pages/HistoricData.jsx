@@ -15,7 +15,7 @@ function HistoricData() {
 
 
   function getData() {
-    
+    setError("");
     if (dateFrom == "" || dateTo == "") {
       setError('Both dates are required');
       return;
@@ -25,7 +25,7 @@ function HistoricData() {
         setError('The start date cannot be after the end date');
         return;
     }
-    setError("");
+    
 
     function parseTime(timeToParse, half){
       if (half == "PM"){

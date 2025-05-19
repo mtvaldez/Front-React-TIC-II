@@ -12,39 +12,53 @@ export function Stater() {
   const [stats, setStats] = useState(null);
   const [error, setError] = useState('');
 
-  const handleCalculate = () => {
-
-    if (!startDate || !endDate) {
-        setError('Both dates are required');
-        return;
+  function getStats() {
+    setError("");
+    if (startDate == "" || endDate == "") {
+      setError('Both dates are required');
+      return;
     }
       
     if (new Date(startDate) > new Date(endDate)) {
         setError('The start date cannot be after the end date');
         return;
     }
-      
 
-    setError('');
-    
-    // Simulación de cálculo o llamado a API
-    // Reemplazar por lógica real
-    const simulatedData = {
-      min: 5,
-      max: 98,
-      avg: 45.3,
-      median: 44,
-      stdDev: 12.1,
-    };
-
-    setStats(simulatedData);
-  };
-
+    fetch(`${localStorage.getItem("url")}/stats`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 
+        date_from: startDate, 
+        date_to: endDate, 
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.result === 1) {
+        alert(data.error);
+      } else {
+      const sts = {
+        min: data.min,
+        max: data.max,
+        avg: data.avg,
+        median: data.med,
+        stdDev: data.std_dev,
+      };
+      setStats(sts);
+      }
+    })
+    .catch(error => {
+      console.error("getting history failed:", error);
+    });
+  }
+  
   return (
     <Card className="w-full max-w-xl mx-auto mt-10 shadow-lg border border-gray-200">
       <CardHeader>
         <CardTitle className="text-center text-2xl font-bold text-gray-800">
-          Statistcs By Date
+          Statisitcs By Date
         </CardTitle>
       </CardHeader>
 
@@ -75,7 +89,7 @@ export function Stater() {
         </div>
 
         <button
-          onClick={handleCalculate}
+          onClick={getStats}
           className="mt-2 w-full py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition"
         >
           Calculate
@@ -88,7 +102,7 @@ export function Stater() {
           <div className="mt-4 border-t pt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700 text-sm">
             <div><strong>Minimum:</strong> {stats.min}</div>
             <div><strong>Maximum:</strong> {stats.max}</div>
-            <div><strong>Avarage:</strong> {stats.avg}</div>
+            <div><strong>Average:</strong> {stats.avg}</div>
             <div><strong>Median:</strong> {stats.median}</div>
             <div><strong>Standard Deviation:</strong> {stats.stdDev}</div>
           </div>
