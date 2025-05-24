@@ -9,7 +9,7 @@ import HistoricData from './pages/HistoricData'
 import UsersList from './pages/UsersList'
 
   function App() {
-    localStorage.setItem("url", "http://localhost:1234");
+    localStorage.setItem("url", "http://localhost:8080");
     return (
       <BrowserRouter>
       <Routes>

@@ -7,12 +7,13 @@ import {
 } from "@/components/ui/card";
 
 export function Stater() {
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [startDate, setStartDate] = useState(new Date(Date.now()).toISOString().split('T')[0]);
+  const [endDate, setEndDate] = useState(new Date(Date.now()+86400000).toISOString().split('T')[0]);
   const [stats, setStats] = useState(null);
   const [error, setError] = useState('');
 
   function getStats() {
+
     setError("");
     if (startDate == "" || endDate == "") {
       setError('Both dates are required');

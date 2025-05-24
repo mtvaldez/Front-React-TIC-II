@@ -11,13 +11,13 @@ function Login() {
     const [password, setPassword] = useState('');
 
     function loginRequest() {
-        fetch(`${localStorage.getItem("url")}/login`, {
+        fetch(`${localStorage.getItem("url")}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ 
-          username: email, 
+          email: email, 
           password: password 
         })
       })

@@ -8,6 +8,8 @@ function Menu() {
   const [loading, setLoading] = useState(true);
   const [selectedDoor, setSelectedDoor] = useState(null);
   const [failedData, setFailedData] = useState(null);
+  const [failedDataMap, setFailedDataMap] = useState(null);
+  const [successfulDataMap, setSuccessfulDataMap] = useState(null);
   const [sucData, setSucData] = useState(null);
 
   async function getDoors() {
@@ -17,14 +19,14 @@ function Menu() {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Authorization': 'Bearer ' + token
         }
       });
   
       const data = await response.json();
-      const doors = data.doors.map(door => ({
-        value: door,
-        label: door
+      const doors = data.map(door => ({
+        value: door.name,
+        label: door.accessLevel
       }));
       setOptions(doors);
       setLoading(false);
@@ -34,35 +36,58 @@ function Menu() {
     }
   }
   
-  async function fetchDoorData(door) {
+  async function fetchSuccessfulAccessData() {
     setLoading(true);
     try {
       const token = sessionStorage.getItem("token");
-      const response = await fetch("http://localhost:1234/home", {
-        method: "POST",
+
+      const url = new URL(`${localStorage.getItem("url")}/statistics/successful-access-count`);
+
+      const currentDate = Date.now();
+      const previousDate = currentDate-864000000;
+
+      const params = {
+          startDate: previousDate,
+          endDate: currentDate
+        };
+      url.search = new URLSearchParams(params).toString();
+
+      const response = await fetch(url.toString(),  {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`,
-        },
-        body: JSON.stringify({ door }),
+        }
       });
 
       const data = await response.json();
 
-      const successful = data.successful.map((entry) => ({
-        hour: entry.hour,
-        cameraCount: entry.camera,
-        rfidCount: entry.RFID,
+      const successful = data.map((entry) => ({
+        hour: entry.dateTime,
+        cameraCount: entry.cameraAccessCount,
+        rfidCount: entry.rfidAccessCount,
+        doorName: entry.doorName
       }));
 
-      const failed = data.failed.map((entry) => ({
-        hour: entry.hour,
-        cameraCount: entry.camera,
-        rfidCount: entry.RFID,
-      }));
+      const successfulMap = new Map();
 
-      setSucData(successful);
-      setFailedData(failed);
+      successful.forEach((entry) => {
+        if (successfulMap.has(entry.doorName)) {
+          successfulMap.get(entry.doorName).push({
+            hour: (entry.hour/3600000)%24,
+            cameraCount: entry.cameraCount,
+            rfidCount: entry.rfidCount
+          });
+        }else {
+          successfulMap.set(entry.doorName, [{
+            hour: (entry.hour/3600000)%24,
+            cameraCount: entry.cameraCount,
+            rfidCount: entry.rfidCount
+          }]);
+        }
+      });
+
+      setSuccessfulDataMap(successfulMap);
     } catch (error) {
       console.error("Error fetching door data:", error);
       alert("Error fetching door data.");
@@ -71,15 +96,89 @@ function Menu() {
     }
   }
 
+  async function fetchFailedAccessData() {
+    setLoading(true);
+    try {
+      const token = sessionStorage.getItem("token");
+
+      const url = new URL(`${localStorage.getItem("url")}/statistics/failed-access-count`);
+
+      const currentDate = Date.now();
+      const previousDate = currentDate-864000000;
+
+      const params = {
+          startDate: previousDate,
+          endDate: currentDate
+        };
+      url.search = new URLSearchParams(params).toString();
+
+      const response = await fetch(url.toString(),  {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        }
+      });
+
+      const data = await response.json();
+
+      const failed = data.map((entry) => ({
+        hour: entry.dateTime,
+        cameraCount: entry.cameraAccessCount,
+        rfidCount: entry.rfidAccessCount,
+        doorName: entry.doorName
+      }));
+
+      console.log("failed: " + failed);
+
+      const failedMap = new Map();
+
+      failed.forEach((entry) => {
+        if (failedMap.has(entry.doorName)) {
+          failedMap.get(entry.doorName).push({
+            hour: (entry.hour/3600000)%24,
+            cameraCount: entry.cameraCount,
+            rfidCount: entry.rfidCount
+          });
+        }else {
+          failedMap.set(entry.doorName, [{
+            hour: (entry.hour/3600000)%24,
+            cameraCount: entry.cameraCount,
+            rfidCount: entry.rfidCount
+          }]);
+        }
+      });
+
+      console.log("failed map: " + failedMap);
+      setFailedDataMap(failedMap);
+    } catch (error) {
+      console.error("Error fetching door data:", error);
+      alert("Error fetching door data.");
+    } finally {
+      setLoading(false);
+    }
+  } 
+
+  function loadGraph(selectedDoor) {
+    setFailedData(failedDataMap.get(selectedDoor));
+    setSucData(successfulDataMap.get(selectedDoor));
+  }
+
 useEffect(() => {
   getDoors();
 }, []);
 
 useEffect(() => {
+  fetchSuccessfulAccessData();
+  fetchFailedAccessData();
+}, []);
+
+useEffect(() => {
   if (selectedDoor) {
-    fetchDoorData(selectedDoor);
+    loadGraph(selectedDoor);
   }
 }, [selectedDoor]);
+
 
 if (loading) {
   return (
@@ -100,7 +199,7 @@ if (loading) {
             <div className="flex items-center gap-x-4 mb-4">
                 <h1 className="font-semibold text-lg">Entry attempts on</h1>
                 <ComboBox options={options} selected={selectedDoor} 
-                onChange={setSelectedDoor} text="Select Door..."
+                onChange={setSelectedDoor} text="Select Door"
                 />
                 <h1 className="font-semibold text-lg">door today</h1>
             </div>
