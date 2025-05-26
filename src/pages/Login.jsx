@@ -42,7 +42,7 @@ function Login() {
       <div className="bg-white p-8 rounded-lg shadow-lg w-full sm:w-96">
         {/* Logo Section */}
         <div className="flex justify-center mb-4">
-            <img src={OIP} className="logo w-24 h-24 object-cover rounded-full" alt="Mamaguebo" />
+            <img src={OIP} className="logo w-24 h-24 object-cover rounded-full" alt="logo" />
         </div>
 
         {/* Title */}
