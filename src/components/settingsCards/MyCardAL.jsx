@@ -7,42 +7,29 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import TextInputBox from '../TextInputBox';
+import { changeUserAccessLevel } from '../../services/UserService';
 
-export function MyCardAL() {
-  const [cid, setCid] = useState('');
+export function MyCardAL({ userId, closePopover }) {
   const [level, setLevel] = useState('');
   const [error, setError] = useState('');
   const [congrat, setCongrat] = useState('');
 
-  const handleAccessChange = () => {
+  const handleAccessChange = async () => {
     setCongrat('');
     setError('');
-    if (!cid || !level) {
+
+    if (!level) {
       setError('All fields are required.');
       return;
     }
 
-    fetch(`${localStorage.getItem("url")}/change-level`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        cid: cid,
-        level: level
-      })
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.result == 1) {
-          alert(data.error);
-        } else if (data.result == 0) {
-          setCongrat('Access level changed successfully');
-        }
-      })
-      .catch(error => {
-        console.error("Failed to change access level:", error);
-      });    
+    try {
+      await changeUserAccessLevel(userId, level); // Make sure this returns a Promise
+      closePopover()
+    } catch (err) {
+      console.error(err);
+      setError('Failed to change access level.');
+    }
   };
 
   return (
@@ -54,16 +41,6 @@ export function MyCardAL() {
       </CardHeader>
 
       <CardContent className="flex flex-col gap-4">
-        {/* cid input */}
-        <TextInputBox
-          inputType="text"
-          id="cid"
-          myPlaceholder="ID doc"
-          myValue={cid}
-          onChange={(e) => setCid(e.target.value)}
-        />
-
-        {/* level input */}
         <TextInputBox
           inputType="text"
           id="level"
@@ -71,12 +48,8 @@ export function MyCardAL() {
           myValue={level}
           onChange={(e) => setLevel(e.target.value)}
         />
-        {congrat && (
-          <p className="text-sm text-green-600 font-medium">{congrat}</p>
-        )}
-        {error && (
-          <p className="text-sm text-red-600 font-medium">{error}</p>
-        )}
+        {congrat && <p className="text-sm text-green-600 font-medium">{congrat}</p>}
+        {error && <p className="text-sm text-red-600 font-medium">{error}</p>}
       </CardContent>
 
       <CardFooter className="justify-center">
@@ -90,3 +63,4 @@ export function MyCardAL() {
     </Card>
   );
 }
+

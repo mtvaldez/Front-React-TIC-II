@@ -7,8 +7,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import TextInputBox from '../TextInputBox'; 
+import { changePassword } from '@/services/AdminService';
 
-export function MyCardPswd() {
+export function MyCardPswd({closePopover}) {
   const [oldPswd, setOldPswd] = useState('');
   const [newPswd, setNewPswd] = useState('');
   const [newPswdR, setNewPswdR] = useState('');
@@ -23,29 +24,18 @@ export function MyCardPswd() {
       setError('New passwords do not match.');
       return;
     }
-    let mail =  sessionStorage.getItem("ses-mail");
-    fetch(`${localStorage.getItem("url")}/change-pswd`, { 
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ 
-        email: mail,
-        oldpswd: oldPswd,
-        newpswd: newPswd
-      })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.result == 1) {
-        alert(data.error);
-      } else if (data.result == 0) {
-        setCongrat('Password changed successfully')
-      }
-    })
-    .catch(error => {
-      console.error("Failed to change password:", error);
-    });
+    if(!newPswd || !newPswdR || !oldPswd) {
+      setError('All fields must be filled.');
+      return;  
+    }
+
+    try {
+      changePassword(oldPswd, newPswd);
+      closePopover();
+    } catch (err) {
+      console.error(err);
+      setError('Could not change Password.');
+    }
   };
 
   return (

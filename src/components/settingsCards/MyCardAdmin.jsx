@@ -7,41 +7,30 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import TextInputBox from '../TextInputBox'; 
+import { createAdmin } from '@/services/AdminService';
 
-export function MyCardAdmin() {
+export function MyCardAdmin({ closePopover }) {
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [congrat, setCongrat] = useState('');
-
+  
   const handleAddAdmin = () => {
+    setError('');
     setCongrat('');
     if (!email || !password) {
       setError('All fields are required.');
       return;
     }
-    fetch(`${localStorage.getItem("url")}/add-admin`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ 
-        email: email, 
-        password: password
-      })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.result === 1) {
-        alert(data.error);
-      } else if (data.result == 0) {
-        setCongrat('Admin added successfully')
-      }
-    })
-    .catch(error => {
-      console.error("Failed to add admin:", error);
-    });
-    setError('');
+    
+    try {
+      createAdmin(email, password)
+      closePopover();
+    }catch (err) {
+      console.error(err);
+      setError('Failed to change access level.');
+    }
   };
 
   return (

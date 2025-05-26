@@ -1,30 +1,34 @@
-export function TableDisp(props) {
+import { SettingsLinkAL, SettingsLinkRFID, SettingsLinkPic } from "./SettingsLink";
+
+export function TableDisp({users}) {
   return (
-    <div className="h-96 overflow-y-auto border border-gray-300 rounded bg-white mt-4">
-      
-      <table className="min-w-full table-auto text-sm text-gray-800">
-        <thead className="bg-gray-100 sticky top-0 z-10">
+    <div className="overflow-x-auto">
+      <table className="min-w-full text-left border border-gray-300">
+        <thead className="bg-gray-100">
           <tr>
-            {props.columns.map((col, index) => (
-              <th key={index} className="px-4 py-2 text-center">
-                {col}
-              </th>
-            ))}
+            <th className="px-4 py-2 border">Full Name</th>
+            <th className="px-4 py-2 border">CID</th>
+            <th className="px-4 py-2 border">Access Level</th>
+            <th className="px-4 py-2 border">Has RFID</th>
+            <th className="px-4 py-2 border">Has FaceR</th>
+            <th className="px-4 py-2 border">Change Access Level</th>
+            <th className="px-4 py-2 border">Set RFID</th>
+            <th className="px-4 py-2 border">Set FaceR</th>
           </tr>
         </thead>
         <tbody>
-          {props.data.map((line, index) => {
-            const parts = line.split("|");
-            return (
-              <tr key={index} className="border-t">
-                {parts.map((part, i) => (
-                  <td key={i} className="px-4 py-2 text-center">
-                    {part.trim()}
-                  </td>
-                ))}
-              </tr>
-            );
-          })}
+          {users.map((user) => (
+            <tr key={user.id} data-user-id={user.id} className="hover:bg-gray-50">
+              <td className="px-4 py-2 border">{user.fullName}</td>
+              <td className="px-4 py-2 border">{user.cid}</td>
+              <td className="px-4 py-2 border">{user.accessLevel}</td>
+              <td className="px-4 py-2 border">{user.hasRfid ? 'Yes' : 'No'}</td>
+              <td className="px-4 py-2 border">{user.hasFace ? 'Yes' : 'No'}</td>
+              <td className="px-4 py-2 border"> <SettingsLinkAL text="Change" id={user.id}/> </td>
+              <td className="px-4 py-2 border"> <SettingsLinkRFID text="Change" id={user.id}/> </td>
+              <td className="px-4 py-2 border"> <SettingsLinkPic text="Change" id={user.id}/> </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

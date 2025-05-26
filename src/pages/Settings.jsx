@@ -1,25 +1,25 @@
 import SideBar from "../components/SideBar";
 import { SettingsLinkAdmin, SettingsLinkAL, SettingsLinkPic, SettingsLinkPswd, SettingsLinkRFID, SettingsLinkUser } from "../components/SettingsLink";
 
-function addUser() {
-  fetch("http://10.252.50.2:8080/auth/login", {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ 
-      email: 'ftambler@correo.um.edu.uy', 
-      password: 'pinga' 
-    })
-  })
-  .then((res) => res.json())
-  .then((data) => {
-    console.log(data);
-  })
-  .catch((err) => {
-    console.error("Login failed:", err);
-  });
-}
+// function addUser() {
+//   fetch("http://10.252.50.2:8080/auth/login", {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify({ 
+//       email: 'ftambler@correo.um.edu.uy', 
+//       password: 'pinga' 
+//     })
+//   })
+//   .then((res) => res.json())
+//   .then((data) => {
+//     console.log(data);
+//   })
+//   .catch((err) => {
+//     console.error("Login failed:", err);
+//   });
+// }
 
 function Settings() {
   return (
@@ -32,11 +32,8 @@ function Settings() {
         </h1>
         <ul className="space-y-4 text-lg text-gray-700 text-left">
           <SettingsLinkAdmin text="➤ Add Admin"/>
-          <SettingsLinkUser text="➤ Add User"/>
-          <SettingsLinkRFID text="➤ Associate New RFID"/>
-          <SettingsLinkPic text="➤ Associate New Picture"/>
-          <SettingsLinkAL text="➤ Change User Access Level"/>
-          <SettingsLinkPswd text="➤ Change Password"/>
+          <SettingsLinkUser text="➤ Register New User"/>
+          <SettingsLinkPswd text="➤ Change My Password"/>
         </ul>
       </div>
     </div>

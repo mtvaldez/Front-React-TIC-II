@@ -7,43 +7,31 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import TextInputBox from '../TextInputBox'; 
+import { createUser } from '@/services/UserService';
 
-export function MyCardUser() {
+export function MyCardUser({ closePopover }) {
   const [name, setName] = useState('');
   const [cid, setEmail] = useState('');
   const [level, setLevel] = useState('');
   const [error, setError] = useState('');
   const [congrat, setCongrat] = useState('');
-
+  
   const handleAddUser = () => {
     setCongrat('');
+    setError('');
+
     if (!name || !cid || !level) {
       setError('All fields are required.');
       return;
     }
-    fetch(`${localStorage.getItem("url")}/add-user`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ 
-        full_name: name, 
-        cid: cid, 
-        access_level: level
-      })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.result === 1) {
-        alert(data.error);
-      } else if (data.result == 0) {
-        setCongrat('User added successfully')
-      }
-    })
-    .catch(error => {
-      console.error("Failed to add user:", error);
-    });
-    setError('');
+    
+    try {
+      createUser(name, cid, level);
+      closePopover();
+    } catch (err) {
+      console.error(err);
+      setError('Failed Creating User.');
+    }
   };
 
   return (

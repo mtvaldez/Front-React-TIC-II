@@ -26,7 +26,8 @@ function Menu() {
       const data = await response.json();
       const doors = data.map(door => ({
         value: door.name,
-        label: door.accessLevel
+        label: door.name,
+        accessLevel: door.accessLevel
       }));
       setOptions(doors);
       setLoading(false);

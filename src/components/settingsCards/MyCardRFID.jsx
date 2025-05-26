@@ -7,42 +7,29 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import TextInputBox from '../TextInputBox';
+import { setUserRFID } from '../../services/UserService';
 
-export function MyCardRFID() {
-  const [email, setEmail] = useState('');
+export function MyCardRFID({ userId, closePopover }) {
+
   const [rfid, setRfid] = useState('');
   const [error, setError] = useState('');
   const [congrat, setCongrat] = useState('');
 
-  const handleAssign = () => {
+  const handleAssign = async () => {
+    setError('');
     setCongrat('');
-    if (!email || !rfid) {
-      setError('Email and RFID are required.');
+    if (!rfid) {
+      setError('RFID is required.');
       return;
     }
-    fetch(`${localStorage.getItem("url")}/add-rfid`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({  
-        email: email, 
-        rfid: rfid
-      })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.result === 1) {
-        alert(data.error);
-      } else if (data.result == 0) {
-        setCongrat('RFID asociated successfully')
-      }
-    })
-    .catch(error => {
-      console.error("Failed to asociate RFID:", error);
-    });
 
-    setError('');
+    try {
+      await setUserRFID(userId, rfid); // Make sure this returns a Promise
+      closePopover()
+    } catch (err) {
+      console.error(err);
+      setError('Failed to change access level.');
+    }
   };
 
   return (
@@ -54,13 +41,7 @@ export function MyCardRFID() {
       </CardHeader>
 
       <CardContent className="flex flex-col gap-4">
-        <TextInputBox
-          inputType="email"
-          myID="email"
-          myPlaceholder="User Email"
-          myValue={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        {/* RFID Input */}
         <TextInputBox
           inputType="text"
           myID="rfid"

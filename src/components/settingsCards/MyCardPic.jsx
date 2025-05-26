@@ -7,9 +7,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import TextInputBox from '../TextInputBox'; 
+import { setUserFace } from '@/services/UserService';
 
-export function MyCardPic() {
-  const [cid, setCid] = useState('');
+export function MyCardPic({ userId, closePopover}) {
+
   const [picture, setPicture] = useState(null);
   const [error, setError] = useState('');
   const [congrat, setCongrat] = useState('');
@@ -26,45 +27,24 @@ export function MyCardPic() {
     setError('');
     setCongrat('');
   
-    if (!cid) {
-      setError('ID is required.');
-      return;
-    }
-  
     if (!picture) {
       setError('Picture is required.');
       return;
     }
   
     const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64String = reader.result;
-  
-      fetch(`${localStorage.getItem("url")}/link-pic`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          cid: cid,
-          pic: base64String
-        })
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.result == 1) {
-            alert(data.error);
-          } else if (data.result == 0) {
-            console.log(data.picst);
-            setCongrat('Picture linked successfully');
-          }
-        })
-        .catch(error => {
-          console.error("Failed to link picture:", error);
-        });
-    };
-  
-    reader.readAsDataURL(picture);
+    try {
+      reader.onloadend = () => {
+        const base64String = reader.result;
+        setUserFace(userId, base64String)
+      };
+      reader.readAsDataURL(picture);
+      closePopover();
+    
+    } catch (err) {
+      console.log(err);
+      setError('Failed to set face recognition')
+    }  
   };
   
 
@@ -77,14 +57,6 @@ export function MyCardPic() {
       </CardHeader>
 
       <CardContent className="flex flex-col gap-4">
-        <TextInputBox
-          inputType="cid"
-          id="cid"
-          myPlaceholder="ID doc"
-          myValue={cid}
-          onChange={(e) => setCid(e.target.value)}
-        />
-
         {/* File Input for Picture */}
         <div className="flex flex-col gap-1">
           <label htmlFor="picture" className="text-sm font-medium text-gray-700">
