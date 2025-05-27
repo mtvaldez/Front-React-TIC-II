@@ -112,5 +112,20 @@ export function setUserFace(userId, base64String) {
         .catch(error => {
           console.error("Failed to link picture:", error);
         });
-
+        
+      }
+      
+export async function deleteUser(userId) {
+  fetch(`${localStorage.getItem("url")}/users/${userId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization' : 'Bearer ' + token
+      }
+    })
+    .then(m => console.log(m))
+    .catch(error => {
+      console.error("Failed to link picture:", error);
+    });
+  
 }

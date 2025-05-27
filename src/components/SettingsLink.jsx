@@ -3,8 +3,9 @@ import { MyCardUser } from "./settingsCards/MyCardUser";
 import { MyCardRFID } from "./settingsCards/MyCardRFID";
 import { MyCardPic } from "./settingsCards/MyCardPic";
 import { MyCardAL } from "./settingsCards/MyCardAL";
-import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { MyCardAdmin } from "./settingsCards/MyCardAdmin";
+import { MyCardDeleteUser } from "./settingsCards/MyCardDeleteUser";
+import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { useState } from 'react';
 
 export function SettingsLinkPswd(props){
@@ -58,6 +59,25 @@ export function SettingsLinkPic({ text, id }){
         </PopoverTrigger>
         <PopoverContent>
           <MyCardPic userId={id} closePopover={() => setOpen(false)}/>
+        </PopoverContent>
+      </Popover>
+    </div>
+  );
+}
+
+export function SettingsDeleteUser({ text, id }){
+  const [open, setOpen] = useState(false);
+  
+  return(
+    <div>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <button className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600" onClick={() => setOpen(true)}>
+            {text}
+          </button>
+        </PopoverTrigger>
+        <PopoverContent>
+          <MyCardDeleteUser userId={id} closePopover={() => setOpen(false)}/>
         </PopoverContent>
       </Popover>
     </div>

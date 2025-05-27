@@ -1,4 +1,4 @@
-import { SettingsLinkAL, SettingsLinkRFID, SettingsLinkPic } from "./SettingsLink";
+import { SettingsLinkAL, SettingsLinkRFID, SettingsLinkPic, SettingsDeleteUser } from "./SettingsLink";
 
 export function TableDisp({users}) {
   return (
@@ -14,6 +14,7 @@ export function TableDisp({users}) {
             <th className="px-4 py-2 border">Change Access Level</th>
             <th className="px-4 py-2 border">Set RFID</th>
             <th className="px-4 py-2 border">Set FaceR</th>
+            <th className="px-4 py-2 border">Delete User</th>
           </tr>
         </thead>
         <tbody>
@@ -27,6 +28,7 @@ export function TableDisp({users}) {
               <td className="px-4 py-2 border"> <SettingsLinkAL text="Change" id={user.id}/> </td>
               <td className="px-4 py-2 border"> <SettingsLinkRFID text="Change" id={user.id}/> </td>
               <td className="px-4 py-2 border"> <SettingsLinkPic text="Change" id={user.id}/> </td>
+              <td className="px-4 py-2 border"> <SettingsDeleteUser text="DELETE" id={user.id}/> </td>
             </tr>
           ))}
         </tbody>

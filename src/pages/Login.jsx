@@ -23,7 +23,7 @@ function Login() {
       })
       .then(response => response.json())
       .then(data => {
-        if (data.result === 1) {
+        if (data.status === 400) {
           alert(data.error);
         } else {
           sessionStorage.setItem('token', data.token);
