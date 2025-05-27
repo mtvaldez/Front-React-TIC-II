@@ -36,7 +36,7 @@ export function MyCardPic({ userId, closePopover}) {
     try {
       reader.onloadend = () => {
         const base64String = reader.result;
-        setUserFace(userId, base64String)
+        setUserFace(userId, base64String.substring(23))
       };
       reader.readAsDataURL(picture);
       closePopover();
