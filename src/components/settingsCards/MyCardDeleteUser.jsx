@@ -16,20 +16,16 @@ export function MyCardDeleteUser({ userId, closePopover }) {
         </CardTitle>
       </CardHeader>
 
-      <CardFooter className="justify-center">
-        <button
-          onClick={handleUserDelete}
-          className="w-full py-2 bg-red-600 text-white font-semibold rounded hover:bg-red-800 transition"
-        >
-          Delete
-        </button>
-        <button
-          onClick={closePopover}
-          className="w-full py-2 bg-gray-200 text-black font-semibold rounded hover:bg-gray-300 transition"
-        >
-          Cancel
-        </button>
-      </CardFooter>
+        <CardFooter className="flex gap-4 px-4">
+            <button onClick={handleUserDelete}
+                className="w-full px-6 py-3 bg-red-600 text-white text-lg font-semibold rounded hover:bg-red-800 transition">
+                Delete
+            </button>
+            <button onClick={closePopover}
+                className="w-full px-6 py-3 bg-gray-200 text-black text-lg font-semibold rounded hover:bg-gray-300 transition">
+                Cancel
+            </button>
+        </CardFooter>
     </Card>
   );
 }
