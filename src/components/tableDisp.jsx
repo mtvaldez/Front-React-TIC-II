@@ -26,8 +26,8 @@ export function TableDisp({users}) {
               <td className="px-4 py-2 border">{user.hasRfid ? 'Yes' : 'No'}</td>
               <td className="px-4 py-2 border">{user.hasFace ? 'Yes' : 'No'}</td>
               <td className="px-4 py-2 border"> <SettingsLinkAL text="Change" id={user.id}/> </td>
-              <td className="px-4 py-2 border"> <SettingsLinkRFID text="Change" id={user.id}/> </td>
-              <td className="px-4 py-2 border"> <SettingsLinkPic text="Change" id={user.id}/> </td>
+              <td className="px-4 py-2 border"> <SettingsLinkRFID text="Set" id={user.id}/> </td>
+              <td className="px-4 py-2 border"> <SettingsLinkPic text="Set" id={user.id}/> </td>
               <td className="px-4 py-2 border"> <SettingsDeleteUser text="DELETE" id={user.id}/> </td>
             </tr>
           ))}
@@ -36,21 +36,3 @@ export function TableDisp({users}) {
     </div>
   );
 }
-
-// const values = [
-  //   "Alice | Smith | Door 1 | 2025-05-01 | 08:15 AM | camera",
-  //   "Bob | Johnson | Door 2 | 2025-05-02 | 09:20 AM | RFID",
-  //   "Charlie | Brown | Door 3 | 2025-05-03 | 10:05 AM | camera",
-  //   "Dana | White | Door 1 | 2025-05-04 | 11:45 AM | RFID",
-  //   "Eli | Black | Door 2 | 2025-05-05 | 12:30 PM | camera",
-  //   // Additional lines...
-  // ];
-
-  // const values2 = [
-  //   "Door 1 | 2025-05-01 | 08:15 AM | camera",
-  //   "Door 2 | 2025-05-02 | 09:20 AM | RFID",
-  //   "Door 3 | 2025-05-03 | 10:05 AM | camera",
-  //   "Door 1 | 2025-05-04 | 11:45 AM | RFID",
-  //   "Door 2 | 2025-05-05 | 12:30 PM | camera",
-  //   // Additional lines...
-  // ];

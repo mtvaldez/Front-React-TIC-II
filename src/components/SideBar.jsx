@@ -1,4 +1,4 @@
-import { Home, LineChart, History, Settings, LogOut, List } from "lucide-react";
+import { Home, LineChart, History, Settings, LogOut, List, DoorClosed } from "lucide-react";
 
 import {
   Sidebar,
@@ -17,6 +17,7 @@ function SideBar() {
     { title: "Historic Data", url: "/historic", icon: History },
     { title: "Statistics", url: "/stats", icon: LineChart },
     { title: "Users", url: "/users", icon: List },
+    { title: "Doors", url: "/doors", icon: DoorClosed },
     { title: "Settings", url: "/settings", icon: Settings },
     
   ];

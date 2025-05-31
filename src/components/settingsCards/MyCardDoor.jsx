@@ -7,34 +7,41 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import TextInputBox from '../TextInputBox';
-import { createUser } from '@/services/UserService';
+import { createDoor } from '@/services/DoorService';
 
-export function MyCardUser({ closePopover }) {
+export function MyCardDoor({ closePopover }) {
   const [name, setName] = useState('');
-  const [cid, setEmail] = useState('');
+  const [passcode, setPasscode] = useState('');
+  const [passcodeRep, setPasscodeRep] = useState('');
   const [level, setLevel] = useState('');
   const [error, setError] = useState('');
   const [congrat, setCongrat] = useState('');
 
-  const handleAddUser = () => {
+  const handleAddDoor = () => {
     setCongrat('');
     setError('');
 
-    if (!name || !cid || !level) {
+    if (!name || !passcode || !passcodeRep || !level) {
       setError('All fields are required.');
       return;
     }
+
+    if(passcode !== passcodeRep) {
+        setError('Passcodes do not match');
+        return;
+    }
+
     if (!Number.isInteger(Number(level))) {
       setError('Access Level must be an Integer');
       return;
     }
 
     try {
-      createUser(name, cid, level);
-      closePopover();
+        createDoor(name, passcode, level);
+        closePopover();
     } catch (err) {
       console.error(err);
-      setError('Failed Creating User.');
+      setError('Failed Creating Door.');
     }
   };
 
@@ -42,7 +49,7 @@ export function MyCardUser({ closePopover }) {
     <Card className="w-full max-w-md mx-auto mt-10 shadow-lg border border-gray-200">
       <CardHeader>
         <CardTitle className="text-center text-2xl font-bold text-gray-800">
-          Add User
+          Add Door
         </CardTitle>
       </CardHeader>
 
@@ -50,17 +57,25 @@ export function MyCardUser({ closePopover }) {
         <TextInputBox
           inputType="text"
           id="name"
-          myPlaceholder="Full Name"
+          myPlaceholder="Door Name"
           myValue={name}
           onChange={(e) => setName(e.target.value)}
         />
 
         <TextInputBox
-          inputType="email"
-          id="cid"
-          myPlaceholder="ID doc"
-          myValue={cid}
-          onChange={(e) => setEmail(e.target.value)}
+          inputType="password"
+          id="passcode"
+          myPlaceholder="Door Passcode"
+          myValue={passcode}
+          onChange={(e) => setPasscode(e.target.value)}
+        />
+
+        <TextInputBox
+          inputType="password"
+          id="passcodeRep"
+          myPlaceholder="Repeat Door Passcode"
+          myValue={passcodeRep}
+          onChange={(e) => setPasscodeRep(e.target.value)}
         />
 
         <div className="flex flex-col gap-1">
@@ -71,9 +86,6 @@ export function MyCardUser({ closePopover }) {
             myValue={level}
             onChange={(e) => setLevel(e.target.value)}
           />
-          {/* <p className="text-xs text-gray-500 pl-1">
-            suggestion 
-          </p> */}
         </div>
         {congrat && (
           <p className="text-sm text-green-600 font-medium">{congrat}</p>
@@ -85,7 +97,7 @@ export function MyCardUser({ closePopover }) {
 
       <CardFooter className="justify-center">
         <button
-          onClick={handleAddUser}
+          onClick={handleAddDoor}
           className="w-full py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition"
         >
           Add

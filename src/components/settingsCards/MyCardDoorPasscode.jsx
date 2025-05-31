@@ -7,28 +7,33 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import TextInputBox from '../TextInputBox';
-import { setUserRFID } from '../../services/UserService';
 
-export function MyCardRFID({ userId, closePopover }) {
-
-  const [rfid, setRfid] = useState('');
+export function MyCardDoorPasscode({ closePopover }) {
+  const [passcode, setPasscode] = useState('');
+  const [passcodeRep, setPasscodeRep] = useState('');
   const [error, setError] = useState('');
   const [congrat, setCongrat] = useState('');
 
-  const handleAssign = async () => {
-    setError('');
+  const handleChangePasscode = () => {
     setCongrat('');
-    if (!rfid) {
-      setError('RFID is required.');
+    setError('');
+
+    if (!passcode || !passcodeRep) {
+      setError('Both fields are required.');
       return;
     }
 
+    if(passcode !== passcodeRep) {
+        setError('Passcodes do not match');
+        return;
+    }
+
     try {
-      await setUserRFID(userId, rfid); // Make sure this returns a Promise
-      closePopover()
+        changeDoorPasscode(passcode);
+        closePopover();
     } catch (err) {
       console.error(err);
-      setError('Failed to change access level.');
+      setError('Failed Creating Door.');
     }
   };
 
@@ -36,23 +41,28 @@ export function MyCardRFID({ userId, closePopover }) {
     <Card className="w-full max-w-md mx-auto mt-10 shadow-lg border border-gray-200">
       <CardHeader>
         <CardTitle className="text-center text-2xl font-bold text-gray-800">
-          Assign RFID to User
+          Set New Passcode
         </CardTitle>
       </CardHeader>
 
       <CardContent className="flex flex-col gap-4">
-        <p className="text-gray-600">
-          Assign an RFID access key to a user
-        </p>
-        
-        {/* RFID Input */}
+
         <TextInputBox
-          inputType="text"
-          myID="rfid"
-          myPlaceholder="RFID Tag"
-          myValue={rfid}
-          onChange={(e) => setRfid(e.target.value)}
+          inputType="password"
+          id="passcode"
+          myPlaceholder="New Door Passcode"
+          myValue={passcode}
+          onChange={(e) => setPasscode(e.target.value)}
         />
+
+        <TextInputBox
+          inputType="password"
+          id="passcodeRep"
+          myPlaceholder="Repeat Door Passcode"
+          myValue={passcodeRep}
+          onChange={(e) => setPasscodeRep(e.target.value)}
+        />
+
         {congrat && (
           <p className="text-sm text-green-600 font-medium">{congrat}</p>
         )}
@@ -63,10 +73,10 @@ export function MyCardRFID({ userId, closePopover }) {
 
       <CardFooter className="justify-center">
         <button
-          onClick={handleAssign}
+          onClick={handleChangePasscode}
           className="w-full py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition"
         >
-          Assign RFID
+          Set
         </button>
       </CardFooter>
     </Card>

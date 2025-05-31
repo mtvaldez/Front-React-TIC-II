@@ -1,5 +1,5 @@
 const mail =  sessionStorage.getItem("ses-mail");
-const token = sessionStorage.getItem('token')
+const token = sessionStorage.getItem('token');
 
 export async function createAdmin(email, password) {
     await fetch(`${localStorage.getItem("url")}/auth/register`, {

@@ -19,7 +19,11 @@ export function MyCardAL({ userId, closePopover }) {
     setError('');
 
     if (!level) {
-      setError('All fields are required.');
+      setError('The field is required.');
+      return;
+    }
+    if (!Number.isInteger(Number(level))) {
+      setError('Access Level must be an Integer');
       return;
     }
 
@@ -41,6 +45,9 @@ export function MyCardAL({ userId, closePopover }) {
       </CardHeader>
 
       <CardContent className="flex flex-col gap-4">
+        <p className="text-gray-600">
+          Enter a new access level for this user
+        </p>
         <TextInputBox
           inputType="text"
           id="level"

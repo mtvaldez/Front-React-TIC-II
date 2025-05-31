@@ -57,6 +57,10 @@ export function MyCardPic({ userId, closePopover}) {
       </CardHeader>
 
       <CardContent className="flex flex-col gap-4">
+        <p className="text-gray-600">
+          Upload a picture for a user to have facial recognition
+        </p>
+        
         {/* File Input for Picture */}
         <div className="flex flex-col gap-1">
           <label htmlFor="picture" className="text-sm font-medium text-gray-700">

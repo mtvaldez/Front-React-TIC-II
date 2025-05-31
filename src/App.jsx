@@ -7,6 +7,7 @@ import Settings from './pages/Settings'
 import Stats from './pages/Stats'
 import HistoricData from './pages/HistoricData'
 import UsersList from './pages/UsersList'
+import Doors from './pages/Doors'
 
   function App() {
     localStorage.setItem("url", "http://localhost:8080");
@@ -51,6 +52,14 @@ import UsersList from './pages/UsersList'
           element={
             <SidebarProvider>
               <UsersList />
+            </SidebarProvider>
+          }
+        />
+        <Route
+          path='/doors'
+          element={
+            <SidebarProvider>
+              <Doors />
             </SidebarProvider>
           }
         />
