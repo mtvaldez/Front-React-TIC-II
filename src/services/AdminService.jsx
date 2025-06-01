@@ -1,54 +1,33 @@
 const mail =  sessionStorage.getItem("ses-mail");
 const token = sessionStorage.getItem('token');
 
+import axiosInstance from "@/api/axios";
+
 export async function createAdmin(email, password) {
-    await fetch(`${localStorage.getItem("url")}/auth/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization' : 'Bearer ' + token
-      },
-      body: JSON.stringify({ 
-        email: email, 
-        password: password
-      })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.result === 1) {
-        alert(data.error);
-      } else if (data.result == 0) {
-        // setCongrat('Admin added successfully')
-      }
-    })
-    .catch(error => {
-      console.error("Failed to add admin:", error);
-    });
+  const admin = { email: email, password: password}
+  try {
+    await axiosInstance.post("/auth/register", admin)
+  } catch (error) {
+    throw new Error("Failed to create")
+  }
 }
 
 export async function changePassword(oldPswd, newPswd) {
-    fetch(`${localStorage.getItem("url")}/auth/change-password`, { 
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization' : 'Bearer ' + token
-    },
-      body: JSON.stringify({ 
-        email: mail,
-        password: newPswd,
-        oldPassword: oldPswd
-      })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.result == 1) {
-        alert(data.error);
-      } 
-    //   else if (data.result == 0) {
-        // setCongrat('Password changed successfully')
-    //   }
-    })
-    .catch(error => {
-      console.error("Failed to change password:", error);
-    });
+  const credentials = { email: sessionStorage.getItem("ses-mail"), password: newPswd, oldPassword: oldPswd}
+  try {
+    await axiosInstance.put("/auth/change-password", credentials)
+  } catch (error) {
+    throw new Error("Failed to change Password")
+  }
+}
+
+export async function login(email, password) {
+  const credentials = { email: email, password: password }
+  try {
+    const response = await axiosInstance.post("/auth/login", credentials)
+    localStorage.setItem("token", response.data.token);
+    localStorage.setItem("ses-email", email);
+  } catch (error) {
+    throw new Error("Login Failed")
+  }
 }
