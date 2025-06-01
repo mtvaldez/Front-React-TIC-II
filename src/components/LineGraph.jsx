@@ -1,8 +1,13 @@
-import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
-function LineGraph(props) {
-  if (!props.data || props.data.length === 0) {
-    return <div className="text-center mt-10">No data available for the selected door.</div>;
+function LineGraph({ data, entryType }) {
+  if (!data || data.length === 0) {
+    return (
+      <div className="text-center mt-10 text-gray-500">
+        <h2 className="text-lg font-semibold mb-2">{entryType}</h2>
+        <p>No data available for the selected period.</p>
+      </div>
+    );
   }
 
   return (
@@ -10,23 +15,29 @@ function LineGraph(props) {
       <div className="mr-6 mt-10 space-y-2">
         <div className="flex items-center space-x-2">
           <div className="w-4 h-4 bg-[#82ca9d] rounded-sm"></div>
-          <span className="text-sm">camera</span>
+          <span className="text-sm">Camera</span>
         </div>
         <div className="flex items-center space-x-2">
           <div className="w-4 h-4 bg-[#8884d8] rounded-sm"></div>
           <span className="text-sm">RFID</span>
         </div>
       </div>
-      
-      <LineChart width={800} height={400} data={props.data} className="px-20">
-        <XAxis dataKey="hour" />
-        <YAxis label={{ value: props.entryType, angle: -90, position: "insideLeft" }} />
+
+      <div className="text-center mt-10 text-gray-500">
+        <h2 className="text-lg font-semibold mb-2">{entryType}</h2>
+      </div><LineChart width={800} height={400} data={data} className="px-20">
+        <XAxis dataKey="hour" tickFormatter={(unix) => new Date(unix).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} />
+        <YAxis label={{ value: entryType, angle: -90, position: "insideLeft" }} />
         <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
+        <Tooltip labelFormatter={(unix) => new Date(unix).toLocaleString()}
+          formatter={(value, name) => {
+            const labelMap = { cameraCount: "📸 Camera", rfidCount: "🔑 RFID" };
+            return [value, labelMap[name] || name];
+          }} />
         <Line type="monotone" dataKey="cameraCount" stroke="#82ca9d" />
         <Line type="monotone" dataKey="rfidCount" stroke="#8884d8" />
       </LineChart>
-      
-      <h1>{props.Title}</h1>
+
     </div>
   );
 }
