@@ -178,8 +178,8 @@ function Menu() {
 
   return (
     <div className="w-full px-6">
-      <h1 className="text-center text-2xl font-bold mb-6">Last 24 hours' Accesses</h1>
-
+      <h1 className="text-3xl font-bold text-gray-800 mb-2">Last 24 hours' Accesses</h1>
+      <hr className="my-4 border-gray-300" />
       <div className="flex items-center gap-x-4 mb-4 justify-center flex-wrap text-center">
         <h1 className="font-semibold text-lg">Entry attempts on</h1>
         <ComboBox options={options} selected={selectedDoor} onChange={setSelectedDoor}
@@ -189,7 +189,7 @@ function Menu() {
       </div>
 
       {/* Top separator */}
-      <hr className="my-4 border-gray-300" />
+      {/* <hr className="my-4 border-gray-300" /> */}
 
       {/* Graphs */}
       <div className="flex flex-wrap md:flex-nowrap w-full gap-4">
@@ -203,7 +203,7 @@ function Menu() {
       </div>
 
       {/* Bottom separator */}
-      <hr className="my-4 border-gray-300" />
+      {/* <hr className="my-4 border-gray-300" /> */}
 
       {/* Tables */}
       <div className="flex flex-wrap md:flex-nowrap gap-4 mt-6 w-full">
