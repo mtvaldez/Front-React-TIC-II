@@ -1,7 +1,7 @@
 
 
-export function SuccessAccessTable( {data, entryType} ) {
-    if (!data || data.length === 0) {
+export function SuccessAccessTable({ data, entryType }) {
+  if (!data || data.length === 0) {
     return (
       <div className="text-center mt-10 text-gray-600">
         <h2 className="text-lg font-semibold mb-2">{entryType + " List"}</h2>
@@ -11,8 +11,8 @@ export function SuccessAccessTable( {data, entryType} ) {
   }
 
 
-    return (
-        <div className="bg-white p-4 rounded-lg shadow">
+  return (
+    <div className="bg-white p-4 rounded-lg shadow">
       <h3 className="text-lg font-medium mb-3 text-green-600">{entryType + " List"}</h3>
       <table className="w-full text-sm text-left text-gray-700">
         <thead className="border-b text-gray-500">
@@ -35,5 +35,5 @@ export function SuccessAccessTable( {data, entryType} ) {
         </tbody>
       </table>
     </div>
-    );
+  );
 }

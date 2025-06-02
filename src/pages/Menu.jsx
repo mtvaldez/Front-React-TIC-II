@@ -7,11 +7,15 @@ import { getFailedAccessData, getSuccessfulAccessData } from "@/services/Statist
 import { SuccessAccessTable } from "@/components/tables/SuccessAccessTable";
 import { FailAccessTable } from "@/components/tables/FailAccessTable";
 import { getFailedAccessBetween, getSuccessfulAccessBetween } from "@/services/AccessService";
+import { groupAccessDataMap, groupAccessListMap } from "@/utils/groupMapUtils";
+
 
 function Menu() {
   const ONE_DAY_MILLIS = 86400000;
   const successTitle = "Successful Entries";
   const failTitle = "Failed Entries";
+  const today = Date.now(); 
+  const yesterday = today - ONE_DAY_MILLIS;
 
   const [options, setOptions] = useState([]);
   const [selectedDoor, setSelectedDoor] = useState(null);
@@ -32,55 +36,39 @@ function Menu() {
   async function fetchDoors() {
     try {
       const allDoors = await getDoors();
-      const doors = allDoors.map(door => ({ value: door.name, label: door.name, accessLevel: door.accessLevel }));
+      const doors = [ {value:"All" , label:"All"}, ...allDoors.map(door => ({ value: door.name, label: door.name })) ];
       setOptions(doors);
-      setLoading(false);
     } catch (error) {
-      setLoading(false);
+      console.error(error)
     }
   }
 
   async function fetchSuccessfulAccessData() {
-    setLoading(true);
     try {
-      const currentDate = Date.now();
-      const previousDate = currentDate - ONE_DAY_MILLIS;
-
-      const successful = await getSuccessfulAccessData(previousDate, currentDate);
-      const successfulMap = groupByKeyToMap(successful, "doorName");
+      const successful = await getSuccessfulAccessData(yesterday, today);
+      const successfulMap = groupAccessDataMap(successful);
 
       setSuccessfulDataMap(successfulMap);
     } catch (error) {
       console.error("Error fetching door data:", error);
-    } finally {
-      setLoading(false);
     }
   }
 
   async function fetchFailedAccessData() {
-    setLoading(true);
     try {
-      const currentDate = Date.now();
-      const previousDate = currentDate - ONE_DAY_MILLIS;
-
-      const failed = await getFailedAccessData(previousDate, currentDate)
-      const failedMap = groupByKeyToMap(failed, "doorName");
+      const failed = await getFailedAccessData(yesterday, today)
+      const failedMap = groupAccessDataMap(failed);
 
       setFailedDataMap(failedMap);
     } catch (error) {
       console.error("Error fetching door data:", error);
-    } finally {
-      setLoading(false);
     }
   }
 
   async function fetchSuccessfulList() {
     try {
-      const currentDate = Date.now();
-      const previousDate = currentDate - ONE_DAY_MILLIS;
-
-      const successful = await getSuccessfulAccessBetween(previousDate, currentDate);
-      const successfulMap = groupByKeyToMap(successful, "doorName");
+      const successful = await getSuccessfulAccessBetween(yesterday, today);
+      const successfulMap = groupAccessListMap(successful);
 
       setSucListMap(successfulMap);
     } catch (error) {
@@ -90,53 +78,13 @@ function Menu() {
 
   async function fetchFailedList() {
     try {
-      const currentDate = Date.now();
-      const previousDate = currentDate - ONE_DAY_MILLIS;
-
-      const failed = await getFailedAccessBetween(previousDate, currentDate);
-      const failedMap = groupByKeyToMap(failed, "doorName");
+      const failed = await getFailedAccessBetween(yesterday, today);
+      const failedMap = groupAccessListMap(failed);
 
       setFailedListMap(failedMap);
     } catch (error) {
       console.error(error);
     }
-  }
-
-  // function groupByDoorsMap(arr) {
-  //   const groupedMap = new Map()
-  //   arr.forEach((entry) => {
-  //     if (groupedMap.has(entry.doorName)) {
-  //       groupedMap.get(entry.doorName)
-  //         .push({
-  //           hour: entry.hour,
-  //           cameraCount: entry.cameraCount,
-  //           rfidCount: entry.rfidCount
-  //         });
-  //     } else {
-  //       groupedMap.set(entry.doorName, [{
-  //         hour: entry.hour,
-  //         cameraCount: entry.cameraCount,
-  //         rfidCount: entry.rfidCount
-  //       }]);
-  //     }
-  //   });
-  //   return groupedMap;
-  // }
-
-  function groupByKeyToMap(arr, groupKey) {
-    const groupedMap = new Map();
-
-    arr.forEach((entry) => {
-      const key = entry[groupKey];
-
-      if (!groupedMap.has(key)) {
-        groupedMap.set(key, []);
-      }
-
-      groupedMap.get(key).push(entry);
-    });
-
-    return groupedMap;
   }
 
   function loadGraph(selectedDoor) {
@@ -150,11 +98,13 @@ function Menu() {
   }
 
   useEffect(() => {
+    setLoading(true);
     fetchDoors();
     fetchSuccessfulAccessData();
     fetchFailedAccessData();
     fetchSuccessfulList();
     fetchFailedList();
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -188,9 +138,6 @@ function Menu() {
         <h1 className="font-semibold text-lg">door today</h1>
       </div>
 
-      {/* Top separator */}
-      {/* <hr className="my-4 border-gray-300" /> */}
-
       {/* Graphs */}
       <div className="flex flex-wrap md:flex-nowrap w-full gap-4">
         <div className="flex-1 min-w-0">
@@ -198,17 +145,14 @@ function Menu() {
         </div>
         <div className="hidden md:block w-px bg-gray-300" />
         <div className="flex-1 min-w-0">
-          <LineGraph entryType={failTitle} data={failedData} green={false}/>
+          <LineGraph entryType={failTitle} data={failedData} green={false} />
         </div>
       </div>
-
-      {/* Bottom separator */}
-      {/* <hr className="my-4 border-gray-300" /> */}
 
       {/* Tables */}
       <div className="flex flex-wrap md:flex-nowrap gap-4 mt-6 w-full">
         <div className="flex-1 min-w-0 bg-white p-4 shadow rounded-md">
-          <SuccessAccessTable entryType={successTitle} data={sucList}  />
+          <SuccessAccessTable entryType={successTitle} data={sucList} />
         </div>
         <div className="flex-1 min-w-0 bg-white p-4 shadow rounded-md">
           <FailAccessTable entryType={failTitle} data={failedList} />
@@ -217,22 +161,6 @@ function Menu() {
     </div>
 
   );
-
-  // return (
-  //   <div className="flex flex-col w-full h-screen justify-start items-center pt-0">
-  //     <div className="flex items-center gap-x-4 mb-4">
-  //       <h1 className="font-semibold text-lg">Entry attempts on</h1>
-  //       <ComboBox options={options} selected={selectedDoor}
-  //         onChange={setSelectedDoor} text="Select Door"
-  //       />
-  //       <h1 className="font-semibold text-lg">door today</h1>
-  //     </div>
-  //     <div className="flex flex-row space-x-4">
-  //       <LineGraph entryType="Successful Entries" data={sucData} />
-  //       <LineGraph entryType="Failed Entries" data={failedData} />
-  //     </div>
-  //   </div>
-  // );
 }
 
 export default Menu;
