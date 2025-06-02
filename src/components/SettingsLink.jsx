@@ -1,18 +1,18 @@
-import { MyCardPswd } from "./settingsCards/MyCardPswd";
-import { MyCardUser } from "./settingsCards/MyCardUser";
-import { MyCardRFID } from "./settingsCards/MyCardRFID";
-import { MyCardPic } from "./settingsCards/MyCardPic";
-import { MyCardAL } from "./settingsCards/MyCardAL";
-import { MyCardAdmin } from "./settingsCards/MyCardAdmin";
-import { MyCardDeleteUser } from "./settingsCards/MyCardDeleteUser";
-import { MyCardDoor } from "./settingsCards/MyCardDoor";
-import { MyCardDoorAL } from "./settingsCards/MyCardDoorAL";
+import { MyCardPswd } from "./Cards/MyCardPswd";
+import { MyCardUser } from "./Cards/MyCardUser";
+import { MyCardRFID } from "./Cards/MyCardRFID";
+import { MyCardPic } from "./Cards/MyCardPic";
+import { MyCardAL } from "./Cards/MyCardAL";
+import { MyCardAdmin } from "./Cards/MyCardAdmin";
+import { MyCardDeleteUser } from "./Cards/MyCardDeleteUser";
+import { MyCardDoor } from "./Cards/MyCardDoor";
+import { MyCardDoorAL } from "./Cards/MyCardDoorAL";
 import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { useState } from 'react';
 import { IdCard, Trash2, WholeWord, ScanFace, Settings2, DoorOpenIcon } from "lucide-react";
 import { UserPlus } from "lucide-react";
-import { MyCardDeleteDoor } from "./settingsCards/MyCardDeleteDoor";
-import { MyCardDoorPasscode } from "./settingsCards/MyCardDoorPasscode";
+import { MyCardDeleteDoor } from "./Cards/MyCardDeleteDoor";
+import { MyCardDoorPasscode } from "./Cards/MyCardDoorPasscode";
 
 export function SettingsLinkPswd(props) {
   const [open, setOpen] = useState(false);

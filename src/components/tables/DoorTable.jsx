@@ -1,4 +1,4 @@
-import { SettingsChangeDoorAL, SettingsLinkDoorPasscode, SettingsDeleteDoor } from "./SettingsLink";
+import { SettingsChangeDoorAL, SettingsLinkDoorPasscode, SettingsDeleteDoor } from "../SettingsLink";
 
 export function DoorTable({doors}) {
   return (

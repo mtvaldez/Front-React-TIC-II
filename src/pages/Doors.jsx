@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import SideBar from "../components/SideBar";
-import { DoorTable } from "@/components/DoorTable";
+import { DoorTable } from "@/components/tables/DoorTable";
 import { getDoors } from "@/services/DoorService";
 import { SettingsLinkDoor } from "@/components/SettingsLink";
 

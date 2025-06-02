@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import TextInputBox from '../TextInputBox'; 
+import TextInputBox from '../ui/TextInputBox'; 
 import { setUserFace } from '@/services/UserService';
 
 export function MyCardPic({ userId, closePopover}) {

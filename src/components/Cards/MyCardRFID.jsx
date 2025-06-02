@@ -6,28 +6,27 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import TextInputBox from '../TextInputBox'; 
-import { createAdmin } from '@/services/AdminService';
+import TextInputBox from '../ui/TextInputBox';
+import { setUserRFID } from '../../services/UserService';
 
-export function MyCardAdmin({ closePopover }) {
-  
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+export function MyCardRFID({ userId, closePopover }) {
+
+  const [rfid, setRfid] = useState('');
   const [error, setError] = useState('');
   const [congrat, setCongrat] = useState('');
-  
-  const handleAddAdmin = () => {
+
+  const handleAssign = async () => {
     setError('');
     setCongrat('');
-    if (!email || !password) {
-      setError('All fields are required.');
+    if (!rfid) {
+      setError('RFID is required.');
       return;
     }
-    
+
     try {
-      createAdmin(email, password)
-      closePopover();
-    }catch (err) {
+      await setUserRFID(userId, rfid); // Make sure this returns a Promise
+      closePopover()
+    } catch (err) {
       console.error(err);
       setError('Failed to change access level.');
     }
@@ -37,28 +36,23 @@ export function MyCardAdmin({ closePopover }) {
     <Card className="w-full max-w-md mx-auto mt-10 shadow-lg border border-gray-200">
       <CardHeader>
         <CardTitle className="text-center text-2xl font-bold text-gray-800">
-          Add Admin
+          Assign RFID to User
         </CardTitle>
       </CardHeader>
 
       <CardContent className="flex flex-col gap-4">
+        <p className="text-gray-600">
+          Assign an RFID access key to a user
+        </p>
+        
+        {/* RFID Input */}
         <TextInputBox
-          inputType="email"
-          id="email"
-          myPlaceholder="Email"
-          myValue={email}
-          onChange={(e) => setEmail(e.target.value)}
+          inputType="text"
+          myID="rfid"
+          myPlaceholder="RFID Tag"
+          myValue={rfid}
+          onChange={(e) => setRfid(e.target.value)}
         />
-
-        <div className="flex flex-col gap-1">
-          <TextInputBox
-            inputType="password"
-            id="password"
-            myPlaceholder="Password"
-            myValue={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
         {congrat && (
           <p className="text-sm text-green-600 font-medium">{congrat}</p>
         )}
@@ -69,10 +63,10 @@ export function MyCardAdmin({ closePopover }) {
 
       <CardFooter className="justify-center">
         <button
-          onClick={handleAddAdmin}
+          onClick={handleAssign}
           className="w-full py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition"
         >
-          Add
+          Assign RFID
         </button>
       </CardFooter>
     </Card>

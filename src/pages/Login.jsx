@@ -1,4 +1,4 @@
-import TextInputBox from '../components/TextInputBox';
+import TextInputBox from '../components/ui/TextInputBox';
 import OIP from '../assets/OIP.jpg';
 import { useState } from 'react';
 import { login } from '@/services/AdminService';

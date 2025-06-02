@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import TextInputBox from '../TextInputBox';
+import TextInputBox from '../ui/TextInputBox';
 import { changeDoorAccessLevel } from '@/services/DoorService';
 
 export function MyCardDoorAL({ doorId, closePopover }) {

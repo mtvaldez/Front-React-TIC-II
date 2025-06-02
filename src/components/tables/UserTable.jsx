@@ -1,4 +1,4 @@
-import { SettingsLinkAL, SettingsLinkRFID, SettingsLinkPic, SettingsDeleteUser } from "./SettingsLink";
+import { SettingsLinkAL, SettingsLinkRFID, SettingsLinkPic, SettingsDeleteUser } from "../SettingsLink";
 
 export function TableDisp({users}) {
   return (

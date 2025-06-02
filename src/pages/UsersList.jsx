@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import SideBar from "../components/SideBar";
-import { TableDisp } from "../components/tableDisp";
+import { TableDisp } from "../components/tables/UserTable";
 import { getUsers } from "../services/UserService";
 import { UserPlus } from "lucide-react";
 import { SettingsLinkUser } from "@/components/SettingsLink";
