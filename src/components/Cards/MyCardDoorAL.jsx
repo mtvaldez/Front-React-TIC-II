@@ -1,21 +1,13 @@
 import { useState } from 'react';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import TextInputBox from '../ui/TextInputBox';
 import { changeDoorAccessLevel } from '@/services/DoorService';
 
 export function MyCardDoorAL({ doorId, closePopover }) {
   const [level, setLevel] = useState('');
   const [error, setError] = useState('');
-  const [congrat, setCongrat] = useState('');
 
   const handleAccessChange = async () => {
-    setCongrat('');
     setError('');
 
     if (!level) {
@@ -30,6 +22,7 @@ export function MyCardDoorAL({ doorId, closePopover }) {
 
     try {
       await changeDoorAccessLevel(doorId, level); 
+      // Toast
       closePopover()
     } catch (err) {
       console.error(err);
@@ -56,15 +49,13 @@ export function MyCardDoorAL({ doorId, closePopover }) {
           myValue={level}
           onChange={(e) => setLevel(e.target.value)}
         />
-        {congrat && <p className="text-sm text-green-600 font-medium">{congrat}</p>}
+
         {error && <p className="text-sm text-red-600 font-medium">{error}</p>}
       </CardContent>
 
       <CardFooter className="justify-center">
-        <button
-          onClick={handleAccessChange}
-          className="w-full py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition"
-        >
+        <button onClick={handleAccessChange}
+          className="w-full py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition">
           Apply Access Change
         </button>
       </CardFooter>

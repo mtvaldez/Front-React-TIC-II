@@ -1,11 +1,5 @@
 import { useState } from 'react';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import TextInputBox from '../ui/TextInputBox';
 import { changeDoorPasscode } from '@/services/DoorService';
 
@@ -13,10 +7,8 @@ export function MyCardDoorPasscode({ doorId, closePopover }) {
   const [passcode, setPasscode] = useState('');
   const [passcodeRep, setPasscodeRep] = useState('');
   const [error, setError] = useState('');
-  const [congrat, setCongrat] = useState('');
 
   const handleChangePasscode = () => {
-    setCongrat('');
     setError('');
 
     if (!passcode || !passcodeRep) {
@@ -31,6 +23,7 @@ export function MyCardDoorPasscode({ doorId, closePopover }) {
 
     try {
         changeDoorPasscode(doorId, passcode);
+        // Toast
         closePopover();
     } catch (err) {
       console.error(err);
@@ -64,9 +57,6 @@ export function MyCardDoorPasscode({ doorId, closePopover }) {
           onChange={(e) => setPasscodeRep(e.target.value)}
         />
 
-        {congrat && (
-          <p className="text-sm text-green-600 font-medium">{congrat}</p>
-        )}
         {error && (
           <p className="text-sm text-red-600 font-medium">{error}</p>
         )}

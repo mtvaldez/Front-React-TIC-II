@@ -1,30 +1,23 @@
 import { useState } from 'react';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import TextInputBox from '../ui/TextInputBox';
 import { setUserRFID } from '../../services/UserService';
 
 export function MyCardRFID({ userId, closePopover }) {
-
   const [rfid, setRfid] = useState('');
   const [error, setError] = useState('');
-  const [congrat, setCongrat] = useState('');
 
   const handleAssign = async () => {
     setError('');
-    setCongrat('');
+
     if (!rfid) {
       setError('RFID is required.');
       return;
     }
 
     try {
-      await setUserRFID(userId, rfid); // Make sure this returns a Promise
+      setUserRFID(userId, rfid); // Make sure this returns a Promise
+      // Toast
       closePopover()
     } catch (err) {
       console.error(err);
@@ -53,9 +46,7 @@ export function MyCardRFID({ userId, closePopover }) {
           myValue={rfid}
           onChange={(e) => setRfid(e.target.value)}
         />
-        {congrat && (
-          <p className="text-sm text-green-600 font-medium">{congrat}</p>
-        )}
+
         {error && (
           <p className="text-sm text-red-600 font-medium">{error}</p>
         )}

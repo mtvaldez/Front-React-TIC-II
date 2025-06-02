@@ -14,11 +14,10 @@ export function MyCardAdmin({ closePopover }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [congrat, setCongrat] = useState('');
   
   const handleAddAdmin = () => {
     setError('');
-    setCongrat('');
+
     if (!email || !password) {
       setError('All fields are required.');
       return;
@@ -26,6 +25,7 @@ export function MyCardAdmin({ closePopover }) {
     
     try {
       createAdmin(email, password)
+      // Toast
       closePopover();
     }catch (err) {
       console.error(err);
@@ -59,9 +59,7 @@ export function MyCardAdmin({ closePopover }) {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        {congrat && (
-          <p className="text-sm text-green-600 font-medium">{congrat}</p>
-        )}
+        
         {error && (
           <p className="text-sm text-red-600 font-medium">{error}</p>
         )}

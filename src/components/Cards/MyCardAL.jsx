@@ -12,23 +12,23 @@ import { changeUserAccessLevel } from '../../services/UserService';
 export function MyCardAL({ userId, closePopover }) {
   const [level, setLevel] = useState('');
   const [error, setError] = useState('');
-  const [congrat, setCongrat] = useState('');
 
   const handleAccessChange = async () => {
-    setCongrat('');
     setError('');
 
     if (!level) {
       setError('The field is required.');
       return;
     }
+
     if (!Number.isInteger(Number(level))) {
       setError('Access Level must be an Integer');
       return;
     }
 
     try {
-      await changeUserAccessLevel(userId, level); // Make sure this returns a Promise
+      changeUserAccessLevel(userId, level); // Make sure this returns a Promise
+      // Toast
       closePopover()
     } catch (err) {
       console.error(err);
@@ -55,7 +55,7 @@ export function MyCardAL({ userId, closePopover }) {
           myValue={level}
           onChange={(e) => setLevel(e.target.value)}
         />
-        {congrat && <p className="text-sm text-green-600 font-medium">{congrat}</p>}
+        
         {error && <p className="text-sm text-red-600 font-medium">{error}</p>}
       </CardContent>
 

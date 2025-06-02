@@ -7,6 +7,7 @@ export function MyCardDeleteDoor({ doorId, closePopover }) {
   const handleDoorDelete = () => {
     try {
         deleteDoor(doorId);
+        // Toast
         closePopover();
     } catch (err) {
       console.error(err);

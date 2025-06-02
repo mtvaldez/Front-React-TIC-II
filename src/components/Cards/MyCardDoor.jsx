@@ -15,10 +15,8 @@ export function MyCardDoor({ closePopover }) {
   const [passcodeRep, setPasscodeRep] = useState('');
   const [level, setLevel] = useState('');
   const [error, setError] = useState('');
-  const [congrat, setCongrat] = useState('');
 
   const handleAddDoor = () => {
-    setCongrat('');
     setError('');
 
     if (!name || !passcode || !passcodeRep || !level) {
@@ -38,6 +36,7 @@ export function MyCardDoor({ closePopover }) {
 
     try {
         createDoor(name, passcode, level);
+        // Toast
         closePopover();
     } catch (err) {
       console.error(err);
@@ -87,9 +86,7 @@ export function MyCardDoor({ closePopover }) {
             onChange={(e) => setLevel(e.target.value)}
           />
         </div>
-        {congrat && (
-          <p className="text-sm text-green-600 font-medium">{congrat}</p>
-        )}
+        
         {error && (
           <p className="text-sm text-red-600 font-medium">{error}</p>
         )}

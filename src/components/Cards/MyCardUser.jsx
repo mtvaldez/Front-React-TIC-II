@@ -1,11 +1,5 @@
 import { useState } from 'react';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import TextInputBox from '../ui/TextInputBox';
 import { createUser } from '@/services/UserService';
 
@@ -14,16 +8,15 @@ export function MyCardUser({ closePopover }) {
   const [cid, setEmail] = useState('');
   const [level, setLevel] = useState('');
   const [error, setError] = useState('');
-  const [congrat, setCongrat] = useState('');
 
   const handleAddUser = () => {
-    setCongrat('');
     setError('');
 
     if (!name || !cid || !level) {
       setError('All fields are required.');
       return;
     }
+
     if (!Number.isInteger(Number(level))) {
       setError('Access Level must be an Integer');
       return;
@@ -31,6 +24,7 @@ export function MyCardUser({ closePopover }) {
 
     try {
       createUser(name, cid, level);
+      // Toast
       closePopover();
     } catch (err) {
       console.error(err);
@@ -71,13 +65,9 @@ export function MyCardUser({ closePopover }) {
             myValue={level}
             onChange={(e) => setLevel(e.target.value)}
           />
-          {/* <p className="text-xs text-gray-500 pl-1">
-            suggestion 
-          </p> */}
+          
         </div>
-        {congrat && (
-          <p className="text-sm text-green-600 font-medium">{congrat}</p>
-        )}
+        
         {error && (
           <p className="text-sm text-red-600 font-medium">{error}</p>
         )}

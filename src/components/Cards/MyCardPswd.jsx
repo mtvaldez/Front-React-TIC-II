@@ -1,11 +1,5 @@
 import { useState } from 'react';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import TextInputBox from '../ui/TextInputBox'; 
 import { changePassword } from '@/services/AdminService';
 
@@ -14,16 +8,16 @@ export function MyCardPswd({closePopover}) {
   const [newPswd, setNewPswd] = useState('');
   const [newPswdR, setNewPswdR] = useState('');
   const [error, setError] = useState('');
-  const [congrat, setCongrat] = useState('');
 
 
   const handleConfirm = () => {
-    setCongrat('');
     setError('');
+
     if (newPswd !== newPswdR) {
       setError('New passwords do not match.');
       return;
     }
+
     if(!newPswd || !newPswdR || !oldPswd) {
       setError('All fields must be filled.');
       return;  
@@ -31,6 +25,7 @@ export function MyCardPswd({closePopover}) {
 
     try {
       changePassword(oldPswd, newPswd);
+      // Toast
       closePopover();
     } catch (err) {
       console.error(err);
@@ -68,9 +63,7 @@ export function MyCardPswd({closePopover}) {
           value={newPswdR}
           onChange={(e) => setNewPswdR(e.target.value)}
         />
-        {congrat && (
-          <p className="text-sm text-green-600 font-medium">{congrat}</p>
-        )}
+        
         {error && (
           <p className="text-sm text-red-600 font-medium">{error}</p>
         )}

@@ -1,20 +1,10 @@
 import { useState } from 'react';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import TextInputBox from '../ui/TextInputBox'; 
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"; 
 import { setUserFace } from '@/services/UserService';
 
 export function MyCardPic({ userId, closePopover}) {
-
   const [picture, setPicture] = useState(null);
   const [error, setError] = useState('');
-  const [congrat, setCongrat] = useState('');
-
 
   const handlePictureChange = (e) => {
     const file = e.target.files[0];
@@ -25,7 +15,6 @@ export function MyCardPic({ userId, closePopover}) {
 
   const handleLinkPicture = () => {
     setError('');
-    setCongrat('');
   
     if (!picture) {
       setError('Picture is required.');
@@ -39,6 +28,8 @@ export function MyCardPic({ userId, closePopover}) {
         setUserFace(userId, base64String.substring(23))
       };
       reader.readAsDataURL(picture);
+
+      // Toast
       closePopover();
     
     } catch (err) {
@@ -77,9 +68,7 @@ export function MyCardPic({ userId, closePopover}) {
             <p className="text-xs text-gray-500">Selected: {picture.name}</p>
           )}
         </div>
-        {congrat && (
-          <p className="text-sm text-green-600 font-medium">{congrat}</p>
-        )}
+        
         {error && (
           <p className="text-sm text-red-600 font-medium text-center">{error}</p>
         )}

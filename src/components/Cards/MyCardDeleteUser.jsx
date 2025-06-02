@@ -4,7 +4,14 @@ import { deleteUser } from "@/services/UserService";
 export function MyCardDeleteUser({ userId, closePopover }) {
 
   const handleUserDelete = () => {
-    deleteUser(userId);
+    try {
+      deleteUser(userId);
+      // Toast
+      closePopover();
+    } catch (err) {
+      console.error(err);
+      setError('Failed Deleting Door.');
+    }
   };
 
 
