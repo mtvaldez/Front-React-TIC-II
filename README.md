@@ -1,3 +1,5 @@
 # TIC II FrontEnd
 
-El super front para la materia 'TIC II', usando react.
+.env:
+VITE_BASE_URL
+VITE_TIMEZONE
