@@ -1,6 +1,9 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 function LineGraph({ data, entryType, green }) {
+  const camaraCol = "#ff27a3"
+  const rfidCol = "#fb5d15"
+
   if (!data || data.length === 0) {
     return (
       <div className="text-center mt-10 text-gray-600">
@@ -29,20 +32,19 @@ function LineGraph({ data, entryType, green }) {
                 const labelMap = { cameraCount: "Camera 📸", rfidCount: "RFID 🔑", };
                 return [value, labelMap[name] || name];
               }} />
-            <Line type="monotone" dataKey="cameraCount" stroke="#82ca9d" />
-            <Line type="monotone" dataKey="rfidCount" stroke="#8884d8" />
+            <Line type="monotone" dataKey="cameraCount" stroke={camaraCol} dot={{ r: 4, fill: camaraCol }} />
+            <Line type="monotone" dataKey="rfidCount" stroke={rfidCol} dot={{ r: 4, fill: rfidCol }} />
           </LineChart>
         </ResponsiveContainer>
       </div>
-      <div className="mr-6 mt-4 space-y-2 self-start">
-        <div className="flex items-center space-x-2">
-          <div className="w-4 h-4 bg-[#82ca9d] rounded-sm" />
-          <span className="text-sm">Camera</span>
-        </div>
-        <div className="flex items-center space-x-2">
-          <div className="w-4 h-4 bg-[#8884d8] rounded-sm" />
-          <span className="text-sm">RFID</span>
-        </div>
+  
+      <div className="mr-6 mt-4 space-y-2 self-end">
+        {[{ label: "Camera", color: camaraCol }, { label: "RFID", color: rfidCol } ].map(({ label, color }) => (
+          <div key={label} className="flex items-center space-x-2">
+            <div className="w-4 h-4 rounded-sm" style={{ backgroundColor: color }} />
+            <span className="text-sm">{label}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
