@@ -1,13 +1,8 @@
 import { useState } from 'react';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import TextInputBox from '../ui/TextInputBox';
 import { createDoor } from '@/services/DoorService';
+import { successToast, errorToast } from '../ui/customToasts';
 
 export function MyCardDoor({ closePopover }) {
   const [name, setName] = useState('');
@@ -16,7 +11,7 @@ export function MyCardDoor({ closePopover }) {
   const [level, setLevel] = useState('');
   const [error, setError] = useState('');
 
-  const handleAddDoor = () => {
+  const handleAddDoor = async () => {
     setError('');
 
     if (!name || !passcode || !passcodeRep || !level) {
@@ -24,9 +19,9 @@ export function MyCardDoor({ closePopover }) {
       return;
     }
 
-    if(passcode !== passcodeRep) {
-        setError('Passcodes do not match');
-        return;
+    if (passcode !== passcodeRep) {
+      setError('Passcodes do not match');
+      return;
     }
 
     if (!Number.isInteger(Number(level))) {
@@ -35,12 +30,13 @@ export function MyCardDoor({ closePopover }) {
     }
 
     try {
-        createDoor(name, passcode, level);
-        // Toast
-        closePopover();
-    } catch (err) {
-      console.error(err);
-      setError('Failed Creating Door.');
+      await createDoor(name, passcode, level);
+      successToast("Door created Successfully!")
+    } catch (error) {
+      // errorToast("Something went Wrong")
+      errorToast(error.message);
+    } finally {
+      closePopover()
     }
   };
 
@@ -86,7 +82,7 @@ export function MyCardDoor({ closePopover }) {
             onChange={(e) => setLevel(e.target.value)}
           />
         </div>
-        
+
         {error && (
           <p className="text-sm text-red-600 font-medium">{error}</p>
         )}

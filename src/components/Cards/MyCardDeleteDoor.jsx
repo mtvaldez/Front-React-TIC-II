@@ -1,17 +1,18 @@
 import { Card, CardFooter, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { deleteDoor } from "@/services/DoorService";
-
+import { successToast, errorToast } from '../ui/customToasts';
 
 export function MyCardDeleteDoor({ doorId, closePopover }) {
 
-  const handleDoorDelete = () => {
+  const handleDoorDelete = async () => {
     try {
-        deleteDoor(doorId);
-        // Toast
-        closePopover();
-    } catch (err) {
-      console.error(err);
-      setError('Failed Deleting Door.');
+      await deleteDoor(doorId);
+      successToast("Door deleted Successfully!")
+    } catch (error) {
+      // errorToast("Something went Wrong")
+      errorToast(error.message);
+    } finally {
+      closePopover()
     }
   };
 

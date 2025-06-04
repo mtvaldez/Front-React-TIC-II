@@ -10,7 +10,9 @@ export async function getSuccessfulAccessBetween(startDate, endDate) {
         });
         return response.data;
     } catch (error) {
-        throw new Error("Failed to fetch Successful Access List");
+        // throw new Error("Failed to fetch Successful Access List");
+        const message = error.response?.data?.message || "Failed to fetch Successful Access List";
+        throw new Error(message);
     }
 
 }
@@ -25,6 +27,8 @@ export async function getFailedAccessBetween(startDate, endDate) {
         });
         return response.data;
     } catch (error) {
-        throw new Error("Failed to fetch Failed Access List");
+        // throw new Error("Failed to fetch Failed Access List");
+        const message = error.response?.data?.message || "Failed to fetch Successful Access List";
+        throw new Error(message);
     }
 }

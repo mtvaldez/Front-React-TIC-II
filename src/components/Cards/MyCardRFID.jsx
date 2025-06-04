@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import TextInputBox from '../ui/TextInputBox';
 import { setUserRFID } from '../../services/UserService';
+import { successToast, errorToast } from '../ui/customToasts';
 
 export function MyCardRFID({ userId, closePopover }) {
   const [rfid, setRfid] = useState('');
@@ -16,12 +17,13 @@ export function MyCardRFID({ userId, closePopover }) {
     }
 
     try {
-      setUserRFID(userId, rfid); // Make sure this returns a Promise
-      // Toast
+      await setUserRFID(userId, rfid); // Make sure this returns a Promise
+      successToast("User RFID set Successfully!")
+    } catch (error) {
+      // errorToast("Something went Wrong")
+      errorToast(error.message)
+    } finally {
       closePopover()
-    } catch (err) {
-      console.error(err);
-      setError('Failed to change access level.');
     }
   };
 
@@ -37,7 +39,7 @@ export function MyCardRFID({ userId, closePopover }) {
         <p className="text-gray-600">
           Assign an RFID access key to a user
         </p>
-        
+
         {/* RFID Input */}
         <TextInputBox
           inputType="text"

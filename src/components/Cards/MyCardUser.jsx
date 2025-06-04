@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import TextInputBox from '../ui/TextInputBox';
 import { createUser } from '@/services/UserService';
+import { successToast, errorToast } from '../ui/customToasts';
 
 export function MyCardUser({ closePopover }) {
   const [name, setName] = useState('');
@@ -9,7 +10,7 @@ export function MyCardUser({ closePopover }) {
   const [level, setLevel] = useState('');
   const [error, setError] = useState('');
 
-  const handleAddUser = () => {
+  const handleAddUser = async () => {
     setError('');
 
     if (!name || !cid || !level) {
@@ -23,12 +24,13 @@ export function MyCardUser({ closePopover }) {
     }
 
     try {
-      createUser(name, cid, level);
-      // Toast
-      closePopover();
-    } catch (err) {
-      console.error(err);
-      setError('Failed Creating User.');
+      await createUser(name, cid, level);
+      successToast("User created Successfully!")
+    } catch (error) {
+      // errorToast("Something went Wrong")
+      errorToast(error.message);
+    } finally {
+      closePopover()
     }
   };
 
@@ -65,9 +67,9 @@ export function MyCardUser({ closePopover }) {
             myValue={level}
             onChange={(e) => setLevel(e.target.value)}
           />
-          
+
         </div>
-        
+
         {error && (
           <p className="text-sm text-red-600 font-medium">{error}</p>
         )}

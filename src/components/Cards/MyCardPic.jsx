@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"; 
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { setUserFace } from '@/services/UserService';
+import { successToast, errorToast } from '../ui/customToasts';
 
-export function MyCardPic({ userId, closePopover}) {
+export function MyCardPic({ userId, closePopover }) {
   const [picture, setPicture] = useState(null);
   const [error, setError] = useState('');
 
@@ -15,12 +16,12 @@ export function MyCardPic({ userId, closePopover}) {
 
   const handleLinkPicture = () => {
     setError('');
-  
+
     if (!picture) {
       setError('Picture is required.');
       return;
     }
-  
+
     const reader = new FileReader();
     try {
       reader.onloadend = () => {
@@ -29,15 +30,16 @@ export function MyCardPic({ userId, closePopover}) {
       };
       reader.readAsDataURL(picture);
 
-      // Toast
-      closePopover();
-    
-    } catch (err) {
-      console.log(err);
-      setError('Failed to set face recognition')
-    }  
+      //TODO VIEW PICTURE
+
+    } catch (error) {
+      // errorToast("Something went Wrong")
+      errorToast(error.message);
+    } finally {
+      closePopover()
+    }
   };
-  
+
 
   return (
     <Card className="w-full max-w-md mx-auto mt-10 shadow-lg border border-gray-200">
@@ -51,7 +53,7 @@ export function MyCardPic({ userId, closePopover}) {
         <p className="text-gray-600">
           Upload a picture for a user to have facial recognition
         </p>
-        
+
         {/* File Input for Picture */}
         <div className="flex flex-col gap-1">
           <label htmlFor="picture" className="text-sm font-medium text-gray-700">
@@ -68,7 +70,7 @@ export function MyCardPic({ userId, closePopover}) {
             <p className="text-xs text-gray-500">Selected: {picture.name}</p>
           )}
         </div>
-        
+
         {error && (
           <p className="text-sm text-red-600 font-medium text-center">{error}</p>
         )}

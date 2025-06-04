@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import TextInputBox from '../ui/TextInputBox';
 import { changeDoorPasscode } from '@/services/DoorService';
+import { successToast, errorToast } from '../ui/customToasts';
 
 export function MyCardDoorPasscode({ doorId, closePopover }) {
   const [passcode, setPasscode] = useState('');
   const [passcodeRep, setPasscodeRep] = useState('');
   const [error, setError] = useState('');
 
-  const handleChangePasscode = () => {
+  const handleChangePasscode = async () => {
     setError('');
 
     if (!passcode || !passcodeRep) {
@@ -16,18 +17,19 @@ export function MyCardDoorPasscode({ doorId, closePopover }) {
       return;
     }
 
-    if(passcode !== passcodeRep) {
-        setError('Passcodes do not match');
-        return;
+    if (passcode !== passcodeRep) {
+      setError('Passcodes do not match');
+      return;
     }
 
     try {
-        changeDoorPasscode(doorId, passcode);
-        // Toast
-        closePopover();
-    } catch (err) {
-      console.error(err);
-      setError('Failed Creating Door.');
+      await changeDoorPasscode(doorId, passcode);
+      successToast("Door Passcode changed Successfully!")
+    } catch (error) {
+      // errorToast("Something went Wrong")
+      errorToast(error.message);
+    } finally {
+      closePopover()
     }
   };
 

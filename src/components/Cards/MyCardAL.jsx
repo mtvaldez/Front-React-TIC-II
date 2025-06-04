@@ -1,13 +1,8 @@
 import { useState } from 'react';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import TextInputBox from '../ui/TextInputBox';
 import { changeUserAccessLevel } from '../../services/UserService';
+import { errorToast, successToast } from '../ui/customToasts';
 
 export function MyCardAL({ userId, closePopover }) {
   const [level, setLevel] = useState('');
@@ -27,12 +22,13 @@ export function MyCardAL({ userId, closePopover }) {
     }
 
     try {
-      changeUserAccessLevel(userId, level); // Make sure this returns a Promise
-      // Toast
+      await changeUserAccessLevel(userId, level);
+      successToast("User Access Level changed Successfully!")
+    } catch (error) {
+      // errorToast("Something went Wrong")
+      errorToast(error.message);
+    } finally {
       closePopover()
-    } catch (err) {
-      console.error(err);
-      setError('Failed to change access level.');
     }
   };
 

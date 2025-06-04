@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import TextInputBox from '../ui/TextInputBox';
 import { changeDoorAccessLevel } from '@/services/DoorService';
+import { successToast, errorToast } from '../ui/customToasts';
 
 export function MyCardDoorAL({ doorId, closePopover }) {
   const [level, setLevel] = useState('');
@@ -21,12 +22,13 @@ export function MyCardDoorAL({ doorId, closePopover }) {
     }
 
     try {
-      await changeDoorAccessLevel(doorId, level); 
-      // Toast
+      await changeDoorAccessLevel(doorId, level);
+      successToast("Door Access Level changed Successfully!")
+    } catch (error) {
+      // errorToast("Something went Wrong")
+      errorToast(error.message);
+    } finally {
       closePopover()
-    } catch (err) {
-      console.error(err);
-      setError('Failed to change access level.');
     }
   };
 

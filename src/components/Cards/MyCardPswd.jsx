@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import TextInputBox from '../ui/TextInputBox'; 
+import TextInputBox from '../ui/TextInputBox';
 import { changePassword } from '@/services/AdminService';
+import { successToast, errorToast } from '../ui/customToasts';
 
-export function MyCardPswd({closePopover}) {
+export function MyCardPswd({ closePopover }) {
   const [oldPswd, setOldPswd] = useState('');
   const [newPswd, setNewPswd] = useState('');
   const [newPswdR, setNewPswdR] = useState('');
   const [error, setError] = useState('');
 
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     setError('');
 
     if (newPswd !== newPswdR) {
@@ -18,18 +19,19 @@ export function MyCardPswd({closePopover}) {
       return;
     }
 
-    if(!newPswd || !newPswdR || !oldPswd) {
+    if (!newPswd || !newPswdR || !oldPswd) {
       setError('All fields must be filled.');
-      return;  
+      return;
     }
 
     try {
-      changePassword(oldPswd, newPswd);
-      // Toast
-      closePopover();
-    } catch (err) {
-      console.error(err);
-      setError('Could not change Password.');
+      await changePassword(oldPswd, newPswd);
+      successToast("Password changed Successfully!")
+    } catch (error) {
+      // errorToast("Something went wrong")
+      errorToast(error.message)
+    } finally {
+      closePopover()
     }
   };
 
@@ -63,7 +65,7 @@ export function MyCardPswd({closePopover}) {
           value={newPswdR}
           onChange={(e) => setNewPswdR(e.target.value)}
         />
-        
+
         {error && (
           <p className="text-sm text-red-600 font-medium">{error}</p>
         )}

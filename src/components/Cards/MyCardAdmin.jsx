@@ -1,35 +1,31 @@
 import { useState } from 'react';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import TextInputBox from '../ui/TextInputBox'; 
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import TextInputBox from '../ui/TextInputBox';
 import { createAdmin } from '@/services/AdminService';
+import { errorToast, successToast } from '../ui/customToasts';
 
 export function MyCardAdmin({ closePopover }) {
-  
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  
-  const handleAddAdmin = () => {
+
+  const handleAddAdmin = async () => {
     setError('');
 
     if (!email || !password) {
       setError('All fields are required.');
       return;
     }
-    
+
     try {
-      createAdmin(email, password)
-      // Toast
+      await createAdmin(email, password)
+      successToast("Admin created Successfully!")
+    } catch (error) {
+      // errorToast("Something went Wrong")
+      errorToast(error.message);
+    } finally {
       closePopover();
-    }catch (err) {
-      console.error(err);
-      setError('Failed to change access level.');
     }
   };
 
@@ -59,7 +55,7 @@ export function MyCardAdmin({ closePopover }) {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        
+
         {error && (
           <p className="text-sm text-red-600 font-medium">{error}</p>
         )}

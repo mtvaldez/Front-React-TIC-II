@@ -8,22 +8,28 @@ import HistoricData from './pages/HistoricData'
 import UsersList from './pages/UsersList'
 import Doors from './pages/Doors'
 import Layout from './components/Layout'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
-  return (<BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Login />} />
+  return (
+    <div>
+      <Toaster/>
       
-      <Route element={<Layout />}>
-        <Route path="/menu"     element={ <Menu />} />
-        <Route path="/historic" element={ <HistoricData />} />
-        <Route path="/stats"    element={ <Stats />} />
-        <Route path="/settings" element={ <Settings />} />
-        <Route path="/users"    element={ <UsersList />} />
-        <Route path="/doors"    element={ <Doors />} />
-      </Route>
-    </Routes>
-  </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+
+          <Route element={<Layout />}>
+            <Route path="/menu" element={<Menu />} />
+            <Route path="/historic" element={<HistoricData />} />
+            <Route path="/stats" element={<Stats />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/users" element={<UsersList />} />
+            <Route path="/doors" element={<Doors />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </div>
   )
 }
 

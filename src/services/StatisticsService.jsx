@@ -16,7 +16,9 @@ export async function getSuccessfulAccessData(startDate, endDate) {
             doorName: entry.doorName
         }));
     } catch (error) {
-        throw new Error("Failed to fetch Successful Access Data")
+        // throw new Error("Failed to fetch Successful Access Data")
+        const message = error.response?.data?.message || "Failed to fetch Successful Access Data";
+        throw new Error(message);
     }
 }
 
@@ -36,6 +38,8 @@ export async function getFailedAccessData(startDate, endDate) {
             doorName: entry.doorName
         }));
     } catch (error) {
-        throw new Error("Failed to fetch Successful Access Data")
+        // throw new Error("Failed to fetch Successful Access Data")
+        const message = error.response?.data?.message || "Failed to fetch Successful Access Data";
+        throw new Error(message);
     }
 }
