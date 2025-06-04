@@ -1,4 +1,4 @@
-import { SettingsLinkAL, SettingsLinkRFID, SettingsLinkPic, SettingsDeleteUser } from "../SettingsLink";
+import { SetAccessLevelPopover, LinkRFIDPopover, AssignFacePopover, DeleteUserPopover } from "../popovers/userPopovers";
 
 export function TableDisp({users}) {
   return (
@@ -25,10 +25,10 @@ export function TableDisp({users}) {
               <td className="px-4 py-2 border text-center align-middle">{user.accessLevel}</td>
               <td className="px-4 py-2 border text-center align-middle">{user.hasRfid ? 'Yes' : 'No'}</td>
               <td className="px-4 py-2 border text-center align-middle">{user.hasFace ? 'Yes' : 'No'}</td>
-              <td className="px-4 py-2 border text-center align-middle"> <SettingsLinkAL text="Change" id={user.id}/> </td>
-              <td className="px-4 py-2 border text-center align-middle"> <SettingsLinkRFID text="Set" id={user.id}/> </td>
-              <td className="px-4 py-2 border text-center align-middle"> <SettingsLinkPic text="Set" id={user.id}/> </td>
-              <td className="px-4 py-2 border text-center align-middle"> <SettingsDeleteUser text="DELETE" id={user.id}/> </td>
+              <td className="px-4 py-2 border text-center align-middle"> <SetAccessLevelPopover text="Change" id={user.id}/> </td>
+              <td className="px-4 py-2 border text-center align-middle"> <LinkRFIDPopover text="Set" id={user.id}/> </td>
+              <td className="px-4 py-2 border text-center align-middle"> <AssignFacePopover text="Set" id={user.id}/> </td>
+              <td className="px-4 py-2 border text-center align-middle"> <DeleteUserPopover text="DELETE" id={user.id}/> </td>
             </tr>
           ))}
         </tbody>

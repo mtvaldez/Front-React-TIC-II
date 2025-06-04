@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { DoorTable } from "@/components/tables/DoorTable";
 import { getDoors } from "@/services/DoorService";
-import { SettingsLinkDoor } from "@/components/SettingsLink";
+import { CreateDoorPopover } from "@/components/popovers/doorPopovers";
 
 function Doors() {
     const [value, setValue] = useState([]);
@@ -39,7 +39,7 @@ function Doors() {
 
             {/* Add User Button */}
             <div className="flex justify-end mb-4">
-                <SettingsLinkDoor />
+                <CreateDoorPopover />
             </div>
 
             {/* Table Section */}

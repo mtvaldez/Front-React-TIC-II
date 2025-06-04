@@ -1,4 +1,4 @@
-import { SettingsChangeDoorAL, SettingsLinkDoorPasscode, SettingsDeleteDoor } from "../SettingsLink";
+import { ChangeDoorALPopover, ChangeDoorPasscodePopover, DeleteDoorPopover } from "../popovers/doorPopovers";
 
 export function DoorTable({doors}) {
   return (
@@ -18,9 +18,9 @@ export function DoorTable({doors}) {
             <tr key={door.id} data-door-id={door.id} className="hover:bg-gray-50">
               <td className="px-4 py-2 border text-center align-middle">{door.name}</td>
               <td className="px-4 py-2 border text-center align-middle">{door.accessLevel}</td>
-              <td className="px-4 py-2 border text-center align-middle"> <SettingsChangeDoorAL text="Set" id={door.id}/> </td>
-              <td className="px-4 py-2 border text-center align-middle"> <SettingsLinkDoorPasscode text="Set" id={door.id}/> </td>
-              <td className="px-4 py-2 border text-center align-middle"> <SettingsDeleteDoor text="DELETE" id={door.id}/> </td>
+              <td className="px-4 py-2 border text-center align-middle"> <ChangeDoorALPopover text="Set" id={door.id}/> </td>
+              <td className="px-4 py-2 border text-center align-middle"> <ChangeDoorPasscodePopover text="Set" id={door.id}/> </td>
+              <td className="px-4 py-2 border text-center align-middle"> <DeleteDoorPopover text="DELETE" id={door.id}/> </td>
             </tr>
           ))}
         </tbody>

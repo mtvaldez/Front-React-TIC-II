@@ -1,4 +1,4 @@
-import { SettingsLinkAdmin, SettingsLinkPswd } from "../components/SettingsLink";
+import { CreateAdminPopover, ChangeAdminPasswordPopover } from "@/components/popovers/adminPopovers";
 
 function Settings() {
   return (
@@ -8,8 +8,8 @@ function Settings() {
         <hr className="border-gray-300 mb-4" />
 
         <ul className="space-y-4 text-lg text-gray-700 text-left">
-          <SettingsLinkAdmin text="➤ Add Admin"/>
-          <SettingsLinkPswd text="➤ Change My Password"/>
+          <CreateAdminPopover text="➤ Add Admin"/>
+          <ChangeAdminPasswordPopover text="➤ Change My Password"/>
         </ul>
       
       </div>

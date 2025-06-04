@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { TableDisp } from "../components/tables/UserTable";
 import { getUsers } from "../services/UserService";
-import { SettingsLinkUser } from "@/components/SettingsLink";
+import { CreateUserPopover } from "@/components/popovers/userPopovers";
 
 function UsersList() {
   const [value, setValue] = useState([]);
@@ -38,7 +38,7 @@ function UsersList() {
 
         {/* Add User Button */}
         <div className="flex justify-end mb-4">
-          <SettingsLinkUser text="➤ Register New User"/>
+          <CreateUserPopover text="➤ Register New User"/>
         </div>
 
         {/* Table Section */}
