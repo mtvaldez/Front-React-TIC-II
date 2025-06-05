@@ -1,7 +1,7 @@
 import { Card, CardFooter, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { deleteUser } from "@/services/UserService";
 import { successToast, errorToast } from '../ui/customToasts';
-import { refetchUsers } from '@/utils/queryHelpers';
+import { refetchUsers } from '@/query/queryHelpers';
 
 export function MyCardDeleteUser({ userId, closePopover }) {
 

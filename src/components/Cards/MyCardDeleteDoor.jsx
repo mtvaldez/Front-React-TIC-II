@@ -1,7 +1,7 @@
 import { Card, CardFooter, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { deleteDoor } from "@/services/DoorService";
 import { successToast, errorToast } from '../ui/customToasts';
-import { refetchDoors } from "@/utils/queryHelpers";
+import { refetchDoors } from "@/query/queryHelpers";
 
 export function MyCardDeleteDoor({ doorId, closePopover }) {
 

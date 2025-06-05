@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { setUserFace } from '@/services/UserService';
 import { successToast, errorToast } from '../ui/customToasts';
-import { refetchUsers } from '@/utils/queryHelpers';
+import { refetchUsers } from '@/query/queryHelpers';
 
 export function MyCardPic({ userId, closePopover }) {
   const [picture, setPicture] = useState(null);

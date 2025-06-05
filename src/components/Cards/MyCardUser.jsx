@@ -3,7 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import TextInputBox from '../ui/TextInputBox';
 import { createUser } from '@/services/UserService';
 import { successToast, errorToast } from '../ui/customToasts';
-import { refetchUsers } from '@/utils/queryHelpers';
+import { refetchUsers } from '@/query/queryHelpers';
 
 export function MyCardUser({ closePopover }) {
   const [name, setName] = useState('');

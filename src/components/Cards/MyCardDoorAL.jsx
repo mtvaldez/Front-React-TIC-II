@@ -3,7 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import TextInputBox from '../ui/TextInputBox';
 import { changeDoorAccessLevel } from '@/services/DoorService';
 import { successToast, errorToast } from '../ui/customToasts';
-import { refetchDoors } from '@/utils/queryHelpers';
+import { refetchDoors } from '@/query/queryHelpers';
 
 export function MyCardDoorAL({ doorId, closePopover }) {
   const [level, setLevel] = useState('');
