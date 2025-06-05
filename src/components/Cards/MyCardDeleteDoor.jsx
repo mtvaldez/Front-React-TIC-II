@@ -1,6 +1,7 @@
 import { Card, CardFooter, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { deleteDoor } from "@/services/DoorService";
 import { successToast, errorToast } from '../ui/customToasts';
+import { refetchDoors } from "@/utils/queryHelpers";
 
 export function MyCardDeleteDoor({ doorId, closePopover }) {
 
@@ -8,6 +9,7 @@ export function MyCardDeleteDoor({ doorId, closePopover }) {
     try {
       await deleteDoor(doorId);
       successToast("Door deleted Successfully!")
+      refetchDoors();
     } catch (error) {
       // errorToast("Something went Wrong")
       errorToast(error.message);

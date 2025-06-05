@@ -2,24 +2,29 @@ import { useEffect, useState } from "react";
 import { DoorTable } from "@/components/tables/DoorTable";
 import { getDoors } from "@/services/DoorService";
 import { CreateDoorPopover } from "@/components/popovers/doorPopovers";
+import { useQueryDoor } from "@/hooks/doorHook";
 
 function Doors() {
-    const [value, setValue] = useState([]);
-    const [loading, setLoading] = useState(true);
+    
+    // const [value, setValue] = useState([]);
+    
+    // const [loading, setLoading] = useState(true);
 
-    async function getData() {
-        const doors = await getDoors();
-        if (doors) {
-            setValue(doors);
-            setLoading(false)
-        }
-    }
-
-    useEffect(() => {
-        getData();
-    }, []);
-
-    if (loading) {
+    // async function getData() {
+    //     const doors = await getDoors();
+    //     if (doors) {
+    //         setValue(doors);
+    //         // setLoading(false)
+    //     }
+    // }
+    
+    // useEffect(() => {
+        //     getData();
+        // }, []);
+    
+    const {data: doors, isLoading} = useQueryDoor();
+        
+    if (isLoading) {
         return (
             <div className="flex items-center justify-center min-h-screen">
                 <div className="flex items-center">
@@ -44,7 +49,7 @@ function Doors() {
 
             {/* Table Section */}
             <div className="bg-white shadow-md rounded-lg p-4">
-                <DoorTable doors={value} />
+                <DoorTable doors={doors} />
             </div>
         </div>
     );

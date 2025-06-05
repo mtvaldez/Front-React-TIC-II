@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import TextInputBox from '../ui/TextInputBox';
 import { changeUserAccessLevel } from '../../services/UserService';
 import { errorToast, successToast } from '../ui/customToasts';
+import { refetchUsers } from '@/utils/queryHelpers';
 
 export function MyCardAL({ userId, closePopover }) {
   const [level, setLevel] = useState('');
@@ -24,6 +25,7 @@ export function MyCardAL({ userId, closePopover }) {
     try {
       await changeUserAccessLevel(userId, level);
       successToast("User Access Level changed Successfully!")
+      refetchUsers();
     } catch (error) {
       // errorToast("Something went Wrong")
       errorToast(error.message);

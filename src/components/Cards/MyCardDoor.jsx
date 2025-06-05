@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import TextInputBox from '../ui/TextInputBox';
 import { createDoor } from '@/services/DoorService';
 import { successToast, errorToast } from '../ui/customToasts';
+import { refetchDoors } from '@/utils/queryHelpers';
 
 export function MyCardDoor({ closePopover }) {
   const [name, setName] = useState('');
@@ -32,6 +33,7 @@ export function MyCardDoor({ closePopover }) {
     try {
       await createDoor(name, passcode, level);
       successToast("Door created Successfully!")
+      refetchDoors();
     } catch (error) {
       // errorToast("Something went Wrong")
       errorToast(error.message);

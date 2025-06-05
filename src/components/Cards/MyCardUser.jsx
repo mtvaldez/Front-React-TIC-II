@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import TextInputBox from '../ui/TextInputBox';
 import { createUser } from '@/services/UserService';
 import { successToast, errorToast } from '../ui/customToasts';
+import { refetchUsers } from '@/utils/queryHelpers';
 
 export function MyCardUser({ closePopover }) {
   const [name, setName] = useState('');
@@ -26,6 +27,7 @@ export function MyCardUser({ closePopover }) {
     try {
       await createUser(name, cid, level);
       successToast("User created Successfully!")
+      refetchUsers();
     } catch (error) {
       // errorToast("Something went Wrong")
       errorToast(error.message);

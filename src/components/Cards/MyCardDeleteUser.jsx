@@ -1,6 +1,7 @@
 import { Card, CardFooter, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { deleteUser } from "@/services/UserService";
 import { successToast, errorToast } from '../ui/customToasts';
+import { refetchUsers } from '@/utils/queryHelpers';
 
 export function MyCardDeleteUser({ userId, closePopover }) {
 
@@ -8,6 +9,7 @@ export function MyCardDeleteUser({ userId, closePopover }) {
     try {
       await deleteUser(userId);
       successToast("Used deleted Successfully!")
+      refetchUsers();
     } catch (error) {
       // errorToast("Something went Wrong")
       errorToast(error.message);

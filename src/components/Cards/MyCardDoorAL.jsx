@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import TextInputBox from '../ui/TextInputBox';
 import { changeDoorAccessLevel } from '@/services/DoorService';
 import { successToast, errorToast } from '../ui/customToasts';
+import { refetchDoors } from '@/utils/queryHelpers';
 
 export function MyCardDoorAL({ doorId, closePopover }) {
   const [level, setLevel] = useState('');
@@ -24,6 +25,7 @@ export function MyCardDoorAL({ doorId, closePopover }) {
     try {
       await changeDoorAccessLevel(doorId, level);
       successToast("Door Access Level changed Successfully!")
+      refetchDoors();
     } catch (error) {
       // errorToast("Something went Wrong")
       errorToast(error.message);

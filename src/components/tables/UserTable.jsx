@@ -1,6 +1,6 @@
 import { SetAccessLevelPopover, LinkRFIDPopover, AssignFacePopover, DeleteUserPopover } from "../popovers/userPopovers";
 
-export function TableDisp({users}) {
+export function UserTable({users}) {
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full text-left border border-gray-300">

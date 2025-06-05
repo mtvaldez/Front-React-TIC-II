@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import TextInputBox from '../ui/TextInputBox';
 import { setUserRFID } from '../../services/UserService';
 import { successToast, errorToast } from '../ui/customToasts';
+import { refetchUsers } from '@/utils/queryHelpers';
 
 export function MyCardRFID({ userId, closePopover }) {
   const [rfid, setRfid] = useState('');
@@ -19,6 +20,7 @@ export function MyCardRFID({ userId, closePopover }) {
     try {
       await setUserRFID(userId, rfid); // Make sure this returns a Promise
       successToast("User RFID set Successfully!")
+      refetchUsers();
     } catch (error) {
       // errorToast("Something went Wrong")
       errorToast(error.message)
