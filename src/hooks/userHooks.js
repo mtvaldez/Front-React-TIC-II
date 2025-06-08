@@ -1,10 +1,10 @@
-import { getUsers } from "@/services/UserService"
+import { getUsers, getUsersPaginated } from "@/services/UserService"
 import { useQuery } from "react-query"
 
-export const useQueryUser = () => {
+export const useQueryUser = (pNum, pSize, name) => {
     return useQuery( {
-        queryKey: ['users'],
-        queryFn: getUsers,
+        queryKey: ['users', pNum, name],
+        queryFn: () => getUsersPaginated(pNum, pSize, name),
         refetchOnWindowFocus: false
     })
 }

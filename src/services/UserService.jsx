@@ -2,7 +2,7 @@ import axiosInstance from "@/api/axios";
 
 export async function getUsers() {
   try {
-    const response = await axiosInstance.get("/users")
+    const response = await axiosInstance.get("/users/all")
     const data = response.data
     return data.map(({ uuid: id, ...rest }) => ({ id, ...rest })); // Change uuid -> id in the array
   } catch (err) {
@@ -11,6 +11,22 @@ export async function getUsers() {
     throw new Error(message);
   }
 }
+
+export async function getUsersPaginated(pNum, pSize, name) {
+  try {
+    const reqParams = {page: pNum, pageSize: pSize, nameLookUp: name}
+    const response = await axiosInstance.get("/users", {params: reqParams})
+    const data = response.data
+    // return data.map(({ uuid: id, ...rest }) => ({ id, ...rest })); // Change uuid -> id in the array
+    return data;
+  } catch (err) {
+    // throw new Error("Failed fetching users")
+    const message = error.response?.data?.message || "Failed fetching users";
+    throw new Error(message);
+  }
+}
+
+
 
 export async function createUser(fullName, cid, accessLevel) {
   const user = { fullName: fullName, cid: cid, accessLevel: accessLevel };

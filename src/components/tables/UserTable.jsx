@@ -3,8 +3,8 @@ import { SetAccessLevelPopover, LinkRFIDPopover, AssignFacePopover, DeleteUserPo
 export function UserTable({ users }) {
   return (
   <table className="min-w-full text-left border border-gray-300">
-    <thead className="sticky top-0 bg-gray-100 z-20 shadow border-b">
-    {/* <thead className="bg-gray-100 sticky top-0"> */}
+    {/* <thead className="sticky top-0 bg-gray-100 z-20 shadow border-b"> */}
+    <thead className="bg-gray-100 sticky top-0">
       <tr>
         <th className="px-4 py-2 border text-center">Full Name</th>
         <th className="px-4 py-2 border text-center">CID</th>
@@ -19,16 +19,16 @@ export function UserTable({ users }) {
     </thead>
     <tbody>
       {users.map((user) => (
-        <tr key={user.id} className="hover:bg-gray-50">
+        <tr key={user.uuid} className="hover:bg-gray-50">
           <td className="px-4 py-2 border text-center">{user.fullName}</td>
           <td className="px-4 py-2 border text-center">{user.cid}</td>
           <td className="px-4 py-2 border text-center">{user.accessLevel}</td>
           <td className="px-4 py-2 border text-center">{user.hasRfid ? 'Yes' : 'No'}</td>
           <td className="px-4 py-2 border text-center">{user.hasFace ? 'Yes' : 'No'}</td>
-          <td className="px-4 py-2 border text-center"><SetAccessLevelPopover id={user.id} /></td>
-          <td className="px-4 py-2 border text-center"><LinkRFIDPopover id={user.id} /></td>
-          <td className="px-4 py-2 border text-center"><AssignFacePopover id={user.id} /></td>
-          <td className="px-4 py-2 border text-center"><DeleteUserPopover id={user.id} /></td>
+          <td className="px-4 py-2 border text-center"><SetAccessLevelPopover id={user.uuid} /></td>
+          <td className="px-4 py-2 border text-center"><LinkRFIDPopover id={user.uuid} /></td>
+          <td className="px-4 py-2 border text-center"><AssignFacePopover id={user.uuid} /></td>
+          <td className="px-4 py-2 border text-center"><DeleteUserPopover id={user.uuid} /></td>
         </tr>
       ))}
     </tbody>
