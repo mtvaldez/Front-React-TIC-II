@@ -2,7 +2,7 @@ import axiosInstance from "@/api/axios";
 
 export async function getDoors() {
     try {
-        const response = await axiosInstance.get("/doors");
+        const response = await axiosInstance.get("/doors/all");
         return response.data;
     } catch (error) {
         // throw new Error("Failed to fetch doors")
