@@ -1,4 +1,4 @@
-import { getUsers, getUsersPaginated } from "@/services/UserService"
+import { getUsersPaginated } from "@/services/UserService"
 import { useQuery } from "react-query"
 
 export const useQueryUser = (pNum, pSize, name) => {

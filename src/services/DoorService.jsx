@@ -11,6 +11,18 @@ export async function getDoors() {
     }
 }
 
+export async function getDoorsPaginated(pNum, pSize, name) {
+    try {
+        const reqParams = { page: pNum, pageSize: pSize, doorNameLookUp: name }
+        const response = await axiosInstance.get("/doors", {params: reqParams});
+        return response.data;
+    } catch (error) {
+        // throw new Error("Failed to fetch doors")
+        const message = error.response?.data?.message || "Failed to fetch doors";
+        throw new Error(message);
+    }
+}
+
 export async function createDoor(name, passcode, accessLevel) {
     const door = { doorName: name, passcode: passcode, accessLevel: accessLevel }
     try {

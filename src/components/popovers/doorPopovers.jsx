@@ -10,7 +10,7 @@ export function CreateDoorPopover() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div>
+    <div className="z-20">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <button className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded shadow transition"
@@ -31,7 +31,7 @@ export function DeleteDoorPopover({ id }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div>
+    <div className="z-20">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <button className="bg-red-700 hover:bg-red-800 text-white font-medium px-4 py-2 rounded shadow transition" onClick={() => setOpen(true)}>
@@ -51,7 +51,7 @@ export function ChangeDoorPasscodePopover({ id }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div>
+    <div className="z-20">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <button className="bg-blue-400 hover:bg-blue-500 text-white font-medium px-4 py-2 rounded transition shadow" onClick={() => setOpen(true)}>
@@ -71,7 +71,7 @@ export function ChangeDoorALPopover({ id }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div>
+    <div className="z-20">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <button className="bg-amber-400 hover:bg-amber-500 text-white font-medium px-4 py-2 rounded shadow transition" onClick={() => setOpen(true)}>

@@ -16,9 +16,7 @@ export async function getUsersPaginated(pNum, pSize, name) {
   try {
     const reqParams = {page: pNum, pageSize: pSize, nameLookUp: name}
     const response = await axiosInstance.get("/users", {params: reqParams})
-    const data = response.data
-    // return data.map(({ uuid: id, ...rest }) => ({ id, ...rest })); // Change uuid -> id in the array
-    return data;
+    return response.data
   } catch (err) {
     // throw new Error("Failed fetching users")
     const message = error.response?.data?.message || "Failed fetching users";
