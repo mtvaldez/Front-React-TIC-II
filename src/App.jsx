@@ -12,7 +12,7 @@ import { Toaster } from 'react-hot-toast'
 
 function App() {
   return (
-    <div>
+    <div className="h-screen flex flex-col">
       <Toaster/>
       
       <BrowserRouter>
