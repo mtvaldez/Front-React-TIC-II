@@ -33,7 +33,7 @@ export function MyCardAdmin({ closePopover }) {
     <Card className="w-full max-w-md mx-auto mt-10 shadow-lg border border-gray-200">
       <CardHeader>
         <CardTitle className="text-center text-2xl font-bold text-gray-800">
-          Add Admin
+          Add New Admin
         </CardTitle>
       </CardHeader>
 

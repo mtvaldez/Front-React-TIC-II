@@ -2,7 +2,7 @@ import { SetAccessLevelPopover, LinkRFIDPopover, AssignFacePopover, DeleteUserPo
 
 export function UserTable({users}) {
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto max-h-80">
       <table className="min-w-full text-left border border-gray-300">
         <thead className="bg-gray-100">
           <tr>
@@ -25,10 +25,10 @@ export function UserTable({users}) {
               <td className="px-4 py-2 border text-center align-middle">{user.accessLevel}</td>
               <td className="px-4 py-2 border text-center align-middle">{user.hasRfid ? 'Yes' : 'No'}</td>
               <td className="px-4 py-2 border text-center align-middle">{user.hasFace ? 'Yes' : 'No'}</td>
-              <td className="px-4 py-2 border text-center align-middle"> <SetAccessLevelPopover text="Change" id={user.id}/> </td>
-              <td className="px-4 py-2 border text-center align-middle"> <LinkRFIDPopover text="Set" id={user.id}/> </td>
-              <td className="px-4 py-2 border text-center align-middle"> <AssignFacePopover text="Set" id={user.id}/> </td>
-              <td className="px-4 py-2 border text-center align-middle"> <DeleteUserPopover text="DELETE" id={user.id}/> </td>
+              <td className="px-4 py-2 border text-center align-middle"> <SetAccessLevelPopover id={user.id}/> </td>
+              <td className="px-4 py-2 border text-center align-middle"> <LinkRFIDPopover id={user.id}/> </td>
+              <td className="px-4 py-2 border text-center align-middle"> <AssignFacePopover id={user.id}/> </td>
+              <td className="px-4 py-2 border text-center align-middle"> <DeleteUserPopover id={user.id}/> </td>
             </tr>
           ))}
         </tbody>

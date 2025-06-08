@@ -3,6 +3,7 @@ import { UserTable } from "../components/tables/UserTable";
 import { getUsers } from "../services/UserService";
 import { CreateUserPopover } from "@/components/popovers/userPopovers";
 import { useQueryUser } from "@/hooks/userHooks";
+import TextInputBox from "@/components/ui/TextInputBox";
 
 function UsersList() {
   // const [value, setValue] = useState([]);
@@ -20,7 +21,7 @@ function UsersList() {
   //   getData();
   // }, []);
 
-  const {data: users, isLoading} = useQueryUser();
+  const { data: users, isLoading } = useQueryUser();
 
   if (isLoading) {
     return (
@@ -34,21 +35,30 @@ function UsersList() {
   }
 
   return (
-      <div className="flex-grow px-8 py-6">
-        {/* Header Section */}
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">User Management</h1>
-        <hr className="border-gray-300 mb-4" />
+    <div className="flex-grow px-8 py-6">
+      {/* Header Section */}
+      <h1 className="text-3xl font-bold text-gray-800 mb-2">User Management</h1>
+      <hr className="border-gray-300 mb-4" />
 
-        {/* Add User Button */}
-        <div className="flex justify-end mb-4">
-          <CreateUserPopover text="➤ Register New User"/>
+      <div className="flex justify-between items-center mb-4">
+        <div className="flex items-center space-x-2">
+          <TextInputBox
+            inputType="text"
+            myPlaceholder="Search Full Name"
+            className="px-3 py-2 rounded-md bg-white text-gray-900 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <button className="py-2 px-4 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition">
+            Search
+          </button>
         </div>
 
-        {/* Table Section */}
-        <div className="bg-white shadow-md rounded-lg p-4">
-          <UserTable users={users} />
-        </div>
+        <CreateUserPopover />
       </div>
+
+      {/* Table Section */}
+      <div className="bg-white shadow-md rounded-lg p-4">
+        <UserTable users={users} />
+      </div>
+    </div>
   );
 }
 

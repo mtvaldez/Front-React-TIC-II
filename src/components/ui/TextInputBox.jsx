@@ -12,7 +12,7 @@ function TextInputBox (props) {
                 value={props.myValue}
                 onChange={props.onChange}
                 placeholder={props.myPlaceholder}
-                 className="px-3 py-2 rounded-md bg-gray-100 text-gray-800 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                 className= {props.className ? props.className : "px-3 py-2 rounded-md bg-gray-100 text-gray-800 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"}
                 />
         </div>
     );
