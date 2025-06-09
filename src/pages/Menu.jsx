@@ -1,119 +1,80 @@
-import SideBar from "../components/SideBar";
-import LineGraph from "../components/LineGraph";
+import LineGraph from "../components/ui/LineGraph";
 import { ComboBox } from "../components/ui/ComboBox";
 import { useEffect, useState } from "react";
 import { getDoors } from "@/services/DoorService";
 import { getFailedAccessData, getSuccessfulAccessData } from "@/services/StatisticsService";
+import { getFailedAccessBetween, getSuccessfulAccessBetween } from "@/services/AccessService";
 import { SuccessAccessTable } from "@/components/tables/SuccessAccessTable";
 import { FailAccessTable } from "@/components/tables/FailAccessTable";
-import { getFailedAccessBetween, getSuccessfulAccessBetween } from "@/services/AccessService";
 import { groupAccessDataMap, groupAccessListMap } from "@/utils/groupMapUtils";
+import { errorToast } from "@/components/ui/customToasts";
 
+const ONE_DAY_MILLIS = 86400000;
+const successTitle = "Successful Entries";
+const failTitle = "Failed Entries";
 
-function Menu() {
-  const ONE_DAY_MILLIS = 86400000;
-  const successTitle = "Successful Entries";
-  const failTitle = "Failed Entries";
-  const today = Date.now(); 
+export default function Menu() {
+  const today = Date.now();
   const yesterday = today - ONE_DAY_MILLIS;
 
   const [options, setOptions] = useState([]);
   const [selectedDoor, setSelectedDoor] = useState(null);
-
   const [loading, setLoading] = useState(true);
 
-  const [failedData, setFailedData] = useState(null);
-  const [failedDataMap, setFailedDataMap] = useState(null);
-  const [failedList, setFailedList] = useState(null);
-  const [failedListMap, setFailedListMap] = useState(null);
+  const [data, setData] = useState({
+    failedDataMap: new Map(),
+    successfulDataMap: new Map(),
+    failedListMap: new Map(),
+    sucListMap: new Map(),
+  });
 
-  const [sucData, setSucData] = useState(null);
-  const [successfulDataMap, setSuccessfulDataMap] = useState(null);
-  const [sucList, setSucList] = useState(null);
-  const [sucListMap, setSucListMap] = useState(null);
+  const [display, setDisplay] = useState({
+    failedData: null,
+    sucData: null,
+    failedList: null,
+    sucList: null,
+  });
 
-
-  async function fetchDoors() {
+  const loadData = async () => {
     try {
-      const allDoors = await getDoors();
-      const doors = [ {value:"All" , label:"All"}, ...allDoors.map(door => ({ value: door.name, label: door.name })) ];
-      setOptions(doors);
+      const [allDoors, successfulGraph, failedGraph, successfulList, failedList] = await Promise.all([
+        getDoors(),
+        getSuccessfulAccessData(yesterday, today),
+        getFailedAccessData(yesterday, today),
+        getSuccessfulAccessBetween(yesterday, today),
+        getFailedAccessBetween(yesterday, today),
+      ]);
+
+      setOptions([{ value: "All", label: "All" }, ...allDoors.map(d => ({ value: d.name, label: d.name }))]);
+
+      setData({
+        failedDataMap: groupAccessDataMap(failedGraph),
+        successfulDataMap: groupAccessDataMap(successfulGraph),
+        failedListMap: groupAccessListMap(failedList),
+        sucListMap: groupAccessListMap(successfulList),
+      });
+
     } catch (error) {
-      console.error(error)
+      errorToast('Error fetching some data')
+    } finally {
+      setLoading(false);
     }
-  }
-
-  async function fetchSuccessfulAccessData() {
-    try {
-      const successful = await getSuccessfulAccessData(yesterday, today);
-      const successfulMap = groupAccessDataMap(successful);
-
-      setSuccessfulDataMap(successfulMap);
-    } catch (error) {
-      console.error("Error fetching door data:", error);
-    }
-  }
-
-  async function fetchFailedAccessData() {
-    try {
-      const failed = await getFailedAccessData(yesterday, today)
-      const failedMap = groupAccessDataMap(failed);
-
-      setFailedDataMap(failedMap);
-    } catch (error) {
-      console.error("Error fetching door data:", error);
-    }
-  }
-
-  async function fetchSuccessfulList() {
-    try {
-      const successful = await getSuccessfulAccessBetween(yesterday, today);
-      const successfulMap = groupAccessListMap(successful);
-
-      setSucListMap(successfulMap);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function fetchFailedList() {
-    try {
-      const failed = await getFailedAccessBetween(yesterday, today);
-      const failedMap = groupAccessListMap(failed);
-
-      setFailedListMap(failedMap);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  function loadGraph(selectedDoor) {
-    setFailedData(failedDataMap.get(selectedDoor));
-    setSucData(successfulDataMap.get(selectedDoor));
-  }
-
-  function loadTable(selectedDoor) {
-    setFailedList(failedListMap.get(selectedDoor))
-    setSucList(sucListMap.get(selectedDoor))
-  }
+  };
 
   useEffect(() => {
-    setLoading(true);
-    fetchDoors();
-    fetchSuccessfulAccessData();
-    fetchFailedAccessData();
-    fetchSuccessfulList();
-    fetchFailedList();
-    setLoading(false);
+    loadData();
   }, []);
 
   useEffect(() => {
-    if (selectedDoor) {
-      loadGraph(selectedDoor);
-      loadTable(selectedDoor);
-    }
-  }, [selectedDoor]);
+    if (!selectedDoor) return;
 
+    setDisplay({
+      failedData: data.failedDataMap.get(selectedDoor),
+      sucData: data.successfulDataMap.get(selectedDoor),
+      failedList: data.failedListMap.get(selectedDoor),
+      sucList: data.sucListMap.get(selectedDoor),
+    });
+  }, [selectedDoor, data]);
 
   if (loading) {
     return (
@@ -127,40 +88,46 @@ function Menu() {
   }
 
   return (
-    <div className="w-full px-6">
-      <h1 className="text-3xl font-bold text-gray-800 mb-2">Last 24 hours' Accesses</h1>
-      <hr className="my-4 border-gray-300" />
-      <div className="flex items-center gap-x-4 mb-4 justify-center flex-wrap text-center">
-        <h1 className="font-semibold text-lg">Entry attempts on</h1>
-        <ComboBox options={options} selected={selectedDoor} onChange={setSelectedDoor}
-          text="Select Door"
-        />
-        <h1 className="font-semibold text-lg">door today</h1>
+    <div className="flex flex-col h-screen">
+      {/* Header + Selector */}
+      <div className="shrink-0 px-6">
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">Last 24 hours' Accesses</h1>
+        <hr className="my-4 border-gray-300" />
+        <div className="flex items-center gap-x-4 mb-4 justify-center flex-wrap text-center">
+          <h1 className="font-semibold text-lg">Entry attempts on</h1>
+          <ComboBox
+            options={options}
+            selected={selectedDoor}
+            onChange={setSelectedDoor}
+            text="Select Door"
+          />
+          <h1 className="font-semibold text-lg">door today</h1>
+        </div>
       </div>
 
       {/* Graphs */}
-      <div className="flex flex-wrap md:flex-nowrap w-full gap-4">
-        <div className="flex-1 min-w-0">
-          <LineGraph entryType={successTitle} data={sucData} green={true} />
+      <div className="flex-1 flex flex-col gap-6 min-h-0 px-6 pb-4">
+        <div className="flex-1 flex gap-4 min-h-0">
+          <div className="flex-1 min-w-0 h-full min-h-0">
+            <LineGraph entryType={successTitle + " Graph"} data={display.sucData} green />
+          </div>
+          <div className="hidden md:block w-px bg-gray-300" />
+          <div className="flex-1 min-w-0 h-full min-h-0">
+            <LineGraph entryType={failTitle + " Graph"} data={display.failedData} green={false} />
+          </div>
         </div>
-        <div className="hidden md:block w-px bg-gray-300" />
-        <div className="flex-1 min-w-0">
-          <LineGraph entryType={failTitle} data={failedData} green={false} />
-        </div>
-      </div>
 
-      {/* Tables */}
-      <div className="flex flex-wrap md:flex-nowrap gap-4 mt-6 w-full">
-        <div className="flex-1 min-w-0 bg-white p-4 shadow rounded-md">
-          <SuccessAccessTable entryType={successTitle} data={sucList} />
-        </div>
-        <div className="flex-1 min-w-0 bg-white p-4 shadow rounded-md">
-          <FailAccessTable entryType={failTitle} data={failedList} />
+        {/* Tables */}
+        <div className="flex flex-1 gap-4 min-h-0 overflow-hidden">
+          <div className="flex-1 min-w-0 bg-white p-4 shadow rounded-md overflow-auto">
+            <SuccessAccessTable entryType={successTitle + " List"} data={display.sucList} emptyMsg={"No data available for the selected door"}/>
+          </div>
+          <div className="flex-1 min-w-0 bg-white p-4 shadow rounded-md overflow-auto">
+            <FailAccessTable entryType={failTitle + " List"} data={display.failedList} emptyMsg={"No data available for the selected door"}/>
+          </div>
         </div>
       </div>
     </div>
 
   );
 }
-
-export default Menu;
