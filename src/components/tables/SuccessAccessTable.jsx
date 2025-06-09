@@ -12,7 +12,7 @@ export function SuccessAccessTable({ data, entryType }) {
 
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow overflow-scroll max-h-80">
+    <div className="bg-white p-4 rounded-lg shadow h-full overflow-auto">
       <h3 className="text-lg font-medium mb-3 text-green-600">{entryType + " List"}</h3>
       <table className="w-full text-sm text-left text-gray-700">
         <thead className="border-b text-gray-500">
