@@ -1,7 +1,6 @@
 import { FailAccessTable } from "@/components/tables/FailAccessTable";
 import { SuccessAccessTable } from "@/components/tables/SuccessAccessTable";
 import { getFailedAccessBetween, getSuccessfulAccessBetween } from "@/services/AccessService";
-import { useEffect } from "react";
 import { useState } from "react";
 
 function HistoricData() {

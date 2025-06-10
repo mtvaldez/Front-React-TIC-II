@@ -1,4 +1,4 @@
-import LineGraph from "../components/ui/LineGraph";
+import LineGraph from "../components/graphs/LineGraph";
 import { ComboBox } from "../components/ui/ComboBox";
 import { useEffect, useState } from "react";
 import { getDoors } from "@/services/DoorService";

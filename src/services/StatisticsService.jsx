@@ -43,3 +43,16 @@ export async function getFailedAccessData(startDate, endDate) {
         throw new Error(message);
     }
 }
+
+export async function getStatsByDay(startDate, endDate) {
+    try {
+        const response = await axiosInstance.get("/statistics/daily", {
+            params: { startDate: startDate, endDate: endDate }
+        })
+        return response.data
+
+    } catch (error) {
+        const message = error.response?.data?.message || "Failed to fetch Successful Access Data";
+        throw new Error(message);
+    }
+}
