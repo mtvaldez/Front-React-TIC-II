@@ -1,13 +1,11 @@
 import { FailAccessTable } from "@/components/tables/FailAccessTable";
-import { SuccessAccessTable } from "@/components/tables/SuccessAccessTable";
-import { getFailedAccessBetween, getSuccessfulAccessBetween } from "@/services/AccessService";
 import { useState } from "react";
 import { getStatsByDay } from "@/services/StatisticsService";
-import LineGraph from "@/components/graphs/LineGraph";
 import BarGraph from "@/components/graphs/BarChart";
 
+const ONE_DAY_MILLIS = 86400000;
+
 function Stats() {
-    const ONE_DAY_MILLIS = 86400000;
 
     const now = new Date(new Date()).toISOString();
     const yesterday = new Date(new Date().getTime() - ONE_DAY_MILLIS).toISOString();

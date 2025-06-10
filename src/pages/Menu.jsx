@@ -109,11 +109,11 @@ export default function Menu() {
       <div className="flex-1 flex flex-col gap-6 min-h-0 px-6 pb-4">
         <div className="flex-1 flex gap-4 min-h-0">
           <div className="flex-1 min-w-0 h-full min-h-0">
-            <LineGraph entryType={successTitle + " Graph"} data={display.sucData} green />
+            <LineGraph entryType={successTitle} data={display.sucData} green />
           </div>
           <div className="hidden md:block w-px bg-gray-300" />
           <div className="flex-1 min-w-0 h-full min-h-0">
-            <LineGraph entryType={failTitle + " Graph"} data={display.failedData} green={false} />
+            <LineGraph entryType={failTitle} data={display.failedData} green={false} />
           </div>
         </div>
 

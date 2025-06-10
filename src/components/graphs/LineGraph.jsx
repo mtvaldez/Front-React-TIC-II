@@ -4,7 +4,7 @@ export default function LineGraph({ entryType, data, green }) {
   if (!data || data.length === 0) {
     return (
       <div className="text-center mt-10 text-gray-600">
-        <h2 className="text-lg font-semibold mb-2">{entryType}</h2>
+        <h2 className="text-lg font-semibold mb-2">{entryType + " Graph"}</h2>
         <p>No data available for the selected door.</p>
       </div>
     );
@@ -18,7 +18,7 @@ export default function LineGraph({ entryType, data, green }) {
       {/* Header */}
       <div className="text-center text-gray-600 shrink-0">
         <h3 className={`text-lg font-medium mb-3 ${green ? "text-green-600" : "text-red-600"}`}>
-          {entryType}
+          {entryType + " Graph"}
         </h3>
       </div>
 
