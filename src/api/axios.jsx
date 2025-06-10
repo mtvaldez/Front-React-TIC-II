@@ -23,8 +23,8 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      //TODO mandar al login
+    if (error.response?.status === 500) {
+      window.location.href = "/";
     }
     return Promise.reject(error);
   }

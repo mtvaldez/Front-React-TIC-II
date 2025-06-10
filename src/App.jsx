@@ -9,6 +9,7 @@ import UsersList from './pages/UsersList'
 import Doors from './pages/Doors'
 import Layout from './components/Layout'
 import { Toaster } from 'react-hot-toast'
+import NotFound from './pages/NotFound'
 
 function App() {
   return (
@@ -27,6 +28,9 @@ function App() {
             <Route path="/users" element={<UsersList />} />
             <Route path="/doors" element={<Doors />} />
           </Route>
+
+          <Route path="*" element={<NotFound />} />
+        
         </Routes>
       </BrowserRouter>
     </div>
