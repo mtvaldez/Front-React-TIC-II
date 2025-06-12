@@ -106,27 +106,36 @@ export default function Menu() {
       </div>
 
       {/* Graphs */}
-      <div className="flex-1 flex flex-col gap-6 min-h-0 px-6 pb-4">
-        <div className="flex-1 flex gap-4 min-h-0">
-          <div className="flex-1 min-w-0 h-full min-h-0">
-            <LineGraph entryType={successTitle} data={display.sucData} green />
-          </div>
-          <div className="hidden md:block w-px bg-gray-300" />
-          <div className="flex-1 min-w-0 h-full min-h-0">
-            <LineGraph entryType={failTitle} data={display.failedData} green={false} />
-          </div>
-        </div>
+      
 
-        {/* Tables */}
-        <div className="flex flex-1 gap-4 min-h-0 overflow-hidden">
-          <div className="flex-1 min-w-0 bg-white p-4 shadow rounded-md overflow-auto">
-            <SuccessAccessTable entryType={successTitle + " List"} data={display.sucList} emptyMsg={"No data available for the selected door"}/>
-          </div>
-          <div className="flex-1 min-w-0 bg-white p-4 shadow rounded-md overflow-auto">
-            <FailAccessTable entryType={failTitle + " List"} data={display.failedList} emptyMsg={"No data available for the selected door"}/>
-          </div>
-        </div>
-      </div>
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 min-h-0">
+  <div className="flex-1 min-w-0 h-full min-h-0">
+    <LineGraph entryType={successTitle} data={display.sucData} green />
+  </div>
+  <div className="flex-1 min-w-0 h-full min-h-0">
+    <LineGraph entryType={failTitle} data={display.failedData} green={false} />
+  </div>
+</div>
+
+{/* Tables */}
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 min-h-0 overflow-hidden">
+  <div className="flex-1 min-w-0 bg-white p-4 shadow rounded-md overflow-auto">
+    <SuccessAccessTable
+      entryType={successTitle + " List"}
+      data={display.sucList}
+      emptyMsg={"No data available for the selected door"}
+    />
+  </div>
+  <div className="flex-1 min-w-0 bg-white p-4 shadow rounded-md overflow-auto">
+    <FailAccessTable
+      entryType={failTitle + " List"}
+      data={display.failedList}
+      emptyMsg={"No data available for the selected door"}
+    />
+  </div>
+</div>
+
+
     </div>
 
   );
