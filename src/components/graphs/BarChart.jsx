@@ -34,8 +34,8 @@ const BarGraph = ({ successful = [], failed = [] }) => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="Success" fill="#00ff00" /> {/* green */}
-                    <Bar dataKey="Fail" fill="#ff00ff" /> {/* red */}
+                    <Bar dataKey="Success" fill="#64B93C" /> 
+                    <Bar dataKey="Fail" fill="#EC3F75" /> 
                 </BarChart>
             </ResponsiveContainer>
         </div>

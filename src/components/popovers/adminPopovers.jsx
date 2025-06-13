@@ -27,7 +27,7 @@ export function CreateAdminPopover() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div>
+    <div className="z-20">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <button className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded shadow transition"  onClick={() => setOpen(true)}>
