@@ -52,72 +52,59 @@ function Stats() {
             setStats({ statsGraphData: null, loading: false, error: "Failed to fetch data." });
         }
     };
-    
+
     return (
-        <div className="w-full max-w-4xl mx-auto flex flex-col space-y-6 flex-grow overflow-hidden">
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-md p-6 space-y-6">
-                <h2 className="text-2xl font-bold text-gray-800">Statistics</h2>
+        <div className="w-full h-full flex flex-col overflow-hidden px-8 pt-6">
+            {/* Fixed Header */}
+            <div>
+                <h1 className="text-3xl font-bold text-gray-800">Statistics</h1>
+                <hr className="border-gray-300 mt-2 mb-4 w-full" />
+            </div>
 
-                <div className="flex gap-6">
-                    {["From", "To"].map((label) => {
-                        const lower = label.toLowerCase();
-                        return (
-                            <div key={label} className="flex-1">
-                                <label className="block text-sm font-medium text-gray-700 mb-1">{label}:</label>
-                                <input
-                                    type="date"
-                                    value={range[`${lower}Date`]}
-                                    onChange={handleChange(`${lower}Date`)}
-                                    className="w-full p-2 border border-gray-300 rounded-md"
-                                />
+            <div className="flex-1 overflow-auto pb-6 space-y-6">
+                {/* Form */}
+                <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-md p-6 space-y-6 w-full ">
+                    <h2 className="text-2xl font-bold text-gray-800">Filter by Date</h2>
+
+                    <div className="flex gap-6">
+                        {["From", "To"].map((label) => {
+                            const lower = label.toLowerCase();
+                            return (
+                                <div key={label} className="flex-1">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">{label}:</label>
+                                    <input type="date" value={range[`${lower}Date`]} onChange={handleChange(`${lower}Date`)}
+                                        className="w-full p-2 border border-gray-300 rounded-md" />
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    {stats.error && <div className="text-red-600 text-sm">{stats.error}</div>}
+
+                    <button type="submit" className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition" >
+                        Submit
+                    </button>
+                </form>
+
+                {/* Graph */}
+                <div className="bg-white rounded-xl shadow-md p-4 w-full">
+                    {stats.loading ? (
+                        <div className="flex items-center justify-center h-40">
+                            <div className="flex items-center space-x-4">
+                                <div className="animate-spin rounded-full border-t-4 border-b-4 border-blue-500 h-12 w-12" />
+                                <span className="text-gray-700 font-semibold">Loading...</span>
                             </div>
-                        );
-                    })}
+                        </div>
+                    ) : (
+                        <BarGraph successful={stats.statsGraphData?.successful} failed={stats.statsGraphData?.failed} />
+                    )}
                 </div>
 
-                {stats.error && <div className="text-red-600 text-sm">{stats.error}</div>}
-
-                <button
-                    type="submit"
-                    className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
-                >
-                    Submit
-                </button>
-            </form>
-
-            {/* Scrollable Tables */}
-            <div className="flex-1 flex flex-col md:flex-row gap-6 overflow-hidden">
-                <div className="flex-1 bg-white rounded-xl shadow-md p-4 flex flex-col overflow-hidden">
-                    <div className="flex-1 overflow-auto min-h-0">
-                        {stats.loading ? (
-                            <div className="flex items-center justify-center h-full">
-                                <div className="flex items-center space-x-4">
-                                    <div className="animate-spin rounded-full border-t-4 border-b-4 border-blue-500 h-12 w-12" />
-                                    <span className="text-gray-700 font-semibold">Loading...</span>
-                                </div>
-                            </div>
-                        ) : (
-                            <BarGraph successful={stats.statsGraphData?.successful} failed={stats.statsGraphData?.failed}/>
-                        )}
-                    </div>
+                {/* Table Placeholder */}
+                <div className="bg-white rounded-xl shadow-md p-6 w-full">
+                    <h2 className="text-xl font-semibold text-gray-800 mb-2">Detailed Statistics Table</h2>
+                    <p className="text-gray-500">Table coming soon...</p>
                 </div>
-
-                {/* <div className="flex-1 bg-white rounded-xl shadow-md p-4 flex flex-col overflow-hidden">
-                    <div className="flex-1 overflow-auto min-h-0">
-                        {stats.loading ? (
-                            <div className="flex items-center justify-center h-full">
-                                <div className="flex items-center space-x-4">
-                                    <div className="animate-spin rounded-full border-t-4 border-b-4 border-blue-500 h-12 w-12" />
-                                    <span className="text-gray-700 font-semibold">Loading...</span>
-                                </div>
-                            </div>
-                        ) : (
-                            
-                            <FailAccessTable entryType="Failed Access List" data={null} emptyMsg={"Select a timeframe with data to view"} />
-                        )}
-                    </div>
-                </div> */}
             </div>
         </div>
     );

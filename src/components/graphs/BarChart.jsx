@@ -22,7 +22,12 @@ const BarGraph = ({ successful = [], failed = [] }) => {
     });
 
     if (data.length === 0) {
-        return <div className="text-center text-gray-500 mt-4">No data available</div>;
+        return (
+            <div className="text-center mt-10 text-gray-600">
+                <h2 className="text-lg font-semibold mb-2">Accesses By Day</h2>
+                <p>Select a timeframe to begin.</p>
+            </div>
+        );
     }
 
     return (
@@ -34,8 +39,8 @@ const BarGraph = ({ successful = [], failed = [] }) => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="Success" fill="#64B93C" /> 
-                    <Bar dataKey="Fail" fill="#EC3F75" /> 
+                    <Bar dataKey="Success" fill="#64B93C" />
+                    <Bar dataKey="Fail" fill="#EC3F75" />
                 </BarChart>
             </ResponsiveContainer>
         </div>

@@ -24,6 +24,11 @@ function HistoricData() {
     error: "",
   });
 
+  const [successFilters, setSuccessFilters] = useState({
+  fullName: "",
+  doorName: "",
+});
+
   const handleChange = (field) => (e) => {
     setRange((prev) => ({ ...prev, [field]: e.target.value }));
   };
@@ -61,72 +66,76 @@ function HistoricData() {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto flex flex-col space-y-6 flex-grow overflow-hidden">
-      {/* Form */}
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-md p-6 space-y-6">
-        <h2 className="text-2xl font-bold text-gray-800">History</h2>
+    <div className="w-full h-full flex flex-col overflow-hidden px-8 pt-6">
+      {/* Fixed Header */}
+      <div>
+        <h1 className="text-3xl font-bold text-gray-800">History</h1>
+        <hr className="border-gray-300 mt-2 mb-4 w-full" />
+      </div>
 
-        {["From", "To"].map((label) => {
-          const lower = label.toLowerCase();
-          return (
-            <div key={label}>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{label}:</label>
-              <div className="flex gap-2">
-                <input
-                  type="date"
-                  value={range[`${lower}Date`]}
-                  onChange={handleChange(`${lower}Date`)}
-                  className="w-1/2 p-2 border border-gray-300 rounded-md"
-                />
-                <input
-                  type="time"
-                  value={range[`${lower}Time`]}
-                  onChange={handleChange(`${lower}Time`)}
-                  className="w-1/2 p-2 border border-gray-300 rounded-md"
-                />
+      {/* Scrollable Content */}
+      <div className="flex-1 overflow-auto pb-6 space-y-6">
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-md p-6 space-y-6 w-full">
+          <h2 className="text-2xl font-bold text-gray-800">Filter by Date and Time</h2>
+
+          {["From", "To"].map((label) => {
+            const lower = label.toLowerCase();
+            return (
+              <div key={label}>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{label}:</label>
+                <div className="flex gap-2">
+                  <input
+                    type="date"
+                    value={range[`${lower}Date`]}
+                    onChange={handleChange(`${lower}Date`)}
+                    className="w-1/2 p-2 border border-gray-300 rounded-md"
+                  />
+                  <input
+                    type="time"
+                    value={range[`${lower}Time`]}
+                    onChange={handleChange(`${lower}Time`)}
+                    className="w-1/2 p-2 border border-gray-300 rounded-md"
+                  />
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
 
-        {state.error && <div className="text-red-600 text-sm">{state.error}</div>}
+          {state.error && <div className="text-red-600 text-sm">{state.error}</div>}
 
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
-        >
-          Submit
-        </button>
-      </form>
+          <button type="submit" className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition" >
+            Submit
+          </button>
+        </form>
 
-      {/* Scrollable Tables */}
-      <div className="flex-1 flex flex-col md:flex-row gap-6 overflow-hidden">
-        <div className="flex-1 bg-white rounded-xl shadow-md p-4 flex flex-col overflow-hidden">
-          <div className="flex-1 overflow-auto min-h-0">
+        {/* Tables */}
+        <div className="flex flex-col md:flex-row gap-6 w-full">
+          {/* Success Table */}
+          <div className="flex-1 bg-white rounded-xl shadow-md p-4">
             {state.loading ? (
-              <div className="flex items-center justify-center h-full">
+              <div className="flex items-center justify-center h-40">
                 <div className="flex items-center space-x-4">
                   <div className="animate-spin rounded-full border-t-4 border-b-4 border-blue-500 h-12 w-12" />
                   <span className="text-gray-700 font-semibold">Loading...</span>
                 </div>
               </div>
             ) : (
-              <SuccessAccessTable entryType="Successful Access List" data={state.success} emptyMsg={"Select a timeframe with data to view"} />
+              <SuccessAccessTable entryType="Successful Access List" data={state.success} emptyMsg="Select a timeframe with data to view" />
             )}
           </div>
-        </div>
 
-        <div className="flex-1 bg-white rounded-xl shadow-md p-4 flex flex-col overflow-hidden">
-          <div className="flex-1 overflow-auto min-h-0">
+          {/* Fail Table */}
+          <div className="flex-1 bg-white rounded-xl shadow-md p-4">
             {state.loading ? (
-              <div className="flex items-center justify-center h-full">
+              <div className="flex items-center justify-center h-40">
                 <div className="flex items-center space-x-4">
                   <div className="animate-spin rounded-full border-t-4 border-b-4 border-blue-500 h-12 w-12" />
                   <span className="text-gray-700 font-semibold">Loading...</span>
                 </div>
               </div>
             ) : (
-              <FailAccessTable entryType="Failed Access List" data={state.failed} emptyMsg={"Select a timeframe with data to view"}/>
+              <FailAccessTable entryType="Failed Access List" data={state.failed} emptyMsg="Select a timeframe with data to view" />
             )}
           </div>
         </div>
