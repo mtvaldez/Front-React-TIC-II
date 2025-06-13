@@ -8,7 +8,7 @@ const items = [
   { title: "Users", url: "/users", icon: List },
   { title: "Doors", url: "/doors", icon: DoorClosed },
   { title: "Admins", url: "/admins", icon: UserCog2 },
-  { title: "Settings", url: "/settings", icon: Settings },
+  { title: "Account Settings", url: "/settings", icon: Settings },
 ];
 
 export default function Sidebar() {
@@ -16,7 +16,6 @@ export default function Sidebar() {
   const navigate = useNavigate();
 
   function logout() {
-    localStorage.removeItem('token');
     localStorage.clear();
     navigate('/');
   }
@@ -39,8 +38,8 @@ export default function Sidebar() {
 
       <div className="mt-auto pt-6">
         <button onClick={logout} className="flex items-center gap-3 px-3 py-2 rounded-md transition-colors w-full text-gray-700 hover:bg-gray-100 hover:text-red-500">
-          <LogOut className="w-5 h-5" />
           <span className="text-sm font-medium">Log out</span>
+          <LogOut className="w-5 h-5" />
         </button>
       </div>
 

@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import TextInputBox from '../ui/TextInputBox';
 import { createAdmin } from '@/services/AdminService';
 import { errorToast, successToast } from '../ui/customToasts';
+import { refetchAdmins } from '@/query/queryHelpers';
 
 export function MyCardAdmin({ closePopover }) {
 
@@ -21,6 +22,7 @@ export function MyCardAdmin({ closePopover }) {
     try {
       await createAdmin(email, password)
       successToast("Admin created Successfully!")
+      refetchAdmins()
     } catch (error) {
       // errorToast("Something went Wrong")
       errorToast(error.message);

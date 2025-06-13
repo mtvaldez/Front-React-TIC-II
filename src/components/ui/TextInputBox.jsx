@@ -8,8 +8,8 @@ function TextInputBox(props) {
             <label htmlFor="textInput">{props.label}</label>
             <input
                 type={inputType}
-                id={props.myID}
-                value={props.myValue}
+                id={props.id}
+                value={props.value}
                 onChange={props.onChange}
                 placeholder={props.myPlaceholder}
                 className={props.className ? props.className : "px-3 py-2 rounded-md bg-gray-100 text-gray-800 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"}
