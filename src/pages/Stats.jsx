@@ -103,7 +103,7 @@ function Stats() {
                     </div>
                 </div>
 
-                <div className="flex-1 bg-white rounded-xl shadow-md p-4 flex flex-col overflow-hidden">
+                {/* <div className="flex-1 bg-white rounded-xl shadow-md p-4 flex flex-col overflow-hidden">
                     <div className="flex-1 overflow-auto min-h-0">
                         {stats.loading ? (
                             <div className="flex items-center justify-center h-full">
@@ -117,7 +117,7 @@ function Stats() {
                             <FailAccessTable entryType="Failed Access List" data={null} emptyMsg={"Select a timeframe with data to view"} />
                         )}
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

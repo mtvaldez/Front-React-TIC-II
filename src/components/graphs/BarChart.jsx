@@ -2,16 +2,17 @@ import React from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 const BarGraph = ({ successful = [], failed = [] }) => {
+    console.log(successful)
     const allDates = Array.from(
         new Set([
-            ...successful.map((e) => e.accessDayMillis),
-            ...failed.map((e) => e.accessDayMillis),
+            ...successful.map((e) => e.timestamp),
+            ...failed.map((e) => e.timestamp),
         ])
     ).sort();
 
     const data = allDates.map((dateMillis) => {
-        const sucEntry = successful.find((e) => e.accessDayMillis === dateMillis);
-        const failEntry = failed.find((e) => e.accessDayMillis === dateMillis);
+        const sucEntry = successful.find((e) => e.timestamp === dateMillis);
+        const failEntry = failed.find((e) => e.timestamp === dateMillis);
 
         return {
             date: new Date(dateMillis).toLocaleDateString(),
@@ -33,8 +34,8 @@ const BarGraph = ({ successful = [], failed = [] }) => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="Success" fill="#4ade80" /> {/* green */}
-                    <Bar dataKey="Fail" fill="#f87171" /> {/* red */}
+                    <Bar dataKey="Success" fill="#00ff00" /> {/* green */}
+                    <Bar dataKey="Fail" fill="#ff00ff" /> {/* red */}
                 </BarChart>
             </ResponsiveContainer>
         </div>

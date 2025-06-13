@@ -1,13 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import {
-  Home,
-  History,
-  LineChart,
-  List,
-  DoorClosed,
-  Settings,
-  LogOut
-} from "lucide-react";
+import { Home, History, LineChart, List, DoorClosed, Settings, LogOut, UserCog2 } from "lucide-react";
 
 const items = [
   { title: "Home", url: "/menu", icon: Home },
@@ -15,6 +7,7 @@ const items = [
   { title: "Statistics", url: "/stats", icon: LineChart },
   { title: "Users", url: "/users", icon: List },
   { title: "Doors", url: "/doors", icon: DoorClosed },
+  { title: "Admins", url: "/admins", icon: UserCog2 },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 
@@ -30,7 +23,7 @@ export default function Sidebar() {
 
   return (
     <aside className="w-64 bg-white border-r min-h-screen px-4 py-6 flex flex-col">
-      <h2 className="text-lg font-semibold text-gray-700 mb-6 px-2 text-center">WELCOME BACK!</h2>
+      <h2 className="text-lg font-semibold text-gray-700 mb-6 px-2 text-center">WELCOME!</h2>
 
       <nav className="space-y-1">
         {items.map(({ title, url, icon: Icon }) => {

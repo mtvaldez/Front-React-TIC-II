@@ -34,3 +34,14 @@ export async function login(email, password) {
     throw new Error(message);
   }
 }
+
+export async function getAdminsPaginated(pNum, pSize, name) {
+  try {
+    const reqParams = { page: pNum, pageSize: pSize, nameLookUp: name }
+    const response = await axiosInstance.get("/admins", { params: reqParams })
+    return response.data
+  } catch (error) {
+    const message = error.response?.data?.message || "Failed to fetch Admins";
+    throw new Error(message);
+  }
+}
