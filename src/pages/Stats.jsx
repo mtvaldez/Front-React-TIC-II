@@ -2,6 +2,7 @@ import { FailAccessTable } from "@/components/tables/FailAccessTable";
 import { useState } from "react";
 import { getStatsByDay } from "@/services/StatisticsService";
 import BarGraph from "@/components/graphs/BarChart";
+import StatsTable from "@/components/tables/StatsTable";
 
 const ONE_DAY_MILLIS = 86400000;
 
@@ -102,8 +103,9 @@ function Stats() {
 
                 {/* Table Placeholder */}
                 <div className="bg-white rounded-xl shadow-md p-6 w-full">
-                    <h2 className="text-xl font-semibold text-gray-800 mb-2">Detailed Statistics Table</h2>
-                    <p className="text-gray-500">Table coming soon...</p>
+                    <StatsTable successful={stats.statsGraphData?.successful} failed={stats.statsGraphData?.failed}/>
+                    {/* <h2 className="text-xl font-semibold text-gray-800 mb-2">Detailed Statistics Table</h2>
+                    <p className="text-gray-500">Table coming soon...</p> */}
                 </div>
             </div>
         </div>

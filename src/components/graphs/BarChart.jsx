@@ -2,7 +2,6 @@ import React from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 const BarGraph = ({ successful = [], failed = [] }) => {
-    console.log(successful)
     const allDates = Array.from(
         new Set([
             ...successful.map((e) => e.timestamp),

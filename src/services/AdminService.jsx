@@ -46,9 +46,9 @@ export async function getAdminsPaginated(pNum, pSize, name) {
   }
 }
 
-export async function deleteAccount(email) {
+export async function deleteAccount() {
   try {
-    await axiosInstance.delete("/admins")
+    await axiosInstance.delete("/admins/self")
   } catch (error) {
     const message = error.response?.data?.message || "Failed to delete Account";
     throw new Error(message);
