@@ -35,35 +35,47 @@ export function MyCardDoorAL({ doorId, closePopover }) {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto mt-10 shadow-lg border border-gray-200">
+    <Card className="w-full max-w-sm mx-auto mt-10 shadow-lg border border-gray-200">
       <CardHeader>
         <CardTitle className="text-center text-2xl font-bold text-gray-800">
           Change Door Access Level
         </CardTitle>
       </CardHeader>
 
-      <CardContent className="flex flex-col gap-4">
-        <p className="text-gray-600">
-          A door access level represents the minimum level a user must have to access
-        </p>
-        <TextInputBox
-          inputType="text"
-          id="level"
-          myPlaceholder="New Access Level"
-          myValue={level}
-          onChange={(e) => setLevel(e.target.value)}
-        />
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleAccessChange();
+        }}
+      >
+        <CardContent className="flex flex-col gap-4">
+          <p className="text-gray-600">
+            A door access level represents the minimum level a user must have to access
+          </p>
+          <TextInputBox
+            inputType="text"
+            id="level"
+            myPlaceholder="New Access Level"
+            myValue={level}
+            onChange={(e) => setLevel(e.target.value)}
+          />
 
-        {error && <p className="text-sm text-red-600 font-medium">{error}</p>}
-      </CardContent>
+          {error && (
+            <p className="text-sm text-red-600 font-medium">{error}</p>
+          )}
+        </CardContent>
 
-      <CardFooter className="justify-center">
-        <button onClick={handleAccessChange}
-          className="w-full py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition">
-          Apply Access Change
-        </button>
-      </CardFooter>
+        <CardFooter className="justify-center mt-4">
+          <button
+            type="submit"
+            className="w-full py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition"
+          >
+            Apply Access Change
+          </button>
+        </CardFooter>
+      </form>
     </Card>
   );
+
 }
 

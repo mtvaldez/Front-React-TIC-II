@@ -37,33 +37,37 @@ export function MyCardRFID({ userId, closePopover }) {
         </CardTitle>
       </CardHeader>
 
-      <CardContent className="flex flex-col gap-4">
-        <p className="text-gray-600">
-          Assign an RFID access key to a user
-        </p>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleAssign();
+        }}
+      >
+        <CardContent className="flex flex-col gap-4">
+          <p className="text-gray-600">Assign an RFID access key to a user</p>
 
-        {/* RFID Input */}
-        <TextInputBox
-          inputType="text"
-          myID="rfid"
-          myPlaceholder="RFID Tag"
-          myValue={rfid}
-          onChange={(e) => setRfid(e.target.value)}
-        />
+          <TextInputBox
+            inputType="text"
+            myID="rfid"
+            myPlaceholder="RFID Tag"
+            myValue={rfid}
+            onChange={(e) => setRfid(e.target.value)}
+          />
 
-        {error && (
-          <p className="text-sm text-red-600 font-medium">{error}</p>
-        )}
-      </CardContent>
+          {error && (
+            <p className="text-sm text-red-600 font-medium">{error}</p>
+          )}
+        </CardContent>
 
-      <CardFooter className="justify-center">
-        <button
-          onClick={handleAssign}
-          className="w-full py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition"
-        >
-          Assign RFID
-        </button>
-      </CardFooter>
+        <CardFooter className="justify-center mt-4">
+          <button
+            type="submit"
+            className="w-full py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition"
+          >
+            Assign RFID
+          </button>
+        </CardFooter>
+      </form>
     </Card>
   );
 }

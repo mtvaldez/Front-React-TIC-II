@@ -42,30 +42,36 @@ export function MyCardAL({ userId, closePopover }) {
         </CardTitle>
       </CardHeader>
 
-      <CardContent className="flex flex-col gap-4">
-        <p className="text-gray-600">
-          Enter a new access level for this user
-        </p>
-        <TextInputBox
-          inputType="text"
-          id="level"
-          myPlaceholder="New Access Level"
-          myValue={level}
-          onChange={(e) => setLevel(e.target.value)}
-        />
-        
-        {error && <p className="text-sm text-red-600 font-medium">{error}</p>}
-      </CardContent>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault(); // Prevent page reload
+          handleAccessChange(); // Your submit logic
+        }}
+      >
+        <CardContent className="flex flex-col gap-4">
+          <p className="text-gray-600">Enter a new access level for this user</p>
+          <TextInputBox
+            inputType="text"
+            id="level"
+            myPlaceholder="New Access Level"
+            myValue={level}
+            onChange={(e) => setLevel(e.target.value)}
+          />
 
-      <CardFooter className="justify-center">
-        <button
-          onClick={handleAccessChange}
-          className="w-full py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition"
-        >
-          Apply Access Change
-        </button>
-      </CardFooter>
+          {error && <p className="text-sm text-red-600 font-medium">{error}</p>}
+        </CardContent>
+
+        <CardFooter className="justify-center mt-4">
+          <button
+            type="submit"
+            className="w-full py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition"
+          >
+            Apply Access Change
+          </button>
+        </CardFooter>
+      </form>
     </Card>
   );
+
 }
 
