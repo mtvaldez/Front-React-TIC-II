@@ -60,8 +60,7 @@ export async function setUserRFID(userId, rfid) {
 export async function setUserFace(userId, base64String) {
   try {
     const response = await axiosInstance.post(`/users/${userId}/vector`, base64String)
-
-    // TODO Handle Photo Response
+    return response.data
   } catch (error) {
     // throw new Error("Failed to set User's Face")
     const message = error.response?.data?.message || "Failed to set User's Face";

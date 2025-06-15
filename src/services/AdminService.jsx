@@ -1,7 +1,7 @@
 import axiosInstance from "@/api/axios";
 
 export async function createAdmin(email, password) {
-  const admin = { email: email, password: password }
+  const admin = { email: email.toLowerCase(), password: password }
   try {
     await axiosInstance.post("/auth/register", admin)
   } catch (error) {
@@ -23,7 +23,7 @@ export async function changePassword(oldPswd, newPswd) {
 }
 
 export async function login(email, password) {
-  const credentials = { email: email, password: password }
+  const credentials = { email: email.toLowerCase(), password: password }
   try {
     const response = await axiosInstance.post("/auth/login", credentials)
     localStorage.setItem("token", response.data.token);

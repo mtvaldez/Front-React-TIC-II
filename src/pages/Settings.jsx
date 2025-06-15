@@ -12,15 +12,15 @@ function Settings() {
 
   const handleDeleteAccount = () => {
     try {
-      // deleteAccount()
-      // logOut()
+      deleteAccount()
+      logOut()
       console.log('Deleting')
     } catch (error) {
       errorToast(error)
     }
   }
 
-  function logout() {
+  function logOut() {
     localStorage.clear();
     navigate('/');
   }

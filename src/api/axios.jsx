@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
@@ -20,15 +21,15 @@ axiosInstance.interceptors.request.use(
 );
 
 // Resp Interceptor
+// const navigate = useNavigate();
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     // O invalid token
-    if (error.response?.status === 500) {
+    if (error.response?.status === 401) {
       window.location.href = "/";
     }
     return Promise.reject(error);
   }
 );
-
 export default axiosInstance;

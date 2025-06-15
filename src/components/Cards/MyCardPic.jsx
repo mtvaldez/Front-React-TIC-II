@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { setUserFace } from '@/services/UserService';
-import { successToast, errorToast } from '../ui/customToasts';
+import { errorToast, showImageToast } from '../ui/customToasts';
 import { refetchUsers } from '@/query/queryHelpers';
 
 export function MyCardPic({ userId, closePopover }) {
@@ -24,22 +24,23 @@ export function MyCardPic({ userId, closePopover }) {
     }
 
     const reader = new FileReader();
-    try {
-      reader.onloadend = () => {
+
+    reader.onloadend = async () => {
+      try {
         const base64String = reader.result;
-        setUserFace(userId, base64String.substring(23))
-      };
-      reader.readAsDataURL(picture);
 
-      //TODO VIEW PICTURE
+        closePopover();
+        const base64Trimmed = await setUserFace(userId, base64String.substring(23));
+        showImageToast(base64Trimmed, "Face linked successfully!");
 
-      refetchUsers();
-    } catch (error) {
-      // errorToast("Something went Wrong")
-      errorToast(error.message);
-    } finally {
-      closePopover()
-    }
+        refetchUsers();
+      } catch (error) {
+        // errorToast("Something went wrong");
+        errorToast(error.message);
+      }
+    };
+
+    reader.readAsDataURL(picture);
   };
 
 
