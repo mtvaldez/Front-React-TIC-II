@@ -23,7 +23,7 @@ export default function StatsTable({ successful = [], failed = [] }) {
                         <th className="px-4 py-2">Metric</th>
                         <th className="px-4 py-2">Successful</th>
                         <th className="px-4 py-2">Failed</th>
-                        <th className="px-4 py-2">Combined</th>
+                        <th className="px-4 py-2">Total</th>
                     </tr>
                 </thead>
                 <tbody>
