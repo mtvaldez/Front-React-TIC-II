@@ -36,7 +36,7 @@ function Stats() {
             return;
         }
 
-        const from = new Date(`${fromDate}`).getTime();
+        const from = new Date(`${fromDate}`).getTime() + ONE_DAY_MILLIS;
         const to = new Date(`${toDate}`).getTime() + ONE_DAY_MILLIS;
 
         if (from >= to) {
