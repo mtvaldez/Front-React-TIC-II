@@ -48,6 +48,7 @@ export async function getAdminsPaginated(pNum, pSize, name) {
 
 export async function deleteAccount() {
   try {
+    console.log('hola')
     await axiosInstance.delete("/admins/self")
   } catch (error) {
     const message = error.response?.data?.message || "Failed to delete Account";

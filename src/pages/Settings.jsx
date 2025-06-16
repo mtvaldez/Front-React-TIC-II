@@ -10,13 +10,13 @@ function Settings() {
   const navigate = useNavigate();
   const userEmail = localStorage.getItem('ses-email')
 
-  const handleDeleteAccount = () => {
+  const handleDeleteAccount = async () => {
     try {
-      deleteAccount()
+      await deleteAccount()
       logOut()
       console.log('Deleting')
     } catch (error) {
-      errorToast(error)
+      errorToast(error.message)
     }
   }
 
