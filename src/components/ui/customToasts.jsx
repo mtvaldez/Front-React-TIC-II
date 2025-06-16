@@ -28,6 +28,6 @@ export const showImageToast = (base64Image, message = "Operation successful") =>
   toast.custom((t) => (
     <ImageToast base64Image={base64Image} message={message} toastId={t.id} />
   ), {
-    duration: 6000,
+    duration: 4000,
   });
 };
