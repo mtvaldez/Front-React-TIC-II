@@ -5,7 +5,7 @@ export async function getUsers() {
     const response = await axiosInstance.get("/users/all")
     const data = response.data
     return data.map(({ uuid: id, ...rest }) => ({ id, ...rest })); // Change uuid -> id in the array
-  } catch (err) {
+  } catch (error) {
     // throw new Error("Failed fetching users")
     const message = error.response?.data?.message || "Failed fetching users";
     throw new Error(message);
@@ -17,7 +17,7 @@ export async function getUsersPaginated(pNum, pSize, name) {
     const reqParams = {page: pNum, pageSize: pSize, nameLookUp: name}
     const response = await axiosInstance.get("/users", {params: reqParams})
     return response.data
-  } catch (err) {
+  } catch (error) {
     // throw new Error("Failed fetching users")
     const message = error.response?.data?.message || "Failed fetching users";
     throw new Error(message);
@@ -30,7 +30,7 @@ export async function createUser(fullName, cid, accessLevel) {
   const user = { fullName: fullName, cid: cid, accessLevel: accessLevel };
   try {
     await axiosInstance.post("/users", user);
-  } catch (err) {
+  } catch (error) {
     // throw new Error("Failed to create user")
     const message = error.response?.data?.message || "Failed to create user";
     throw new Error(message);
