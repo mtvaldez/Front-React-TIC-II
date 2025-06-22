@@ -47,7 +47,7 @@ function HistoricData() {
     const to = new Date(`${toDate}T${toTime}`).getTime();
 
     if (from >= to) {
-      setState((prev) => ({ ...prev, error: '"From" must be earlier than "To".' }));
+      setState((prev) => ({ ...prev, error: '"From Date" must be earlier than "To Date".' }));
       return;
     }
 
@@ -69,7 +69,7 @@ function HistoricData() {
     <div className="w-full h-full flex flex-col overflow-hidden px-8 pt-6">
       {/* Fixed Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-800">History</h1>
+        <h1 className="text-3xl font-bold text-gray-800">Consult Access History</h1>
         <hr className="border-gray-300 mt-2 mb-4 w-full" />
       </div>
 

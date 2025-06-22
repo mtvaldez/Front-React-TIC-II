@@ -3,7 +3,7 @@ import { Home, History, LineChart, List, DoorClosed, Settings, LogOut, UserCog2 
 
 const items = [
   { title: "Home", url: "/menu", icon: Home },
-  { title: "Historic Data", url: "/historic", icon: History },
+  { title: "Access History", url: "/historic", icon: History },
   { title: "Statistics", url: "/stats", icon: LineChart },
   { title: "Users", url: "/users", icon: List },
   { title: "Doors", url: "/doors", icon: DoorClosed },
