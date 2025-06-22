@@ -88,7 +88,8 @@ export default function Menu() {
   }
 
   return (
-    <div className="flex flex-col h-screen">
+    // <div className="flex flex-col h-screen">
+    <div className="flex flex-col flex-1 overflow-hidden px-8 py-6">
       {/* Header + Selector */}
       <div className="shrink-0 px-6">
         <h1 className="text-3xl font-bold text-gray-800 mb-2">Last 24 hours' Accesses</h1>
@@ -106,34 +107,34 @@ export default function Menu() {
       </div>
 
       {/* Graphs */}
-      
 
-<div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 min-h-0">
-  <div className="flex-1 min-w-0 h-full min-h-0">
-    <LineGraph entryType={successTitle} data={display.sucData} green />
-  </div>
-  <div className="flex-1 min-w-0 h-full min-h-0">
-    <LineGraph entryType={failTitle} data={display.failedData} green={false} />
-  </div>
-</div>
 
-{/* Tables */}
-<div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 min-h-0 overflow-hidden">
-  <div className="flex-1 min-w-0 bg-white p-4 shadow rounded-md overflow-auto">
-    <SuccessAccessTable
-      entryType={successTitle + " List"}
-      data={display.sucList}
-      emptyMsg={"No data available for the selected door"}
-    />
-  </div>
-  <div className="flex-1 min-w-0 bg-white p-4 shadow rounded-md overflow-auto">
-    <FailAccessTable
-      entryType={failTitle + " List"}
-      data={display.failedList}
-      emptyMsg={"No data available for the selected door"}
-    />
-  </div>
-</div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 min-h-0">
+        <div className="flex-1 min-w-0 h-full min-h-0">
+          <LineGraph entryType={successTitle} data={display.sucData} green />
+        </div>
+        <div className="flex-1 min-w-0 h-full min-h-0">
+          <LineGraph entryType={failTitle} data={display.failedData} green={false} />
+        </div>
+      </div>
+
+      {/* Tables */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 min-h-0 overflow-hidden">
+        <div className="flex-1 min-w-0 bg-white p-4 shadow rounded-md overflow-auto">
+          <SuccessAccessTable
+            entryType={successTitle + " List"}
+            data={display.sucList}
+            emptyMsg={"No data available for the selected door"}
+          />
+        </div>
+        <div className="flex-1 min-w-0 bg-white p-4 shadow rounded-md overflow-auto">
+          <FailAccessTable
+            entryType={failTitle + " List"}
+            data={display.failedList}
+            emptyMsg={"No data available for the selected door"}
+          />
+        </div>
+      </div>
 
 
     </div>
