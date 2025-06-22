@@ -28,12 +28,10 @@ export function MyCardUser({ closePopover }) {
       await createUser(name, cid, level);
       successToast("User created Successfully!")
       refetchUsers();
-    } catch (error) {
-      // errorToast("Something went Wrong")
-      errorToast(error.message);
-    } finally {
       closePopover()
-    }
+    } catch (error) {
+      setError(error.message);
+    } 
   };
 
   return (

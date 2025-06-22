@@ -30,7 +30,7 @@ export function MyCardAdmin({ closePopover }) {
       refetchAdmins()
       closePopover();
     } catch (error) {
-      errorToast(error.message);
+      setError(error.message);
     }
   };
 

@@ -11,7 +11,6 @@ export function MyCardDeleteDoor({ doorId, closePopover }) {
       successToast("Door deleted Successfully!")
       refetchDoors();
     } catch (error) {
-      // errorToast("Something went Wrong")
       errorToast(error.message);
     } finally {
       closePopover()

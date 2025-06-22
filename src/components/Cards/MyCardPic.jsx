@@ -35,7 +35,6 @@ export function MyCardPic({ userId, closePopover }) {
 
         refetchUsers();
       } catch (error) {
-        // errorToast("Something went wrong");
         errorToast(error.message);
       }
     };

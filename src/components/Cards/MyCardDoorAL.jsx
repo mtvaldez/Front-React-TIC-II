@@ -27,7 +27,6 @@ export function MyCardDoorAL({ doorId, closePopover }) {
       successToast("Door Access Level changed Successfully!")
       refetchDoors();
     } catch (error) {
-      // errorToast("Something went Wrong")
       errorToast(error.message);
     } finally {
       closePopover()

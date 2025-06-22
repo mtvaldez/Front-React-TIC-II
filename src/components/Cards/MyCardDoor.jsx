@@ -34,12 +34,10 @@ export function MyCardDoor({ closePopover }) {
       await createDoor(name, passcode, level);
       successToast("Door created Successfully!")
       refetchDoors();
-    } catch (error) {
-      // errorToast("Something went Wrong")
-      errorToast(error.message);
-    } finally {
       closePopover()
-    }
+    } catch (error) {
+      setError(error.message);
+    } 
   };
 
   return (

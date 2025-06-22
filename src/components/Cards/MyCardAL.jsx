@@ -26,12 +26,10 @@ export function MyCardAL({ userId, closePopover }) {
       await changeUserAccessLevel(userId, level);
       successToast("User Access Level changed Successfully!")
       refetchUsers();
-    } catch (error) {
-      // errorToast("Something went Wrong")
-      errorToast(error.message);
-    } finally {
       closePopover()
-    }
+    } catch (error) {
+      errorToast(error.message);
+    } 
   };
 
   return (

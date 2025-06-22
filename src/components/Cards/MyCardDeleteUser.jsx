@@ -11,7 +11,6 @@ export function MyCardDeleteUser({ userId, closePopover }) {
       successToast("Used deleted Successfully!")
       refetchUsers();
     } catch (error) {
-      // errorToast("Something went Wrong")
       errorToast(error.message);
     } finally {
       closePopover()

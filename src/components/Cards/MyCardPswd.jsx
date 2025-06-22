@@ -27,13 +27,11 @@ export function MyCardPswd() {
       await changePassword(oldPswd, newPswd);
       successToast("Password changed Successfully!")
     } catch (error) {
-      // errorToast("Something went wrong")
       errorToast(error.message)
     } finally {
       setOldPswd("");
       setNewPswd("");
       setNewPswdR("");
-      
     }
   };
 

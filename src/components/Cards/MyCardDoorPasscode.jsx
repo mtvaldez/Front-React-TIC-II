@@ -26,7 +26,6 @@ export function MyCardDoorPasscode({ doorId, closePopover }) {
       await changeDoorPasscode(doorId, passcode);
       successToast("Door Passcode changed Successfully!")
     } catch (error) {
-      // errorToast("Something went Wrong")
       errorToast(error.message);
     } finally {
       closePopover()

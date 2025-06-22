@@ -18,11 +18,10 @@ export function MyCardRFID({ userId, closePopover }) {
     }
 
     try {
-      await setUserRFID(userId, rfid); // Make sure this returns a Promise
+      await setUserRFID(userId, rfid);
       successToast("User RFID set Successfully!")
       refetchUsers();
     } catch (error) {
-      // errorToast("Something went Wrong")
       errorToast(error.message)
     } finally {
       closePopover()
