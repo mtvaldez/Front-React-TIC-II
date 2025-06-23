@@ -30,18 +30,30 @@ const BarGraph = ({ successful = [], failed = [] }) => {
     }
 
     return (
-        <div className="w-full h-80">
-            <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="Success" fill="#64B93C" />
-                    <Bar dataKey="Fail" fill="#EC3F75" />
-                </BarChart>
-            </ResponsiveContainer>
+        <div className="flex flex-col h-full min-h-0">
+            {/* Header */}
+            <div className="text-center text-gray-800 shrink-0">
+                <h3 className="text-lg font-medium mb-3">
+                    Access Summary by Day
+                </h3>
+            </div>
+
+            {/* Chart Container */}
+            <div className="flex-1 px-4">
+                <div className="w-full h-80">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="date" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Bar dataKey="Success" fill="#64B93C" />
+                            <Bar dataKey="Fail" fill="#EC3F75" />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
         </div>
     );
 };
