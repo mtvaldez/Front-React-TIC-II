@@ -9,7 +9,7 @@ export default function LineGraph({ entryType, data, green }) {
       </div>
     );
   }
-  
+
   const camaraCol = "#ff27a3"
   const rfidCol = "#fb5d15"
 
@@ -31,8 +31,12 @@ export default function LineGraph({ entryType, data, green }) {
               <XAxis
                 dataKey="hour"
                 tickFormatter={(unix) =>
-                  new Date(unix).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-                }
+                  new Date(unix).toLocaleTimeString("en-GB", {
+                    timeZone: "UTC",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true
+                  })}
               />
               <YAxis label={{ value: entryType, angle: -90, position: "insideLeft" }} />
               <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
@@ -45,7 +49,7 @@ export default function LineGraph({ entryType, data, green }) {
                 }}
               />
               <Line type="monotone" dataKey="cameraCount" stroke={camaraCol} dot={{ r: 4, fill: camaraCol }} />
-              <Line type="monotone" dataKey="rfidCount" stroke={rfidCol} dot={{ r: 4, fill: rfidCol }}/>
+              <Line type="monotone" dataKey="rfidCount" stroke={rfidCol} dot={{ r: 4, fill: rfidCol }} />
             </LineChart>
           </ResponsiveContainer>
         </div>

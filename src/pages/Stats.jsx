@@ -9,7 +9,7 @@ const DATE_RANGE_LIMIT = 60 * 24 * 60 * 60 * 1000; // 2 Months in millis
 
 function Stats() {
 
-    const now = new Date(new Date()).toISOString();
+    const now = new Date(new Date().getTime()).toISOString();
     const yesterday = new Date(new Date().getTime() - ONE_DAY_MILLIS).toISOString();
 
     const [range, setRange] = useState({
@@ -54,7 +54,7 @@ function Stats() {
         setStats({ statsGraphData: null, loading: true, error: "" });
 
         try {
-            const res = await getStatsByDay(from, to)
+            const res = await getStatsByDay(from, to + ONE_DAY_MILLIS)
             setStats({ statsGraphData: res, loading: false, error: "" });
         } catch (err) {
             setStats({ statsGraphData: null, loading: false, error: "Failed to fetch data." });
@@ -104,7 +104,7 @@ function Stats() {
                             </div>
                         </div>
                     ) : (
-                        <BarGraph successful={stats.statsGraphData?.successful} failed={stats.statsGraphData?.failed} />
+                        <BarGraph successful={stats.statsGraphData?.successful.slice(1)} failed={stats.statsGraphData?.failed.slice(1)} />
                     )}
                 </div>
 
