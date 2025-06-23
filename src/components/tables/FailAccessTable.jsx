@@ -3,7 +3,14 @@ import { useState, useMemo } from "react";
 export function FailAccessTable({ data, entryType, emptyMsg }) {
     const [filters, setFilters] = useState({ doorName: "" });
 
-    // Early return if no original data
+    const filteredData = useMemo(() => {
+        if (!data || data.length === 0) return [];
+        return data.filter((entry) =>
+            entry.fullName.toLowerCase().includes(filters.fullName.toLowerCase()) &&
+            entry.doorName.toLowerCase().includes(filters.doorName.toLowerCase())
+        );
+    }, [data, filters]);
+
     if (!data || data.length === 0) {
         return (
             <div className="text-center mt-10 text-gray-600">
@@ -13,12 +20,6 @@ export function FailAccessTable({ data, entryType, emptyMsg }) {
         );
     }
 
-    const filteredData = useMemo(() => {
-        return data.filter(
-            (entry) =>
-                entry.doorName.toLowerCase().includes(filters.doorName.toLowerCase())
-        )
-    }, [data, filters.doorName, filters.fullName]);
 
     return (
         <div className="bg-white p-4 rounded-lg shadow h-full overflow-auto flex flex-col">
