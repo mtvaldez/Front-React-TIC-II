@@ -5,6 +5,7 @@ import BarGraph from "@/components/graphs/BarChart";
 import StatsTable from "@/components/tables/StatsTable";
 
 const ONE_DAY_MILLIS = 86400000;
+const DATE_RANGE_LIMIT = 60 * 24 * 60 * 60 * 1000; // 2 Months in millis
 
 function Stats() {
 
@@ -43,6 +44,12 @@ function Stats() {
             setStats((prev) => ({ ...prev, error: '"From" must be earlier than "To".' }));
             return;
         }
+
+        if (to - from > DATE_RANGE_LIMIT) {
+            setStats((prev) => ({ ...prev, error: 'Date range must not exceed 60 days' }));
+            return;
+        }
+
 
         setStats({ statsGraphData: null, loading: true, error: "" });
 
@@ -102,7 +109,7 @@ function Stats() {
                 </div>
 
                 <div className="bg-white rounded-xl shadow-md p-6 w-full">
-                    <StatsTable successful={stats.statsGraphData?.successful} failed={stats.statsGraphData?.failed}/>
+                    <StatsTable successful={stats.statsGraphData?.successful} failed={stats.statsGraphData?.failed} />
                 </div>
             </div>
         </div>
