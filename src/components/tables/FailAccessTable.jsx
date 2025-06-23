@@ -6,7 +6,6 @@ export function FailAccessTable({ data, entryType, emptyMsg }) {
     const filteredData = useMemo(() => {
         if (!data || data.length === 0) return [];
         return data.filter((entry) =>
-            entry.fullName.toLowerCase().includes(filters.fullName.toLowerCase()) &&
             entry.doorName.toLowerCase().includes(filters.doorName.toLowerCase())
         );
     }, [data, filters]);
@@ -56,7 +55,7 @@ export function FailAccessTable({ data, entryType, emptyMsg }) {
                             <tr key={i} className="border-b">
                                 <td className="px-2 py-1">{entry.doorName}</td>
                                 <td className="px-2 py-1">{entry.accessType}</td>
-                                <td className="px-2 py-1">{new Date(entry.accessDate).toLocaleString()}</td>
+                                <td className="px-2 py-1">{new Date(entry.accessDate).toLocaleString("es-UY", { timeZone: "UTC" })}</td>
                             </tr>
                         ))
                     )}

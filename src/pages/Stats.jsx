@@ -37,11 +37,11 @@ function Stats() {
             return;
         }
 
-        const from = new Date(`${fromDate}`).getTime() + ONE_DAY_MILLIS;
-        const to = new Date(`${toDate}`).getTime() + ONE_DAY_MILLIS;
+        const from = new Date(`${fromDate}`).getTime();
+        const to = new Date(`${toDate}`).getTime();
 
         if (from >= to) {
-            setStats((prev) => ({ ...prev, error: '"From" must be earlier than "To".' }));
+            setStats((prev) => ({ ...prev, error: '"From Date" must be earlier than "To Date".' }));
             return;
         }
 

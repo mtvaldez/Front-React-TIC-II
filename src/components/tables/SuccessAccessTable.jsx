@@ -3,7 +3,7 @@ import { useState, useMemo } from "react";
 export function SuccessAccessTable({ data, entryType, emptyMsg }) {
   const [filters, setFilters] = useState({ fullName: "", doorName: "" });
 
-    const filteredData = useMemo(() => {
+  const filteredData = useMemo(() => {
     if (!data || data.length === 0) return [];
     return data.filter((entry) =>
       entry.fullName.toLowerCase().includes(filters.fullName.toLowerCase()) &&
@@ -58,7 +58,7 @@ export function SuccessAccessTable({ data, entryType, emptyMsg }) {
                 <td className="px-2 py-1">{entry.fullName}</td>
                 <td className="px-2 py-1">{entry.doorName}</td>
                 <td className="px-2 py-1">{entry.accessType}</td>
-                <td className="px-2 py-1">{new Date(entry.accessDate).toLocaleString()}</td>
+                <td className="px-2 py-1">{new Date(entry.accessDate).toLocaleString("es-UY", { timeZone: "UTC" })}</td>
               </tr>
             ))
           )}

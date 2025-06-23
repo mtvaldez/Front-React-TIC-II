@@ -38,7 +38,7 @@ export default function LineGraph({ entryType, data, green }) {
               <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
               <Tooltip
                 wrapperStyle={{ overflow: "visible" }}
-                labelFormatter={(unix) => new Date(unix).toLocaleString()}
+                labelFormatter={(unix) => new Date(unix).toLocaleString("es-UY", { timeZone: "UTC" })}
                 formatter={(value, name) => {
                   const labelMap = { cameraCount: "Camera 📸", rfidCount: "RFID 🔑" };
                   return [value, labelMap[name] || name];
